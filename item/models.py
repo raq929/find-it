@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.core.urlresolvers import reverse
 
 from django.db import models
 
@@ -15,6 +16,10 @@ class Room(models.Model):
   class Meta:
     ordering = ['name']
 
+  def get_absolute_url(self):
+    return reverse('room_detail',
+      kwargs={ 'slug': self.slug })
+
 class Place(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(max_length=31,
@@ -28,6 +33,10 @@ class Place(models.Model):
 
   class Meta:
     ordering = ['name']
+
+  def get_absolute_url(self):
+    return reverse('place_detail',
+      kwargs={ 'slug': self.slug })
 
 
 class Item(models.Model):
@@ -46,4 +55,8 @@ class Item(models.Model):
 
   class Meta:
     ordering = ['name']
+
+  def get_absolute_url(self):
+    return reverse('item_detail',
+      kwargs={ 'slug': self.slug })
 
