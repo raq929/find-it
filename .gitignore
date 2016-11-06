@@ -2,4 +2,4 @@
 manage.py
 settings.py
 **/__pycache__/
-.pyc
+*.pyc
