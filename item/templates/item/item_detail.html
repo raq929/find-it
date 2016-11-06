@@ -1,0 +1,12 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super}} - {{ item.name|title }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ item.name|title }} </h2>
+
+<p>{{ item.name }} is in the {{ item.place.room }} in {{ item.place.name }}</p>
+<p>The location of this item was last updated on {{ item.date_updated|date:"l, F j, Y" }}</p>
+{% endblock %}

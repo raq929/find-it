@@ -1,0 +1,20 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super}} - Item list
+{% endblock %}
+
+{% block content%}
+  <h2>Item List</h2>
+  <ul>
+   {% for item in item_list %}
+      <li>
+        <a href="{{ item.get_absolute_url }}">
+          {{ item.name|title }}
+        </a>
+      </li>
+    {% empty %}
+     <li><em>There are currently no Items available.</em></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

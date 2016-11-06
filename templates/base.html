@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {% block title %}
+        Find It!
+      {% endblock %}
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- [if IE] <script>
+     src="https:/html5shiv.googlecode.com/svn/trunk/html5.js"
+     </script> -->
+  </head>
+  <body>
+    <div>
+      <header>
+        <h1>
+          Find It!
+        </h1>
+        <h2>Find All the things!</h2>
+      </header>
+
+      <nav>
+        <ul>
+            <a href="{% url 'item_list' %}">
+              Things
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <main>
+        {% block content%}
+          This is default content!
+        {% endblock %}
+      </main>
+      <footer>
+        <p>
+          &copy; 2016 Rachel Stevens
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,8 +1,18 @@
-from django.http.response import HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import View
 
-from .models import Room
+from .models import Item
 
-def homepage(request):
-  room_list = Room.objects.all()
-  output = ', '.join(room.name for room in room_list)
-  return HttpResponse(output)
+class ItemList(View):
+  def get(self, request):
+    return render(
+      request,
+      'item/item_list.html',
+      {'item_list': Item.objects.all() })
+
+def item_detail(request, slug):
+  item = get_object_or_404(Item, slug__iexact=slug)
+  return render(request,
+    'item/item_detail.html',
+    { 'item': item })
+
