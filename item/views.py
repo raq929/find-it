@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.http.response import HttpResponse
 
-# Create your views here.
+from .models import Room
+
+def homepage(request):
+  room_list = Room.objects.all()
+  output = ', '.join(room.name for room in room_list)
+  return HttpResponse(output)

@@ -24,7 +24,7 @@ class Place(models.Model):
   room = models.ForeignKey(Room)
 
   def __str__(self):
-    return "{} in {}".format(self.name in self.room)
+    return "{} in {}".format(self.name, self.room)
 
   class Meta:
     ordering = ['name']
