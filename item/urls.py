@@ -3,7 +3,8 @@ from django.conf.urls import url
 from .views import (
   ItemList, item_detail,
   PlaceList, place_detail,
-  RoomList, room_detail)
+  RoomList, room_detail,
+  search)
 
 urlpatterns = [
   url(r'^item/$',
@@ -24,4 +25,7 @@ urlpatterns = [
   url(r'^rooms/(?P<slug>[\w\-]+)/$',
     room_detail,
     name='room_detail'),
+  url(r'^search/$',
+    search,
+    name='item_search'),
 ]

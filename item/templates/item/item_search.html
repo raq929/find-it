@@ -1,0 +1,30 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+
+{% block title %}
+  {{ block.super}} - Search
+{% endblock %}
+
+{% block content %}
+  <h2>Find the thing!</h2>
+  <form id="searchform" action="{% url 'item_search' %}" method="get" accept-charset="utf-8">
+    <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+    <button class="searchbutton" type="submit">
+    Search!
+    </button>
+  </form>
+
+  {% if found_items %}
+      <p>You searched for "{{ query_string }}".</p>
+      <ul>
+      {% for i in found_items %}
+          <li><a href="{{ i.get_absolute_url }}">{{ i.name }}</a></li>
+      {% endfor %}
+      </ul>
+  {% endif %}
+  {% if query_string and not found_items %}
+      <p>No results found.</p>
+  {% else %}
+      <p>Type a search query into the box above, and press "Submit" to search.</p>
+  {% endif %}
+{% endblock %}
