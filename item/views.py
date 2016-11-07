@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import View
 
-from .models import Item
+from .models import Item, Place, Room
 
 class ItemList(View):
   def get(self, request):
@@ -16,3 +16,15 @@ def item_detail(request, slug):
     'item/item_detail.html',
     { 'item': item })
 
+class PlaceList(View):
+  def get(self, request):
+    return render(
+      request,
+      'item/place_list.html',
+      {'place_list': Place.objects.all() })
+
+def place_detail(request, slug):
+  place = get_object_or_404(Place, slug__iexact=slug)
+  return render(request,
+    'item/place_detail.html',
+    { 'place': place })

@@ -1,0 +1,23 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super}} - {{ place.name|title }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ place.name|title }} </h2>
+
+<p>{{ place.name|title }} is in the {{ place.room }}</p>
+<dl>
+  <dt>Description</dt>
+    <dd>{{ place.description|linebreaks }}
+  <dt>Thing{{ place.item_set.count|pluralize }}</dt>
+  {% for item in place.item_set.all %}
+  <dd>
+    <a href="{{ item.get_absolute_url }}">
+    {{ item.name }}
+    </a>
+  </dd>
+  {% endfor %}
+</dl>
+{% endblock %}

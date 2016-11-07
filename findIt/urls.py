@@ -20,5 +20,5 @@ from .views import redirect_root
 urlpatterns = [
   url(r'^$', redirect_root),
   url(r'^admin/', admin.site.urls),
-  url(r'^item/', include('item.urls')),
+  url(r'^', include('item.urls')),
 ]
