@@ -28,3 +28,16 @@ def place_detail(request, slug):
   return render(request,
     'item/place_detail.html',
     { 'place': place })
+
+class RoomList(View):
+  def get(self, request):
+    return render(
+      request,
+      'item/room_list.html',
+      {'room_list': Room.objects.all() })
+
+def room_detail(request, slug):
+  room = get_object_or_404(Room, slug__iexact=slug)
+  return render(request,
+    'item/room_detail.html',
+    { 'room': room })
