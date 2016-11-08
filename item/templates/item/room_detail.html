@@ -9,6 +9,7 @@
 
 <dl>
   <dt>Place{{ room.place_set.count|pluralize }}</dt>
+  {% if room.place_set.all %}
   {% for item in room.place_set.all %}
   <dd>
     <a href="{{ item.get_absolute_url }}">
@@ -16,5 +17,9 @@
     </a>
   </dd>
   {% endfor %}
+  {% endif%}
 </dl>
+  {% if not room.place_set.all %}
+    <p>There are no places in this room</p>
+  {% endif %}
 {% endblock %}
