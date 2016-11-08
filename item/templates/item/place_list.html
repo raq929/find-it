@@ -12,6 +12,10 @@
         <a href="{{ place.get_absolute_url }}">
           {{ place.name|title }}
         </a>
+        in
+        <a href="{{ place.room.slug }}">
+        {{ place.room.name|title}}
+        </a>
       </li>
     {% empty %}
      <li><em>There are currently no Places available.</em></li>
