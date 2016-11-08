@@ -3,7 +3,28 @@ from django.views.generic import View
 
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
-from .forms import RoomForm
+from .forms import RoomForm, PlaceForm, ItemForm
+
+class ItemCreate(View):
+  form_class = ItemForm
+  template_name = 'item/item_form.html'
+
+  def get(self, request):
+    return render(
+      request,
+      self.template_name,
+      {'form': self.form_class() })
+
+  def post(self, request):
+    bound_form = self.form_class(request.POST)
+    if bound_form.is_valid():
+        new_room = bound_form.save()
+        return redirect(new_room)
+    else:
+      return render(
+        request,
+        self.template_name,
+        { 'form': bound_form  })
 
 class ItemList(View):
   def get(self, request):
@@ -17,6 +38,27 @@ def item_detail(request, slug):
   return render(request,
     'item/item_detail.html',
     { 'item': item })
+
+class PlaceCreate(View):
+  form_class = PlaceForm
+  template_name = 'item/place_form.html'
+
+  def get(self, request):
+    return render(
+      request,
+      self.template_name,
+      {'form': self.form_class() })
+
+  def post(self, request):
+    bound_form = self.form_class(request.POST)
+    if bound_form.is_valid():
+        new_room = bound_form.save()
+        return redirect(new_room)
+    else:
+      return render(
+        request,
+        self.template_name,
+        { 'form': bound_form  })
 
 class PlaceList(View):
   def get(self, request):
