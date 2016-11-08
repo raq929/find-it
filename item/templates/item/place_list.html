@@ -13,7 +13,7 @@
           {{ place.name|title }}
         </a>
         in
-        <a href="{{ place.room.slug }}">
+        <a href="{{ place.room.get_absolute_url }}">
         {{ place.room.name|title}}
         </a>
       </li>
@@ -21,4 +21,5 @@
      <li><em>There are currently no Places available.</em></li>
     {% endfor %}
   </ul>
+  <a href="{% url 'place_create' %}">New Place</a>
 {% endblock %}
