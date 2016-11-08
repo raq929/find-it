@@ -1,0 +1,22 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super }} - Create Room
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <h3>New Room</h3>
+      <form
+        action="{% url 'room_create' %}"
+        method="post"
+      >
+      {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit">
+          Create Room</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

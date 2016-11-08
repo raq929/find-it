@@ -1,8 +1,9 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
 
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
+from .forms import RoomForm
 
 class ItemList(View):
   def get(self, request):
@@ -29,6 +30,28 @@ def place_detail(request, slug):
   return render(request,
     'item/place_detail.html',
     { 'place': place })
+
+
+class RoomCreate(View):
+  form_class = RoomForm
+  template_name = 'item/room_form.html'
+
+  def get(self, request):
+    return render(
+      request,
+      self.template_name,
+      {'form': self.form_class() })
+
+  def post(self, request):
+    bound_form = self.form_class(request.POST)
+    if bound_form.is_valid():
+        new_room = bound_form.save()
+        return redirect(new_room)
+    else:
+      return render(
+        request,
+        self.template_name,
+        { 'form': bound_form  })
 
 class RoomList(View):
   def get(self, request):
