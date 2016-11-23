@@ -18,7 +18,16 @@ class Room(models.Model):
 
   def get_absolute_url(self):
     return reverse('room_detail',
-      kwargs={ 'slug': self.slug })
+                    kwargs={ 'slug': self.slug })
+
+  def get_update_url(self):
+    return reverse('room_update',
+                    kwargs={ 'slug': self.slug })
+
+  def get_delete_url(self):
+    return reverse('room_delete',
+                    kwargs={ 'slug': self.slug })
+
 
 class Place(models.Model):
   name = models.CharField(max_length=63)
@@ -26,7 +35,7 @@ class Place(models.Model):
     unique=True,
     help_text='A label for URL config.')
   description = models.TextField()
-  room = models.ForeignKey(Room)
+  room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
   def __str__(self):
     return "{} in {}".format(self.name, self.room)
@@ -36,7 +45,15 @@ class Place(models.Model):
 
   def get_absolute_url(self):
     return reverse('place_detail',
-      kwargs={ 'slug': self.slug })
+                    kwargs={ 'slug': self.slug })
+
+  def get_update_url(self):
+    return reverse('place_update',
+                    kwargs={ 'slug': self.slug })
+
+  def get_delete_url(self):
+    return reverse('place_delete',
+                    kwargs={ 'slug': self.slug })
 
 
 class Item(models.Model):
@@ -48,7 +65,7 @@ class Item(models.Model):
     unique=True,
     help_text='A label for URL config.')
   date_updated = models.DateField('date last seen in this place')
-  place = models.ForeignKey(Place)
+  place = models.ForeignKey(Place, on_delete=models.CASCADE)
 
   def __str__(self):
     return "{} in {}".format(self.name, self.place)
@@ -58,5 +75,13 @@ class Item(models.Model):
 
   def get_absolute_url(self):
     return reverse('item_detail',
-      kwargs={ 'slug': self.slug })
+                    kwargs={ 'slug': self.slug })
+
+  def get_update_url(self):
+    return reverse('item_update',
+                    kwargs={ 'slug': self.slug })
+
+  def get_delete_url(self):
+    return reverse('item_delete',
+                    kwargs={ 'slug': self.slug })
 

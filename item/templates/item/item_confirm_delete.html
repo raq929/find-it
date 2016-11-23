@@ -1,0 +1,27 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+{{ block.super }} - Delete Item
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <form
+        action="{{ item.get_delete_url }}"
+        method="post"
+      >
+      {% csrf_token %}
+      <p>
+        Are you sure you want to delete
+        {{ item.name|title }} from
+        {{ item.place.name }}?
+      </p>
+      <a href="{{ item.get_absolute_url }}">
+        Cancel</a>
+      <button type="submit">
+        Delete Item</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

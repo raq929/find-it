@@ -1,0 +1,22 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super }} - Create Item
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <h3>New Item</h3>
+      <form
+        action="{% url 'item_create' %}"
+        method="post"
+      >
+      {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit">
+          Create Item</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

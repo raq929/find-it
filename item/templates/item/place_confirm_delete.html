@@ -1,0 +1,38 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+{{ block.super }} - Delete Place
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <form
+        action="{{ place.get_delete_url }}"
+        method="post"
+      >
+      {% csrf_token %}
+      <p>
+        Are you sure you want to delete
+        {{ place.name|title }} from
+        {{ place.room.name }}?
+
+        This will also delete all things in this place.
+        <ul>
+          {% for item in place.item_set.all %}
+          <li>
+            <a href="{{ item.get_absolute_url }}">
+            {{ item.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </p>
+      <a href="{{ place.get_absolute_url }}">
+        Cancel</a>
+      <button type="submit">
+        Delete Place</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

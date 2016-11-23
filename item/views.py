@@ -1,8 +1,79 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
 
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
+from .forms import RoomForm, PlaceForm, ItemForm
+
+class ItemCreate(View):
+  form_class = ItemForm
+  template_name = 'item/item_form.html'
+
+  def get(self, request):
+    return render(
+      request,
+      self.template_name,
+      {'form': self.form_class() })
+
+  def post(self, request):
+    bound_form = self.form_class(request.POST)
+    if bound_form.is_valid():
+        new_room = bound_form.save()
+        return redirect(new_room)
+    else:
+      return render(
+        request,
+        self.template_name,
+        { 'form': bound_form  })
+
+class ItemDelete(View):
+
+  def get(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    return render(
+      request,
+      'item/item_confirm_delete.html'
+      , { 'item': item })
+
+  def post(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    place = item.place
+    item.delete()
+    return redirect(place)
+
+
+class ItemUpdate(View):
+  form_class= ItemForm
+  template_name = (
+    'item/item_update_form.html')
+
+  def get(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    context = {
+      'form': self.form_class(instance=item),
+      'item': item,
+    }
+    return render(
+      request, self.template_name, context)
+
+  def post(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    bound_form = self.form_class(
+      request.POST, instance=item)
+    if bound_form.is_valid():
+      new_item = bound_form.save()
+      return redirect(new_item)
+    else:
+      context = {
+        'form': bound_form,
+        'item': item,
+      }
+      return render(
+        request, self.template_name, context)
 
 class ItemList(View):
   def get(self, request):
@@ -17,6 +88,27 @@ def item_detail(request, slug):
     'item/item_detail.html',
     { 'item': item })
 
+class PlaceCreate(View):
+  form_class = PlaceForm
+  template_name = 'item/place_form.html'
+
+  def get(self, request):
+    return render(
+      request,
+      self.template_name,
+      {'form': self.form_class() })
+
+  def post(self, request):
+    bound_form = self.form_class(request.POST)
+    if bound_form.is_valid():
+        new_room = bound_form.save()
+        return redirect(new_room)
+    else:
+      return render(
+        request,
+        self.template_name,
+        { 'form': bound_form  })
+
 class PlaceList(View):
   def get(self, request):
     return render(
@@ -30,6 +122,78 @@ def place_detail(request, slug):
     'item/place_detail.html',
     { 'place': place })
 
+class PlaceDelete(View):
+
+  def get(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    return render(
+      request,
+      'item/place_confirm_delete.html'
+      , { 'place': place })
+
+  def post(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    room = place.room
+    place.delete()
+    return redirect(room)
+
+
+class PlaceUpdate(View):
+  form_class= PlaceForm
+  template_name = (
+    'item/place_update_form.html')
+
+  def get(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    context = {
+      'form': self.form_class(instance=place),
+      'place': place,
+    }
+    return render(
+      request, self.template_name, context)
+
+  def post(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    bound_form = self.form_class(
+      request.POST, instance=place)
+    if bound_form.is_valid():
+      new_place = bound_form.save()
+      return redirect(new_place)
+    else:
+      context = {
+        'form': bound_form,
+        'place': place,
+      }
+      return render(
+        request, self.template_name, context)
+
+
+
+class RoomCreate(View):
+  form_class = RoomForm
+  template_name = 'item/room_form.html'
+
+  def get(self, request):
+    return render(
+      request,
+      self.template_name,
+      {'form': self.form_class() })
+
+  def post(self, request):
+    bound_form = self.form_class(request.POST)
+    if bound_form.is_valid():
+        new_room = bound_form.save()
+        return redirect(new_room)
+    else:
+      return render(
+        request,
+        self.template_name,
+        { 'form': bound_form  })
+
 class RoomList(View):
   def get(self, request):
     return render(
@@ -42,6 +206,56 @@ def room_detail(request, slug):
   return render(request,
     'item/room_detail.html',
     { 'room': room })
+
+
+class RoomDelete(View):
+
+  def get(self, request, slug):
+    room = get_object_or_404(
+      Room, slug__iexact=slug)
+    return render(
+      request,
+      'item/room_confirm_delete.html'
+      , { 'room': room })
+
+  def post(self, request, slug):
+    room = get_object_or_404(
+      Room, slug__iexact=slug)
+    room.delete()
+    return redirect('item_search')
+
+
+class RoomUpdate(View):
+  form_class= RoomForm
+  template_name = (
+    'item/room_update_form.html')
+
+  def get(self, request, slug):
+    room = get_object_or_404(
+      Room, slug__iexact=slug)
+    context = {
+      'form': self.form_class(instance=room),
+      'room': room,
+    }
+    return render(
+      request, self.template_name, context)
+
+  def post(self, request, slug):
+    place = get_object_or_404(
+      Room, slug__iexact=slug)
+    bound_form = self.form_class(
+      request.POST, instance=place)
+    if bound_form.is_valid():
+      new_place = bound_form.save()
+      return redirect(new_place)
+    else:
+      context = {
+        'form': bound_form,
+        'place': place,
+      }
+      return render(
+        request, self.template_name, context)
+
 
 
 # search

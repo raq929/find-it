@@ -1,0 +1,22 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super }} - Update Item
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <h3>Update Item</h3>
+      <form
+        action="{{ item.get_update_url }}"
+        method="post"
+      >
+      {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit">
+          Update Item</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
