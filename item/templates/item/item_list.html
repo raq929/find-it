@@ -12,7 +12,6 @@
         <a href="{{ item.get_absolute_url }}">
           {{ item.name|title }}
         </a>
-      </li>
       <ul>
           <li>
             <a href="{{ item.get_update_url }}">
@@ -25,9 +24,28 @@
             </a>
           </li>
         </ul>
+      </li>
     {% empty %}
      <li><em>There are currently no Items available.</em></li>
     {% endfor %}
+  </ul>
+  <ul>
+    <li>
+      Page {{ item_list.number }}
+      of {{ paginator.num_pages }}
+    </li>
+    {% if is_paginated %}
+      {% if item_list.has_previous %}
+      <li>
+        <a href="{{ previous_page_url }}">Previous</a>
+      </li>
+      {% endif %}
+      {% if item_list.has_next %}
+      <li>
+        <a href="{{ next_page_url }}">Next</a>
+      </li>
+      {% endif %}
+    {% endif %}
   </ul>
   <a href="{% url 'item_create' %}">New Item</a>
 {% endblock %}

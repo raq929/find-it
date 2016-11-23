@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
+from django.core.paginator import (
+    EmptyPage, PageNotAnInteger, Paginator)
 
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
@@ -10,21 +12,21 @@ class ItemCreate(View):
   template_name = 'item/item_form.html'
 
   def get(self, request):
-    return render(
-      request,
-      self.template_name,
-      {'form': self.form_class() })
+      return render(
+          request,
+          self.template_name,
+          {'form': self.form_class() })
 
   def post(self, request):
-    bound_form = self.form_class(request.POST)
-    if bound_form.is_valid():
-        new_room = bound_form.save()
-        return redirect(new_room)
-    else:
-      return render(
-        request,
-        self.template_name,
-        { 'form': bound_form  })
+      bound_form = self.form_class(request.POST)
+      if bound_form.is_valid():
+          new_room = bound_form.save()
+          return redirect(new_room)
+      else:
+          return render(
+            request,
+            self.template_name,
+            { 'form': bound_form  })
 
 class ItemDelete(View):
 
@@ -76,11 +78,49 @@ class ItemUpdate(View):
         request, self.template_name, context)
 
 class ItemList(View):
+  page_kwarg = 'page'
+  paginate_by = 5 # 5 items per page
+  template_name = 'item/item_list.html'
+
   def get(self, request):
+    items = Item.objects.all()
+    page_number = request.GET.get(self.page_kwarg)
+    paginator = Paginator(
+      items, self.paginate_by)
+
+    try:
+      page = paginator.page(page_number)
+    except PageNotAnInteger:
+      page = paginator.page(1)
+    except EmptyPage:
+      page = paginator.page(paginator.num_pages)
+
+    if page.has_previous():
+      prev_url = "?{pkw}={n}".format(
+        pkw=self.page_kwarg,
+        n=page.previous_page_number())
+    else:
+      prev_url = None
+
+    if page.has_next():
+      next_url = "?{pkw}={n}".format(
+        pkw=self.page_kwarg,
+        n=page.next_page_number())
+    else:
+      next_url = None
+
+    context = {
+      'is_paginated': page.has_other_pages(),
+      'next_page_url': next_url,
+      'paginator': paginator,
+      'previous_page_url': prev_url,
+      'item_list': page,
+    }
+
     return render(
       request,
-      'item/item_list.html',
-      {'item_list': Item.objects.all() })
+      self.template_name,
+      context)
 
 def item_detail(request, slug):
   item = get_object_or_404(Item, slug__iexact=slug)
