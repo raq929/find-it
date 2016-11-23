@@ -26,6 +26,55 @@ class ItemCreate(View):
         self.template_name,
         { 'form': bound_form  })
 
+class ItemDelete(View):
+
+  def get(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    return render(
+      request,
+      'item/item_confirm_delete.html'
+      , { 'item': item })
+
+  def post(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    place = item.place
+    item.delete()
+    return redirect(place)
+
+
+class ItemUpdate(View):
+  form_class= ItemForm
+  template_name = (
+    'item/item_update_form.html')
+
+  def get(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    context = {
+      'form': self.form_class(instance=item),
+      'item': item,
+    }
+    return render(
+      request, self.template_name, context)
+
+  def post(self, request, slug):
+    item = get_object_or_404(
+      Item, slug__iexact=slug)
+    bound_form = self.form_class(
+      request.POST, instance=item)
+    if bound_form.is_valid():
+      new_item = bound_form.save()
+      return redirect(new_item)
+    else:
+      context = {
+        'form': bound_form,
+        'item': item,
+      }
+      return render(
+        request, self.template_name, context)
+
 class ItemList(View):
   def get(self, request):
     return render(

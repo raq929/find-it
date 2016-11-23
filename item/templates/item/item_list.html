@@ -13,6 +13,18 @@
           {{ item.name|title }}
         </a>
       </li>
+      <ul>
+          <li>
+            <a href="{{ item.get_update_url }}">
+              Edit Item
+            </a>
+          </li>
+          <li>
+            <a href="{{ item.get_delete_url }}">
+              Delete Item
+            </a>
+          </li>
+        </ul>
     {% empty %}
      <li><em>There are currently no Items available.</em></li>
     {% endfor %}
