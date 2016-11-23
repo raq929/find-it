@@ -208,6 +208,56 @@ def room_detail(request, slug):
     { 'room': room })
 
 
+class RoomDelete(View):
+
+  def get(self, request, slug):
+    room = get_object_or_404(
+      Room, slug__iexact=slug)
+    return render(
+      request,
+      'item/room_confirm_delete.html'
+      , { 'room': room })
+
+  def post(self, request, slug):
+    room = get_object_or_404(
+      Room, slug__iexact=slug)
+    room.delete()
+    return redirect('item_search')
+
+
+class RoomUpdate(View):
+  form_class= RoomForm
+  template_name = (
+    'item/room_update_form.html')
+
+  def get(self, request, slug):
+    room = get_object_or_404(
+      Room, slug__iexact=slug)
+    context = {
+      'form': self.form_class(instance=room),
+      'room': room,
+    }
+    return render(
+      request, self.template_name, context)
+
+  def post(self, request, slug):
+    place = get_object_or_404(
+      Room, slug__iexact=slug)
+    bound_form = self.form_class(
+      request.POST, instance=place)
+    if bound_form.is_valid():
+      new_place = bound_form.save()
+      return redirect(new_place)
+    else:
+      context = {
+        'form': bound_form,
+        'place': place,
+      }
+      return render(
+        request, self.template_name, context)
+
+
+
 # search
 
 def search(request):

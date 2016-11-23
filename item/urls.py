@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .views import (
   ItemList, item_detail, ItemCreate, ItemUpdate, ItemDelete,
   PlaceList, place_detail, PlaceCreate, PlaceUpdate, PlaceDelete,
-  RoomList, room_detail, RoomCreate,
+  RoomList, room_detail, RoomCreate, RoomUpdate, RoomDelete,
   search)
 
 urlpatterns = [
@@ -43,6 +43,12 @@ urlpatterns = [
   url(r'^room/create/$',
     RoomCreate.as_view(),
     name='room_create'),
+  url(r'^room/update/(?P<slug>[\w\-]+)/$',
+    RoomUpdate.as_view(),
+    name='room_update'),
+  url(r'^room/delete/(?P<slug>[\w\-]+)/$',
+    RoomDelete.as_view(),
+    name='room_delete'),
   url(r'^room/(?P<slug>[\w\-]+)/$',
     room_detail,
     name='room_detail'),

@@ -6,18 +6,29 @@
 
 {% block content %}
 <h2>{{ room.name|title }} </h2>
-
+<ul>
+    <li>
+      <a href="{{ room.get_update_url }}">
+        Edit Room
+      </a>
+    </li>
+    <li>
+      <a href="{{ room.get_delete_url }}">
+        Delete Room
+      </a>
+    </li>
+  </ul>
 <dl>
   <dt>Place{{ room.place_set.count|pluralize }}</dt>
   {% if room.place_set.all %}
-  {% for item in room.place_set.all %}
+  {% for place in room.place_set.all %}
   <dd>
-    <a href="{{ item.get_absolute_url }}">
-    {{ item.name }}
+    <a href="{{ place.get_absolute_url }}">
+    {{ place.name }}
     </a>
   </dd>
   {% endfor %}
-  {% endif%}
+  {% endif %}
 </dl>
   {% if not room.place_set.all %}
     <p>There are no places in this room</p>

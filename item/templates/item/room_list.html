@@ -12,6 +12,18 @@
         <a href="{{ room.get_absolute_url }}">
           {{ room.name|title }}
         </a>
+      <ul>
+          <li>
+            <a href="{{ room.get_update_url }}">
+              Edit Room
+            </a>
+          </li>
+          <li>
+            <a href="{{ room.get_delete_url }}">
+              Delete Room
+            </a>
+          </li>
+        </ul>
       </li>
     {% empty %}
      <li><em>There are currently no Rooms available.</em></li>
