@@ -8,10 +8,22 @@
 <h2>{{ place.name|title }} </h2>
 
 <p>{{ place.name|title }} is in the {{ place.room }}</p>
+<ul>
+  <li>
+    <a href="{{ place.get_update_url }}">
+      Edit Place
+    </a>
+  </li>
+  <li>
+    <a href="{{ place.get_delete_url }}">
+      Delete Place
+    </a>
+  </li>
+</ul>
 <dl>
   <dt>Description</dt>
     <dd>{{ place.description|linebreaks }}
-  <dt>Thing{{ place.item_set.count|pluralize }}</dt>
+  <dt>Thing{{ place.item_set.count|pluralize }} in this place</dt>
   {% for item in place.item_set.all %}
   <dd>
     <a href="{{ item.get_absolute_url }}">

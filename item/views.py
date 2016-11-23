@@ -122,6 +122,56 @@ def place_detail(request, slug):
     'item/place_detail.html',
     { 'place': place })
 
+class PlaceDelete(View):
+
+  def get(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    return render(
+      request,
+      'item/place_confirm_delete.html'
+      , { 'place': place })
+
+  def post(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    room = place.room
+    place.delete()
+    return redirect(room)
+
+
+class PlaceUpdate(View):
+  form_class= PlaceForm
+  template_name = (
+    'item/place_update_form.html')
+
+  def get(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    context = {
+      'form': self.form_class(instance=place),
+      'place': place,
+    }
+    return render(
+      request, self.template_name, context)
+
+  def post(self, request, slug):
+    place = get_object_or_404(
+      Place, slug__iexact=slug)
+    bound_form = self.form_class(
+      request.POST, instance=place)
+    if bound_form.is_valid():
+      new_place = bound_form.save()
+      return redirect(new_place)
+    else:
+      context = {
+        'form': bound_form,
+        'place': place,
+      }
+      return render(
+        request, self.template_name, context)
+
+
 
 class RoomCreate(View):
   form_class = RoomForm

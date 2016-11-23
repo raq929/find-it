@@ -17,6 +17,18 @@
         {{ place.room.name|title}}
         </a>
       </li>
+      <ul>
+          <li>
+            <a href="{{ place.get_update_url }}">
+              Edit Place
+            </a>
+          </li>
+          <li>
+            <a href="{{ place.get_delete_url }}">
+              Delete Place
+            </a>
+          </li>
+        </ul>
     {% empty %}
      <li><em>There are currently no Places available.</em></li>
     {% endfor %}
