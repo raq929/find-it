@@ -12,14 +12,14 @@
         <a href="{{ room.get_absolute_url }}">
           {{ room.name|title }}
         </a>
-      <ul>
+      <ul class='buttons'>
           <li>
-            <a href="{{ room.get_update_url }}">
+            <a class='button' href="{{ room.get_update_url }}">
               Edit Room
             </a>
           </li>
           <li>
-            <a href="{{ room.get_delete_url }}">
+            <a class='button' href="{{ room.get_delete_url }}">
               Delete Room
             </a>
           </li>
@@ -29,6 +29,8 @@
      <li><em>There are currently no Rooms available.</em></li>
     {% endfor %}
   </ul>
-  <a href="{% url 'room_create' %}">New Room</a>
-  <a href="{% url 'place_create' %}">New Place</a>
+  <ul class='buttons'>
+    <li><a class='new button' href="{% url 'room_create' %}">New Room</a></li>
+    <li><a class='new button' href="{% url 'place_create' %}">New Place</a></li>
+  </ul>
 {% endblock %}
