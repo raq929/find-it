@@ -3,3 +3,5 @@ manage.py
 settings.py
 **/__pycache__/
 *.pyc
+.sass-cache/
+*.map
