@@ -7,15 +7,15 @@
 {% block content %}
 <h2>{{ place.name|title }} </h2>
 
-<p>{{ place.name|title }} is in the {{ place.room }}</p>
-<ul>
+<p>{{ place.name|title }} is in the <a href="{{ place.room.get_absolute_url }}"> {{ place.room }}</a></p>
+<ul class='buttons'>
   <li>
-    <a href="{{ place.get_update_url }}">
+    <a class='button' href="{{ place.get_update_url }}">
       Edit Place
     </a>
   </li>
   <li>
-    <a href="{{ place.get_delete_url }}">
+    <a class='button' href="{{ place.get_delete_url }}">
       Delete Place
     </a>
   </li>
