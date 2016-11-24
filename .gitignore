@@ -5,3 +5,4 @@ settings.py
 *.pyc
 .sass-cache/
 *.map
+static/site/
