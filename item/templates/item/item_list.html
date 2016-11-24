@@ -12,14 +12,14 @@
         <a href="{{ item.get_absolute_url }}">
           {{ item.name|title }}
         </a>
-      <ul>
+      <ul class='buttons'>
           <li>
-            <a href="{{ item.get_update_url }}">
+            <a class='button' href="{{ item.get_update_url }}">
               Edit Item
             </a>
           </li>
           <li>
-            <a href="{{ item.get_delete_url }}">
+            <a class='button' href="{{ item.get_delete_url }}">
               Delete Item
             </a>
           </li>
@@ -47,5 +47,5 @@
       {% endif %}
     {% endif %}
   </ul>
-  <a href="{% url 'item_create' %}">New Item</a>
+  <a class='new button' href="{% url 'item_create' %}">New Item</a>
 {% endblock %}
