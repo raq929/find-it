@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,12 +10,33 @@
     </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'site/index.css' %}">
     <!-- [if IE] <script>
      src="https:/html5shiv.googlecode.com/svn/trunk/html5.js"
      </script> -->
   </head>
   <body>
     <div>
+      <nav>
+        <ul>
+          <a href="{% url 'room_list' %}">
+            <li>
+              Rooms
+            </li>
+          </a>
+          <a href="{% url 'place_list' %}">
+            <li>
+              Places
+            </li>
+          </a>
+          <a href="{% url 'item_list' %}">
+            <li>
+              Things
+            </li>
+          </a>
+        </ul>
+      </nav>
+
       <header>
         <h1>
           Find It!
@@ -22,25 +44,6 @@
         <h2>Find All the things!</h2>
       </header>
 
-      <nav>
-        <ul>
-          <li>
-            <a href="{% url 'room_list' %}">
-              Rooms
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'place_list' %}">
-              Places
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'item_list' %}">
-              Things
-            </a>
-          </li>
-        </ul>
-      </nav>
       <main>
         {% block content%}
           This is default content!
