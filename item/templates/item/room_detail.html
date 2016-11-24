@@ -6,14 +6,14 @@
 
 {% block content %}
 <h2>{{ room.name|title }} </h2>
-<ul>
+<ul class='buttons'>
     <li>
-      <a href="{{ room.get_update_url }}">
+      <a class="button" href="{{ room.get_update_url }}">
         Edit Room
       </a>
     </li>
     <li>
-      <a href="{{ room.get_delete_url }}">
+      <a class="button" href="{{ room.get_delete_url }}">
         Delete Room
       </a>
     </li>
