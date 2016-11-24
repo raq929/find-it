@@ -1,0 +1,40 @@
+$label-margin: 0 1em 0 0;
+$helptext-margin: 0 0 0 .5em;
+$input-margin:  0 0 5px 0;
+$input-padding: 5px;
+$input-border: 2px solid lighten($light-grey, 10%);
+$inset-one: 0 0 8px  rgba(0,0,0,0.1);
+$inset-two: 0 0 16px rgba(0,0,0,0.1);
+
+form {
+
+  label {
+    vertical-align: top;
+    margin: $label-margin;
+  }
+
+  .helptext {
+    color: darken($light-grey, 20%);
+    margin: $helptext-margin;
+  }
+
+  input, textarea, select {
+    border: $input-border;
+    -webkit-box-shadow:
+      inset $inset-one,
+            $inset-two;
+    -moz-box-shadow:
+      inset $inset-one,
+            $inset-two;
+    box-shadow:
+      inset $inset-one,
+            $inset-two;
+    padding: $input-padding;
+    background: rgba(255,255,255,0.5);
+    margin: $input-margin;
+  }
+
+  option {
+    color: cornflowerblue;
+  }
+}

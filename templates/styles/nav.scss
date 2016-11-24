@@ -1,0 +1,51 @@
+$display: inline-block;
+$none: none;
+$zero: 0;
+$ul-padding: 0;
+$li-height: 40px;
+$nav-height: $li-height;
+
+nav {
+  position: fixed;
+  top: 0;
+  height: $li-height;
+  z-index: 10;
+  background-color: lighten($cornflower-blue, 20%);
+  border-bottom: 1px solid $dark-purple;
+  width: 100%;
+
+  ul {
+    padding: $ul-padding;
+    margin: $zero;
+  }
+}
+
+nav ul {
+  display: flex;
+
+  a {
+    height: $li-height;
+    flex: 1;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: $none;
+
+    &:hover {
+        background-color: cornflowerblue;
+    }
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      margin-right: -0.25em; /* Adjusts for spacing */
+    }
+
+    li {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}

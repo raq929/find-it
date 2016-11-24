@@ -1,0 +1,49 @@
+$button-padding: 5px 10px;
+$button-font: 14px;
+$border-radius: 8px;
+$box-shadow: rgba(0,0,0,1) 0 1px 0;
+$text-shadow: rgba(0,0,0,.4) 0 1px 0;
+
+.button, form button {
+    text-decoration: none;
+    border-top: 1px solid $button-border-purple;
+    background: $dark-purple;
+    background: -webkit-linear-gradient(top, $light-purple, $dark-purple);
+    background: -moz-linear-gradient(top, $light-purple, $dark-purple);
+    background: -ms-linear-gradient(top, $light-purple, $dark-purple);
+    background: -o-linear-gradient(top, $light-purple, $dark-purple);
+    padding: $button-padding;
+    border-radius: $border-radius;
+    -webkit-box-shadow: $box-shadow;
+    -moz-box-shadow: $box-shadow;
+    box-shadow: $box-shadow;
+    color: white;
+    font-size: $button-font;
+    text-decoration: none;
+    vertical-align: middle;
+
+    &.new {
+      border-top: 1px solid $new-button-border;
+      background: -webkit-linear-gradient(top, $light-sea-green, $sea-green);
+      background: -moz-linear-gradient(top, $light-sea-green, $sea-green);
+      background: -ms-linear-gradient(top, $light-sea-green, $sea-green);
+      background: -o-linear-gradient(top, $light-sea-green, $sea-green);
+
+      &:hover {
+        border-top-color: saturate($sea-green, 20%);
+        background: saturate($sea-green, 20%);
+        color: white;
+      }
+    }
+
+    &:hover {
+      border-top-color: $deep-purple;
+      background: $deep-purple;
+      color: $light-grey;
+    }
+
+    &:active {
+      border-top-color: #4253c7;
+      background: #4253c7;
+    }
+  }

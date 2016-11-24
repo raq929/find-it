@@ -1,0 +1,16 @@
+$content_width: 500px;
+$margin: 0 auto;
+
+
+header, footer, main {
+  margin: $margin;
+  width: $content_width;
+}
+
+header {
+  margin: 60px auto 0 auto;
+}
+
+h3 {
+  color: $cornflower-blue;
+}
