@@ -1,18 +1,25 @@
 $content_width: 500px;
-$margin: 0 auto;
-
+$main-margin: 60px auto 0 auto;
+$header-margin: 60px auto 0 60px;
+$footer-margin: 0 auto;
 
 body {
   font-family: 'BenchNine', sans-serif;
 }
 
-header, footer, main {
-  margin: $margin;
+main {
+  margin: $main-margin;
   width: $content_width;
 }
 
 header {
-  margin: 60px auto 0 auto;
+  margin: $header-margin;
+  float: left;
+}
+
+footer {
+  width: $content-width;
+  margin: $footer-margin;
 }
 
 h1, h2, footer {
