@@ -21,36 +21,11 @@ class ItemDelete(DeleteView):
   model = Item
   success_url = reverse_lazy('item_list')
 
-class ItemUpdate(View):
-  form_class= ItemForm
+class ItemUpdate(UpdateView):
+  form_class = ItemForm
+  model = Item
   template_name = (
     'item/item_update_form.html')
-
-  def get(self, request, slug):
-    item = get_object_or_404(
-      Item, slug__iexact=slug)
-    context = {
-      'form': self.form_class(instance=item),
-      'item': item,
-    }
-    return render(
-      request, self.template_name, context)
-
-  def post(self, request, slug):
-    item = get_object_or_404(
-      Item, slug__iexact=slug)
-    bound_form = self.form_class(
-      request.POST, instance=item)
-    if bound_form.is_valid():
-      new_item = bound_form.save()
-      return redirect(new_item)
-    else:
-      context = {
-        'form': bound_form,
-        'item': item,
-      }
-      return render(
-        request, self.template_name, context)
 
 class ItemList(View):
   page_kwarg = 'page'
@@ -119,36 +94,11 @@ class PlaceDelete(DeleteView):
   model = Place
   success_url = reverse_lazy('place_list')
 
-class PlaceUpdate(View):
+class PlaceUpdate(UpdateView):
   form_class= PlaceForm
+  model = Place
   template_name = (
     'item/place_update_form.html')
-
-  def get(self, request, slug):
-    place = get_object_or_404(
-      Place, slug__iexact=slug)
-    context = {
-      'form': self.form_class(instance=place),
-      'place': place,
-    }
-    return render(
-      request, self.template_name, context)
-
-  def post(self, request, slug):
-    place = get_object_or_404(
-      Place, slug__iexact=slug)
-    bound_form = self.form_class(
-      request.POST, instance=place)
-    if bound_form.is_valid():
-      new_place = bound_form.save()
-      return redirect(new_place)
-    else:
-      context = {
-        'form': bound_form,
-        'place': place,
-      }
-      return render(
-        request, self.template_name, context)
 
 class RoomCreate(CreateView):
   form_class = RoomForm
@@ -170,38 +120,11 @@ class RoomDelete(DeleteView):
   success_url = reverse_lazy('room_list')
 
 
-class RoomUpdate(View):
+class RoomUpdate(UpdateView):
   form_class= RoomForm
+  model = Room
   template_name = (
     'item/room_update_form.html')
-
-  def get(self, request, slug):
-    room = get_object_or_404(
-      Room, slug__iexact=slug)
-    context = {
-      'form': self.form_class(instance=room),
-      'room': room,
-    }
-    return render(
-      request, self.template_name, context)
-
-  def post(self, request, slug):
-    place = get_object_or_404(
-      Room, slug__iexact=slug)
-    bound_form = self.form_class(
-      request.POST, instance=place)
-    if bound_form.is_valid():
-      new_place = bound_form.save()
-      return redirect(new_place)
-    else:
-      context = {
-        'form': bound_form,
-        'place': place,
-      }
-      return render(
-        request, self.template_name, context)
-
-
 
 # search
 
@@ -221,5 +144,3 @@ def search(request):
                   'item/item_search.html',
                   { 'query_string': query_string, 'found_items': found_items },
                 )
-
-
