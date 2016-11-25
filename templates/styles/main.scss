@@ -2,6 +2,10 @@ $content_width: 500px;
 $margin: 0 auto;
 
 
+body {
+  font-family: 'BenchNine', sans-serif;
+}
+
 header, footer, main {
   margin: $margin;
   width: $content_width;
@@ -9,6 +13,14 @@ header, footer, main {
 
 header {
   margin: 60px auto 0 auto;
+}
+
+h1, h2, footer {
+  font-family: 'Amatic SC', cursive;
+}
+
+h1 {
+  font-size: 3em;
 }
 
 h3 {
