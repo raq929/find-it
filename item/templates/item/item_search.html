@@ -10,7 +10,7 @@
   <form id="searchform" action="{% url 'item_search' %}" method="get" accept-charset="utf-8">
     <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
     <button class="search button" type="submit">
-    Search!
+    Find it!
     </button>
   </form>
 
@@ -25,6 +25,6 @@
   {% if query_string and not found_items %}
       <p>No results found.</p>
   {% else %}
-      <p>Type a search query into the box above, and press "Search" to find your things!</p>
+      <p>Type a search query into the box above, and press "Find it!" to find your things!</p>
   {% endif %}
 {% endblock %}

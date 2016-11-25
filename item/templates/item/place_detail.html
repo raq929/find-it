@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ place.name|title }} </h2>
+<h3>{{ place.name|title }} </h3>
 
 <p>{{ place.name|title }} is in the <a href="{{ place.room.get_absolute_url }}"> {{ place.room }}</a></p>
 <ul class='buttons'>
