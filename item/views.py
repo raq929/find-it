@@ -127,9 +127,7 @@ class ItemList(View):
       context)
 
 class ItemDetail(DetailView):
-  context_object_name = 'item'
   model = Item
-  template_name = 'item/item_detail.html'
 
 
 class PlaceCreate(View):
@@ -161,9 +159,7 @@ class PlaceList(View):
       {'place_list': Place.objects.all() })
 
 class PlaceDetail(DetailView):
-  context_object_name = 'place'
   model = Place
-  template_name = 'item/place_detail.html'
 
 class PlaceDelete(View):
 
@@ -245,9 +241,7 @@ class RoomList(View):
       {'room_list': Room.objects.all() })
 
 class RoomDetail(DetailView):
-  context_object_name = 'room'
   model = Room
-  template_name = 'item/room_detail.html'
 
 
 class RoomDelete(View):
