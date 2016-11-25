@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse_lazy
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
 from .forms import RoomForm, PlaceForm, ItemForm
-
+from .utils import PageLinksMixin
 
 class ItemCreate(CreateView):
   form_class = ItemForm
@@ -24,47 +24,11 @@ class ItemUpdate(UpdateView):
   template_name = (
     'item/item_update_form.html')
 
-class ItemList(ListView):
+class ItemList(PageLinksMixin, ListView):
   model = Item
   page_kwarg = 'page'
   paginate_by = 5 # 5 items per page
 
-  def get_context_data(self):
-    items = Item.objects.all()
-    page_number = self.request.GET.get(self.page_kwarg)
-    paginator = Paginator(
-      items, self.paginate_by)
-
-    try:
-      page = paginator.page(page_number)
-    except PageNotAnInteger:
-      page = paginator.page(1)
-    except EmptyPage:
-      page = paginator.page(paginator.num_pages)
-
-    if page.has_previous():
-      prev_url = "?{pkw}={n}".format(
-        pkw=self.page_kwarg,
-        n=page.previous_page_number())
-    else:
-      prev_url = None
-
-    if page.has_next():
-      next_url = "?{pkw}={n}".format(
-        pkw=self.page_kwarg,
-        n=page.next_page_number())
-    else:
-      next_url = None
-
-    context = {
-      'is_paginated': page.has_other_pages(),
-      'next_page_url': next_url,
-      'paginator': paginator,
-      'previous_page_url': prev_url,
-      'item_list': page,
-    }
-
-    return context
 
 class ItemDetail(DetailView):
   model = Item

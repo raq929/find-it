@@ -31,16 +31,16 @@
   </ul>
   <ul>
     <li>
-      Page {{ item_list.number }}
+      Page {{ page_obj.number }}
       of {{ paginator.num_pages }}
     </li>
     {% if is_paginated %}
-      {% if item_list.has_previous %}
+      {% if page_obj.has_previous %}
       <li>
         <a href="{{ previous_page_url }}">Previous</a>
       </li>
       {% endif %}
-      {% if item_list.has_next %}
+      {% if page_obj.has_next %}
       <li>
         <a href="{{ next_page_url }}">Next</a>
       </li>
