@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import CreateView, DetailView, View
+from django.views.generic import (CreateView, DeleteView,
+  DetailView, UpdateView, View)
 from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
+from django.core.urlresolvers import reverse_lazy
 
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
@@ -15,23 +17,9 @@ class ItemCreate(CreateView):
   form_class = ItemForm
   template_name = 'item/item_form.html'
 
-class ItemDelete(View):
-
-  def get(self, request, slug):
-    item = get_object_or_404(
-      Item, slug__iexact=slug)
-    return render(
-      request,
-      'item/item_confirm_delete.html'
-      , { 'item': item })
-
-  def post(self, request, slug):
-    item = get_object_or_404(
-      Item, slug__iexact=slug)
-    place = item.place
-    item.delete()
-    return redirect(place)
-
+class ItemDelete(DeleteView):
+  model = Item
+  success_url = reverse_lazy('item_list')
 
 class ItemUpdate(View):
   form_class= ItemForm
@@ -127,23 +115,9 @@ class PlaceList(View):
 class PlaceDetail(DetailView):
   model = Place
 
-class PlaceDelete(View):
-
-  def get(self, request, slug):
-    place = get_object_or_404(
-      Place, slug__iexact=slug)
-    return render(
-      request,
-      'item/place_confirm_delete.html'
-      , { 'place': place })
-
-  def post(self, request, slug):
-    place = get_object_or_404(
-      Place, slug__iexact=slug)
-    room = place.room
-    place.delete()
-    return redirect(room)
-
+class PlaceDelete(DeleteView):
+  model = Place
+  success_url = reverse_lazy('place_list')
 
 class PlaceUpdate(View):
   form_class= PlaceForm
@@ -191,21 +165,9 @@ class RoomDetail(DetailView):
   model = Room
 
 
-class RoomDelete(View):
-
-  def get(self, request, slug):
-    room = get_object_or_404(
-      Room, slug__iexact=slug)
-    return render(
-      request,
-      'item/room_confirm_delete.html'
-      , { 'room': room })
-
-  def post(self, request, slug):
-    room = get_object_or_404(
-      Room, slug__iexact=slug)
-    room.delete()
-    return redirect('item_search')
+class RoomDelete(DeleteView):
+  model = Room
+  success_url = reverse_lazy('room_list')
 
 
 class RoomUpdate(View):
