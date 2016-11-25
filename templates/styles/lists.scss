@@ -23,3 +23,18 @@ main .buttons {
     line-height: 220%;
   }
 }
+
+.pagination {
+  margin-top: 40px;
+  display: flex;
+
+  li {
+    display: inline-block;
+    flex: 1;
+  }
+
+  .page_numbers {
+    flex: 2;
+    font-size: 1.2em;
+  }
+}

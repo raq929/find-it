@@ -4,22 +4,33 @@
   {% block item_content %}
     This is default content.
   {% endblock %}
+
   {% if is_paginated %}
-  <ul>
-      <li>
+  <ul class='pagination'>
+      <li class='page_numbers'>
         Page {{ page_obj.number }}
         of {{ paginator.num_pages }}
       </li>
-        {% if page_obj.has_previous %}
+      {% if first_page_url %}
+        <li>
+          <a href="{{ first_page_url }}">First</a>
+        </li>
+      {% endif %}
+      {% if previous_page_url %}
         <li>
           <a href="{{ previous_page_url }}">Previous</a>
         </li>
-        {% endif %}
-        {% if page_obj.has_next %}
+      {% endif %}
+      {% if next_page_url %}
         <li>
           <a href="{{ next_page_url }}">Next</a>
         </li>
-        {% endif %}
+      {% endif %}
+      {% if last_page_url %}
+        <li>
+          <a href="{{ last_page_url }}">Last</a>
+        </li>
+      {% endif %}
     </ul>
   {% endif %}
 {% endblock %}
