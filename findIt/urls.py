@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.flatpages import \
+  urls as flatpages_urls
 from .views import redirect_root
 
 urlpatterns = [
   url(r'^$', redirect_root),
   url(r'^admin/', admin.site.urls),
   url(r'^', include('item.urls')),
+  url(r'^', include(flatpages_urls)),
 ]
