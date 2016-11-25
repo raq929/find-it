@@ -33,3 +33,16 @@ h1 {
 h3 {
   color: $cornflower-blue;
 }
+
+
+@media screen and (max-width: 915px) {
+  header {
+    float: none;
+    width: $content-width;
+    margin: $main-margin;
+  }
+
+  header, footer, main {
+    padding-left: 40px;
+  }
+}
