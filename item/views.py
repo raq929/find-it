@@ -27,14 +27,14 @@ class ItemUpdate(UpdateView):
   template_name = (
     'item/item_update_form.html')
 
-class ItemList(View):
+class ItemList(ListView):
+  model = Item
   page_kwarg = 'page'
   paginate_by = 5 # 5 items per page
-  template_name = 'item/item_list.html'
 
-  def get(self, request):
+  def get_context_data(self):
     items = Item.objects.all()
-    page_number = request.GET.get(self.page_kwarg)
+    page_number = self.request.GET.get(self.page_kwarg)
     paginator = Paginator(
       items, self.paginate_by)
 
@@ -67,10 +67,7 @@ class ItemList(View):
       'item_list': page,
     }
 
-    return render(
-      request,
-      self.template_name,
-      context)
+    return context
 
 class ItemDetail(DetailView):
   model = Item
