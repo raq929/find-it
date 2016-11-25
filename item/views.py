@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import DetailView, View
+from django.views.generic import CreateView, DetailView, View
 from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
 
@@ -11,26 +11,9 @@ from .utils import DetailView
 
 
 
-class ItemCreate(View):
+class ItemCreate(CreateView):
   form_class = ItemForm
   template_name = 'item/item_form.html'
-
-  def get(self, request):
-      return render(
-          request,
-          self.template_name,
-          {'form': self.form_class() })
-
-  def post(self, request):
-      bound_form = self.form_class(request.POST)
-      if bound_form.is_valid():
-          new_room = bound_form.save()
-          return redirect(new_room)
-      else:
-          return render(
-            request,
-            self.template_name,
-            { 'form': bound_form  })
 
 class ItemDelete(View):
 
@@ -130,26 +113,9 @@ class ItemDetail(DetailView):
   model = Item
 
 
-class PlaceCreate(View):
+class PlaceCreate(CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
-
-  def get(self, request):
-    return render(
-      request,
-      self.template_name,
-      {'form': self.form_class() })
-
-  def post(self, request):
-    bound_form = self.form_class(request.POST)
-    if bound_form.is_valid():
-        new_room = bound_form.save()
-        return redirect(new_room)
-    else:
-      return render(
-        request,
-        self.template_name,
-        { 'form': bound_form  })
 
 class PlaceList(View):
   def get(self, request):
@@ -210,28 +176,9 @@ class PlaceUpdate(View):
       return render(
         request, self.template_name, context)
 
-
-
-class RoomCreate(View):
+class RoomCreate(CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
-
-  def get(self, request):
-    return render(
-      request,
-      self.template_name,
-      {'form': self.form_class() })
-
-  def post(self, request):
-    bound_form = self.form_class(request.POST)
-    if bound_form.is_valid():
-        new_room = bound_form.save()
-        return redirect(new_room)
-    else:
-      return render(
-        request,
-        self.template_name,
-        { 'form': bound_form  })
 
 class RoomList(View):
   def get(self, request):
