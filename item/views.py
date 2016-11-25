@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import (CreateView, DeleteView,
-  DetailView, UpdateView, View)
+  DetailView, ListView, UpdateView, View)
 from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
 from django.core.urlresolvers import reverse_lazy
@@ -80,12 +80,8 @@ class PlaceCreate(CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
 
-class PlaceList(View):
-  def get(self, request):
-    return render(
-      request,
-      'item/place_list.html',
-      {'place_list': Place.objects.all() })
+class PlaceList(ListView):
+  model = Place
 
 class PlaceDetail(DetailView):
   model = Place
@@ -104,12 +100,8 @@ class RoomCreate(CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
 
-class RoomList(View):
-  def get(self, request):
-    return render(
-      request,
-      'item/room_list.html',
-      {'room_list': Room.objects.all() })
+class RoomList(ListView):
+  model = Room
 
 class RoomDetail(DetailView):
   model = Room
