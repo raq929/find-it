@@ -38,8 +38,11 @@ class PlaceCreate(CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
 
-class PlaceList(ListView):
+class PlaceList(PageLinksMixin, ListView):
   model = Place
+  page_kwarg = 'page'
+  paginate_by = 5
+
 
 class PlaceDetail(DetailView):
   model = Place
