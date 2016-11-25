@@ -4,7 +4,7 @@
   {{ block.super}} - Item list
 {% endblock %}
 
-{% block content%}
+{% block item_content%}
   <h3>Item List</h3>
   <ul>
    {% for item in item_list %}
@@ -29,23 +29,7 @@
      <li><em>There are currently no Items available.</em></li>
     {% endfor %}
   </ul>
-  <ul>
-    <li>
-      Page {{ page_obj.number }}
-      of {{ paginator.num_pages }}
-    </li>
-    {% if is_paginated %}
-      {% if page_obj.has_previous %}
-      <li>
-        <a href="{{ previous_page_url }}">Previous</a>
-      </li>
-      {% endif %}
-      {% if page_obj.has_next %}
-      <li>
-        <a href="{{ next_page_url }}">Next</a>
-      </li>
-      {% endif %}
-    {% endif %}
-  </ul>
-  <a class='new button' href="{% url 'item_create' %}">New Item</a>
+  <p>
+    <a class='new button' href="{% url 'item_create' %}">New Item</a>
+  </p>
 {% endblock %}

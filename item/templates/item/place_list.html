@@ -4,8 +4,7 @@
   {{ block.super}} - Place list
 {% endblock %}
 
-{% block content%}
-  <h3>Place List</h3>
+{% block item_content %}
   <ul>
    {% for place in place_list %}
       <li>
@@ -33,23 +32,7 @@
      <li><em>There are currently no Places available.</em></li>
     {% endfor %}
   </ul>
-  <ul>
-    <li>
-      Page {{ page_obj.number }}
-      of {{ paginator.num_pages }}
-    </li>
-    {% if is_paginated %}
-      {% if page_obj.has_previous %}
-      <li>
-        <a href="{{ previous_page_url }}">Previous</a>
-      </li>
-      {% endif %}
-      {% if page_obj.has_next %}
-      <li>
-        <a href="{{ next_page_url }}">Next</a>
-      </li>
-      {% endif %}
-    {% endif %}
-  </ul>
-  <a class='new button' href="{% url 'place_create' %}">New Place</a>
+  <p>
+    <a class='new button' href="{% url 'place_create' %}">New Place</a>
+  </p>
 {% endblock %}
