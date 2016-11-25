@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import redirect_root
+from django.views.generic import RedirectView
 
 urlpatterns = [
-  url(r'^$', redirect_root),
+  url(r'^$', RedirectView.as_view(
+      pattern_name='item_search',
+      permanent=False)),
   url(r'^admin/', admin.site.urls),
   url(r'^', include('item.urls')),
 ]
