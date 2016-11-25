@@ -8,9 +8,6 @@ from django.core.urlresolvers import reverse_lazy
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
 from .forms import RoomForm, PlaceForm, ItemForm
-from .utils import DetailView
-
-
 
 
 class ItemCreate(CreateView):
@@ -120,10 +117,8 @@ class RoomUpdate(UpdateView):
 def search(request):
     query_string = ''
     found_items = None
-    print 'got here'
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
-        print query_string
 
         entry_query = get_query(query_string, ['name'])
 
