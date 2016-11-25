@@ -1,0 +1,22 @@
+{% extends parent_template|default:"base.html" %}
+
+{% block title %}
+  {{ block.super }} - About
+{% endblock %}
+
+{% block content %}
+  <h3>About FindIt!</h3>
+  <p>
+    I got really annoyed because my partner was out of town,
+    and I needed all the things for a project I was working on
+    and couldn't find them. I created this app so that everyone who
+    lives here can know where things are in the house!
+    <br>
+    <span class='signature'>Rachel</span>
+  </p>
+
+  <ul>
+    <li><a href='htttps://racheltstevens.com'>See more of my work</a></li>
+    <li><a href='https://github.com/Raq929'>GitHub</a></li>
+  </ul>
+{% endblock %}
