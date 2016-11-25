@@ -6,6 +6,10 @@ from django.core.paginator import (
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
 from .forms import RoomForm, PlaceForm, ItemForm
+from .utils import DetailView
+
+
+
 
 class ItemCreate(View):
   form_class = ItemForm
@@ -122,11 +126,11 @@ class ItemList(View):
       self.template_name,
       context)
 
-def item_detail(request, slug):
-  item = get_object_or_404(Item, slug__iexact=slug)
-  return render(request,
-    'item/item_detail.html',
-    { 'item': item })
+class ItemDetail(DetailView):
+  context_object_name = 'item'
+  model = Item
+  template_name = 'item/item_detail.html'
+
 
 class PlaceCreate(View):
   form_class = PlaceForm
@@ -156,11 +160,10 @@ class PlaceList(View):
       'item/place_list.html',
       {'place_list': Place.objects.all() })
 
-def place_detail(request, slug):
-  place = get_object_or_404(Place, slug__iexact=slug)
-  return render(request,
-    'item/place_detail.html',
-    { 'place': place })
+class PlaceDetail(DetailView):
+  context_object_name = 'place'
+  model = Place
+  template_name = 'item/place_detail.html'
 
 class PlaceDelete(View):
 
@@ -241,11 +244,10 @@ class RoomList(View):
       'item/room_list.html',
       {'room_list': Room.objects.all() })
 
-def room_detail(request, slug):
-  room = get_object_or_404(Room, slug__iexact=slug)
-  return render(request,
-    'item/room_detail.html',
-    { 'room': room })
+class RoomDetail(DetailView):
+  context_object_name = 'room'
+  model = Room
+  template_name = 'item/room_detail.html'
 
 
 class RoomDelete(View):

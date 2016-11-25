@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
 from .views import (
-  ItemList, item_detail, ItemCreate, ItemUpdate, ItemDelete,
-  PlaceList, place_detail, PlaceCreate, PlaceUpdate, PlaceDelete,
-  RoomList, room_detail, RoomCreate, RoomUpdate, RoomDelete,
+  ItemList, ItemDetail, ItemCreate, ItemUpdate, ItemDelete,
+  PlaceList, PlaceDetail, PlaceCreate, PlaceUpdate, PlaceDelete,
+  RoomList, RoomDetail, RoomCreate, RoomUpdate, RoomDelete,
   search)
 
 urlpatterns = [
@@ -20,7 +20,7 @@ urlpatterns = [
     ItemDelete.as_view(),
     name='item_delete'),
   url(r'^item/(?P<slug>[\w\-]+)/$',
-    item_detail,
+    ItemDetail.as_view(),
     name='item_detail'),
   url(r'^place/$',
     PlaceList.as_view(),
@@ -35,7 +35,7 @@ urlpatterns = [
     PlaceDelete.as_view(),
     name='place_delete'),
   url(r'^place/(?P<slug>[\w\-]+)/$',
-    place_detail,
+    PlaceDetail.as_view(),
     name='place_detail'),
   url(r'^room/$',
     RoomList.as_view(),
@@ -50,7 +50,7 @@ urlpatterns = [
     RoomDelete.as_view(),
     name='room_delete'),
   url(r'^room/(?P<slug>[\w\-]+)/$',
-    room_detail,
+    RoomDetail.as_view(),
     name='room_detail'),
   url(r'^search/$',
     search,
