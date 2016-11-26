@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+from .log_filters import ManagementFilter
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -109,6 +112,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Logging
+# https://docs.djangoproject.com/en/1.8/topics/logging/
+
+verbose = (
+    "[%(asctime)s] %(levelname)s "
+    "[%(name)s:%(lineno)s] %(message)s")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'remove_migration_sql': {
+            '()': ManagementFilter,
+        },
+    },
+    'handlers': {
+        'console': {
+            'filters': ['remove_migration_sql'],
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': verbose,
+            'datefmt': "%Y-%b-%d %H:%M:%S"
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'formatter': 'verbose'
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
