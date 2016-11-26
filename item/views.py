@@ -8,11 +8,28 @@ from django.core.urlresolvers import reverse_lazy
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
 from .forms import RoomForm, PlaceForm, ItemForm
-from .utils import PageLinksMixin
+from .utils import PageLinksMixin, PlaceContextMixin
 
 class ItemCreate(CreateView):
   form_class = ItemForm
   template_name = 'item/item_form.html'
+
+class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
+  def get_initial(self):
+    if self.request.method == 'GET':
+      place_slug = self.kwargs.get(
+        self.place_slug_url_kwarg)
+      self.place = get_object_or_404(
+        Place,
+        slug__iexact=place_slug)
+      initial = {
+        self.place_context_object_name:
+          self.place,
+      }
+      initial.update(self.initial)
+      return initial
+    return super().get_initial()
+
 
 class ItemDelete(DeleteView):
   model = Item

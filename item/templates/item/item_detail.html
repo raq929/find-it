@@ -23,7 +23,9 @@
 </ul>
 <ul class='buttons'>
   <li>
-    <a class='new button' href="{% url 'item_create' %}">New Item</a>
+    Create another item in this place:
+    <br>
+    <a class='new button' href="{{ item.place.get_item_create_url }}">New Item</a>
   </li>
 </ul>
 {% endblock %}

@@ -23,7 +23,7 @@
 <dl>
   <dt>Description</dt>
     <dd>{{ place.description|linebreaks }}
-  <dt>Thing{{ place.item_set.count|pluralize }} in this place</dt>
+  <dt><h4>Thing{{ place.item_set.count|pluralize }} in this place<h4></dt>
   {% for item in place.item_set.all %}
   <dd>
     <a href="{{ item.get_absolute_url }}">
@@ -32,4 +32,11 @@
   </dd>
   {% endfor %}
 </dl>
+{% if not room.place_set.all %}
+  <p>There are no things in this place</p>
+{% endif %}
+<p>
+  <a href="{{ place.get_item_create_url }}"
+    class="button">
+  Add A Thing</a></p>
 {% endblock %}

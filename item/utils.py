@@ -1,3 +1,30 @@
+from django.shortcuts import get_object_or_404
+
+from .models import Place
+
+class PlaceContextMixin():
+  place_slug_url_kwarg = 'place_slug'
+  place_context_object_name = 'place'
+
+  def get_context_data(self, **kwargs):
+    if hasattr(self, 'place'):
+      context = {
+        self.place_context_object_name:
+            self.place,
+      }
+    else:
+      place_slug = self.kwargs.get(
+        self.place_slug_url_kwarg)
+      place = get_object_or_404(
+        Place,
+        slug__iexact=place_slug)
+      context = {
+        self.place_context_object_name:
+          place,
+      }
+    context.update(kwargs)
+    return super().get_context_data(**context)
+
 class PageLinksMixin:
   """Mixin class for adding links the context object
    for previous and next pages"""

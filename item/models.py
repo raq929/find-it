@@ -55,6 +55,10 @@ class Place(models.Model):
     return reverse('place_delete',
                     kwargs={ 'slug': self.slug })
 
+  def get_item_create_url(self):
+    return reverse('place_add_item',
+                    kwargs={ 'place_slug': self.slug })
+
 
 class Item(models.Model):
   name = models.CharField(

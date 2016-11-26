@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import (
-  ItemList, ItemDetail, ItemCreate, ItemUpdate, ItemDelete,
+  ItemList, ItemDetail, ItemCreate, ItemCreateFromPlace, ItemUpdate, ItemDelete,
   PlaceList, PlaceDetail, PlaceCreate, PlaceUpdate, PlaceDelete,
   RoomList, RoomDetail, RoomCreate, RoomUpdate, RoomDelete,
   search)
@@ -37,6 +37,10 @@ urlpatterns = [
   url(r'^place/(?P<slug>[\w\-]+)/$',
     PlaceDetail.as_view(),
     name='place_detail'),
+  url(r'^place/(?P<place_slug>[\w\-]+)/'
+        r'add_item/$',
+        ItemCreateFromPlace.as_view(),
+        name='place_add_item'),
   url(r'^room/$',
     RoomList.as_view(),
     name='room_list'),
