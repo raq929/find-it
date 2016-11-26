@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView, TemplateView
+from user import urls as user_urls
 
 urlpatterns = [
   url(r'^$', RedirectView.as_view(
@@ -26,4 +27,5 @@ urlpatterns = [
     template_name='site/about.html'),
     name='about_site'),
   url(r'^', include('item.urls')),
+  url(r'^user/', include(user_urls))
 ]
