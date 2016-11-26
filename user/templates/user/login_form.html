@@ -1,0 +1,10 @@
+<h3>Login</h3>
+<form
+  action="{% url 'dj-auth:login' %}"
+  method="post"
+>
+{% csrf_token %}
+{{ form.as_p }}
+  <button type="submit">
+    {{ login_button|default:'Log In' }}</button>
+</form>

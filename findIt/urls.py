@@ -20,12 +20,15 @@ from user import urls as user_urls
 
 urlpatterns = [
   url(r'^$', RedirectView.as_view(
-      pattern_name='item_search',
+      pattern_name='dj-auth:login',
       permanent=False)),
   url(r'^admin/', admin.site.urls),
   url(r'^about/$', TemplateView.as_view(
     template_name='site/about.html'),
     name='about_site'),
   url(r'^', include('item.urls')),
-  url(r'^user/', include(user_urls))
+  url(r'^user/', include(
+    user_urls,
+    app_name='user',
+    namespace='dj-auth')),
 ]

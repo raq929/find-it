@@ -49,6 +49,17 @@
       </nav>
 
       <header>
+        <ul class='auth'>
+          {% if user.is_authenticated %}
+          <a href="{% url 'dj-auth:logout' %}">
+            <li>Log Out</li>
+          </a>
+          {% else %}
+          <a href="{% url 'dj-auth:login' %}">
+            <li>Login</li>
+          </a>
+          {% endif %}
+        </ul>
         <h1>
           Find It!
         </h1>
