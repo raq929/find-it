@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+from django.core.urlresolvers import reverse_lazy
+
 from .log_filters import ManagementFilter
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -171,3 +173,11 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+
+# Login redirects
+
+LOGIN_REDIRECT_URL = reverse_lazy('item_search')
+LOGIN_URL = reverse_lazy('dj-auth:login')
+LOGOUT_URL = reverse_lazy('dj-auth:logout')
+REDIRECT_FIELD_NAME = 'next'
