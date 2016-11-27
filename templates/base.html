@@ -54,6 +54,9 @@
           <a href="{% url 'dj-auth:logout' %}?next={{ request.path }}">
             <li>Log Out</li>
           </a>
+          <a href="{% url 'dj-auth:pw_change' %}?next={{ request.path }}">
+            <li>Change Password</li>
+          </a>
           {% else %}
           <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">
             <li>Login</li>
