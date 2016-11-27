@@ -5,15 +5,20 @@ from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
 from django.core.urlresolvers import reverse_lazy
 
+from user.decorators import (
+  class_login_required,
+  require_authenticated_permission)
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
 from .forms import RoomForm, PlaceForm, ItemForm
 from .utils import PageLinksMixin, PlaceContextMixin
 
+@require_authenticated_permission('item.add_item')
 class ItemCreate(CreateView):
   form_class = ItemForm
   template_name = 'item/item_form.html'
 
+@require_authenticated_permission('item.add_item')
 class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
   def get_initial(self):
     if self.request.method == 'GET':
@@ -30,11 +35,12 @@ class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
       return initial
     return super().get_initial()
 
-
+@require_authenticated_permission('item.delete_item')
 class ItemDelete(DeleteView):
   model = Item
   success_url = reverse_lazy('item_list')
 
+@require_authenticated_permission('item.change_item')
 class ItemUpdate(UpdateView):
   form_class = ItemForm
   model = Item
@@ -50,7 +56,7 @@ class ItemList(PageLinksMixin, ListView):
 class ItemDetail(DetailView):
   model = Item
 
-
+@require_authenticated_permission('item.add_place')
 class PlaceCreate(CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
@@ -64,16 +70,19 @@ class PlaceList(PageLinksMixin, ListView):
 class PlaceDetail(DetailView):
   model = Place
 
+@require_authenticated_permission('item.delete_place')
 class PlaceDelete(DeleteView):
   model = Place
   success_url = reverse_lazy('place_list')
 
+@require_authenticated_permission('item.change_place')
 class PlaceUpdate(UpdateView):
   form_class= PlaceForm
   model = Place
   template_name = (
     'item/place_update_form.html')
 
+@require_authenticated_permission('item.add_room')
 class RoomCreate(CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
@@ -84,12 +93,12 @@ class RoomList(ListView):
 class RoomDetail(DetailView):
   model = Room
 
-
+@require_authenticated_permission('item.delete_room')
 class RoomDelete(DeleteView):
   model = Room
   success_url = reverse_lazy('room_list')
 
-
+@require_authenticated_permission('item.change_room')
 class RoomUpdate(UpdateView):
   form_class= RoomForm
   model = Room
