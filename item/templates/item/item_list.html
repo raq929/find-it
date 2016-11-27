@@ -13,16 +13,20 @@
           {{ item.name|title }}
         </a>
       <ul class='buttons'>
+          {% if perms.item.change_item %}
           <li>
             <a class='button' href="{{ item.get_update_url }}">
               Edit Item
             </a>
           </li>
+          {% endif %}
+          {% if perms.item.delete_item %}
           <li>
             <a class='button' href="{{ item.get_delete_url }}">
               Delete Item
             </a>
           </li>
+          {% endif %}
         </ul>
       </li>
     {% empty %}
@@ -30,6 +34,8 @@
     {% endfor %}
   </ul>
   <p>
+  {% if perms.item.add_item %}
     <a class='new button' href="{% url 'item_create' %}">New Item</a>
+  {% endif %}
   </p>
 {% endblock %}

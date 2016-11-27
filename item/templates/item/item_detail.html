@@ -7,25 +7,34 @@
 {% block item_content %}
 <h3>{{ item.name|title }} </h3>
 
-<p>{{ item.name }} is in the {{ item.place.room }} in {{ item.place.name }}</p>
+<p>{{ item.name }} is in the
+  <a href='{{ item.place.room.get_absolute_url }}'>{{ item.place.room }}</a> in
+  <a href='{{ item.place.get_absolute_url }}'>{{ item.place.name }}</a>
+</p>
 <p>The location of this item was last updated on {{ item.date_updated|date:"l, F j, Y" }}</p>
 <ul class='buttons'>
+  {% if perms.item.change_item %}
   <li>
     <a class='button' href="{{ item.get_update_url }}">
       Edit Item
     </a>
   </li>
+  {% endif %}
+  {% if perms.item.delete_item %}
   <li>
     <a class='button' href="{{ item.get_delete_url }}">
       Delete Item
     </a>
   </li>
+  {% endif %}
 </ul>
-<ul class='buttons'>
-  <li>
-    Create another item in this place:
-    <br>
-    <a class='new button' href="{{ item.place.get_item_create_url }}">New Item</a>
-  </li>
-</ul>
+{% if perms.item.add_item %}
+  <ul class='buttons'>
+    <li>
+      Create another item in this place:
+      <br>
+      <a class='new button' href="{{ item.place.get_item_create_url }}">New Item</a>
+    </li>
+  </ul>
+{% endif %}
 {% endblock %}

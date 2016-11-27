@@ -17,22 +17,28 @@
         </a>
       </li>
       <ul class='buttons'>
+        {% if perms.item.change_place %}
           <li>
             <a class='button' href="{{ place.get_update_url }}">
               Edit Place
             </a>
           </li>
+        {% endif %}
+        {% if perms.item.delete_place %}
           <li>
             <a class='button' href="{{ place.get_delete_url }}">
               Delete Place
             </a>
           </li>
-        </ul>
+        {% endif %}
+      </ul>
     {% empty %}
      <li><em>There are currently no Places available.</em></li>
     {% endfor %}
   </ul>
+  {% if perms.item.add_place %}
   <p>
     <a class='new button' href="{% url 'place_create' %}">New Place</a>
   </p>
+  {% endif %}
 {% endblock %}

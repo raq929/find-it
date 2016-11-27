@@ -13,16 +13,20 @@
           {{ room.name|title }}
         </a>
       <ul class='buttons'>
-          <li>
-            <a class='button' href="{{ room.get_update_url }}">
-              Edit Room
-            </a>
-          </li>
-          <li>
-            <a class='button' href="{{ room.get_delete_url }}">
-              Delete Room
-            </a>
-          </li>
+          {% if perms.item.change_room %}
+            <li>
+              <a class="button" href="{{ room.get_update_url }}">
+                Edit Room
+              </a>
+            </li>
+            {% endif %}
+            {% if perms.item.delete_room %}
+            <li>
+              <a class="button" href="{{ room.get_delete_url }}">
+                Delete Room
+              </a>
+            </li>
+          {% endif %}
         </ul>
       </li>
     {% empty %}
@@ -30,7 +34,11 @@
     {% endfor %}
   </ul>
   <ul class='buttons'>
-    <li><a class='new button' href="{% url 'room_create' %}">New Room</a></li>
-    <li><a class='new button' href="{% url 'place_create' %}">New Place</a></li>
+    {% if perms.item.add_room %}
+      <li><a class='new button' href="{% url 'room_create' %}">New Room</a></li>
+     {% endif %}
+    {% if perms.item.add_place %}
+      <li><a class='new button' href="{% url 'place_create' %}">New Place</a></li>
+    {% endif %}
   </ul>
 {% endblock %}

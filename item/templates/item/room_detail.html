@@ -7,16 +7,20 @@
 {% block content %}
 <h3>{{ room.name|title }} </h3>
 <ul class='buttons'>
+    {% if perms.item.change_room %}
     <li>
       <a class="button" href="{{ room.get_update_url }}">
         Edit Room
       </a>
     </li>
+    {% endif %}
+    {% if perms.item.delete_room %}
     <li>
       <a class="button" href="{{ room.get_delete_url }}">
         Delete Room
       </a>
     </li>
+    {% endif %}
   </ul>
 <dl>
   <dt>Place{{ room.place_set.count|pluralize }}</dt>

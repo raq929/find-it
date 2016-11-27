@@ -9,16 +9,20 @@
 
 <p>{{ place.name|title }} is in the <a href="{{ place.room.get_absolute_url }}"> {{ place.room }}</a></p>
 <ul class='buttons'>
+  {% if perms.item.change_place %}
   <li>
     <a class='button' href="{{ place.get_update_url }}">
       Edit Place
     </a>
   </li>
+  {% endif %}
+  {% if perms.item.delete_place %}
   <li>
     <a class='button' href="{{ place.get_delete_url }}">
       Delete Place
     </a>
   </li>
+  {% endif %}
 </ul>
 <dl>
   <dt>Description</dt>
@@ -36,7 +40,9 @@
   <p>There are no things in this place</p>
 {% endif %}
 <p>
+  {% if perms.item.add_item %}
   <a href="{{ place.get_item_create_url }}"
     class="button">
   Add A Thing</a></p>
+  {% endif %}
 {% endblock %}
