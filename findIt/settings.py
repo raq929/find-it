@@ -181,3 +181,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('item_search')
 LOGIN_URL = reverse_lazy('dj-auth:login')
 LOGOUT_URL = reverse_lazy('dj-auth:logout')
 REDIRECT_FIELD_NAME = 'next'
+
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

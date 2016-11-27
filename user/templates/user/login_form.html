@@ -13,3 +13,6 @@
   <button type="submit">
     {{ login_button|default:'Log In' }}</button>
 </form>
+<a href="{% url 'dj-auth:pw_reset_start' %}">
+  Forgotten Password?
+</a>
