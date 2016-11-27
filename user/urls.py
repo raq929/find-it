@@ -6,6 +6,8 @@ from django.contrib.auth.forms import \
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 
+from .views import DisableAccount
+
 
 
 password_urls = [
@@ -57,6 +59,9 @@ password_urls = [
 ]
 
 urlpatterns = [
+  url(r'^disable/$',
+    DisableAccount.as_view(),
+    name='disable'),
   url(r'^login/$',
     auth_views.login,
     { 'template_name': 'user/login.html' },

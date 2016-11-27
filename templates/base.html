@@ -51,11 +51,14 @@
       <header>
         <ul class='auth'>
           {% if user.is_authenticated %}
-          <a href="{% url 'dj-auth:logout' %}?next={{ request.path }}">
+          <a href="{% url 'dj-auth:logout' %}">
             <li>Log Out</li>
           </a>
-          <a href="{% url 'dj-auth:pw_change' %}?next={{ request.path }}">
+          <a href="{% url 'dj-auth:pw_change' %}">
             <li>Change Password</li>
+          </a>
+          <a href="{% url 'dj-auth:disable' %}">
+            <li>Disable Account</li>
           </a>
           {% else %}
           <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">

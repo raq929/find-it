@@ -46,4 +46,17 @@ $text-shadow: rgba(0,0,0,.4) 0 1px 0;
       border-top-color: #4253c7;
       background: #4253c7;
     }
+
+    &.warning {
+      border-top: 1px solid $red-border;
+      background: -webkit-linear-gradient(top, $light-red, $red);
+      background: -moz-linear-gradient(top, $light-red, $red);
+      background: -ms-linear-gradient(top, $light-red, $red);
+      background: -o-linear-gradient(top, $light-red, $red);
+
+      &:hover {
+        border-top-color: saturate($red, 20%);
+        background: saturate($red, 20%);
+      }
+    }
   }

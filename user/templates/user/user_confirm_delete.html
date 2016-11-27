@@ -1,0 +1,19 @@
+{% extends parent_template|default:"user/base_user.html" %}
+
+{% block title %}
+  {{ block.super }} - Disable Account
+{% endblock %}
+
+
+{% block content %}
+  <h3>Disable your account?</h3>
+  <p>This cannot be undone.</p>
+
+  <form
+  action="{% url 'dj-auth:disable' %}"
+    method="post">
+  {% csrf_token %}
+  <button class='warning' type="submit">
+    Disable Account</button>
+</form>
+{% endblock %}
