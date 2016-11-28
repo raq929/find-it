@@ -185,3 +185,4 @@ REDIRECT_FIELD_NAME = 'next'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FORM_EMAIL = 'no-reply@findit.com'
