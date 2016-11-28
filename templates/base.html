@@ -61,8 +61,14 @@
             <li>Disable Account</li>
           </a>
           {% else %}
+          <a href="{% url 'dj-auth:create' %}">
+            <li>Create Account</li>
+          </a>
           <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">
             <li>Login</li>
+          </a>
+          <a href="{% url 'dj-auth:resend_activation' %}">
+            <li>Lost Activation Email</li>
           </a>
           {% endif %}
         </ul>
@@ -71,7 +77,16 @@
         </h1>
         <h2>Find All the things!</h2>
       </header>
-
+      <aside>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+      </aside>
       <main>
         {% block content%}
           This is default content!
