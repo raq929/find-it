@@ -1,0 +1,18 @@
+{% extends parent_template|default:"user/base_user.html" %}
+
+{% block title %}
+  {{ block.super }} - Create Account
+{% endblock %}
+
+{% block content %}
+<h3>Create Account</h3>
+<form
+  action="{% url 'dj-auth:create' %}"
+  method="post"
+>
+{% csrf_token %}
+{{ form.as_p }}
+  <button type="submit">
+    Create New Account</button>
+</form>
+{% endblock %}
