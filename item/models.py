@@ -3,12 +3,38 @@ from django.core.urlresolvers import reverse
 
 from django.db import models
 
+class House(models.Model):
+  name = models.CharField(max_length=63)
+  slug = models.SlugField(
+    max_length=31,
+    unique=True,
+    help_text='A label for URL config.')
+
+  def __str__(self):
+    return self.name
+
+  class Meta:
+    ordering = ['name']
+
+  def get_absolute_url(self):
+    return reverse('room_detail',
+                    kwargs={ 'slug': self.slug })
+
+  def get_update_url(self):
+    return reverse('room_update',
+                    kwargs={ 'slug': self.slug })
+
+  def get_delete_url(self):
+    return reverse('room_delete',
+                    kwargs={ 'slug': self.slug })
+
 class Room(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(
     max_length=31,
     unique=True,
     help_text='A label for URL config.')
+  house = models.ForeignKey(House, on_delete=models.CASCADE)
 
   def __str__(self):
     return self.name
