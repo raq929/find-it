@@ -3,7 +3,12 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm \
   as BaseUserCreationForm
+from django.core.exceptions import ValidationError
+from django.utils.text import slugify
+
+from .models import Profile
 from .utils import ActivationMailFormMixin
+
 
 logger = logging.getLogger(__name__)
 
@@ -46,9 +51,30 @@ class UserCreationForm(
 
     user.save()
     self.save_m2m()
+    Profile.objects.update_or_create(
+      user=user,
+      defaults={
+        'slug': slugify(user.get_username())
+      })
     if send_mail:
       self.send_mail(user=user, **kwargs)
     return user
+
+  def clean_username(self):
+    username = self.cleaned_data['username']
+    disallowed = (
+      'activate',
+      'create',
+      'disable',
+      'login',
+      'logout',
+      'password',
+      'profile')
+    if username in disallowed:
+      raise ValidationError(
+        "A user with that username"
+        " already exists.")
+    return username
 
   class Meta(BaseUserCreationForm.Meta):
     model = get_user_model()

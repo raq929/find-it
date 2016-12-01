@@ -26,11 +26,15 @@ from django.views.decorators.csrf import \
   csrf_protect
 from django.views.decorators.debug import \
   sensitive_post_parameters
-from django.views.generic import View
+from django.views.generic import DetailView, View
 
+
+from .decorators import class_login_required
 from .forms import (ResendActivationEmailForm,
   UserCreationForm)
-from .utils import MailContextViewMixin
+from .models import Profile
+from .utils import (MailContextViewMixin,
+  ProfileGetObjectMixin)
 
 
 class DisableAccount(View):
@@ -120,6 +124,11 @@ class ActivateAccount(View):
       return TemplateResponse(
         request,
         self.template_name)
+
+@class_login_required
+class ProfileDetail(
+  ProfileGetObjectMixin, DetailView):
+  model = Profile
 
 
 class ResendActivationEmail(

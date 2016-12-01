@@ -3,6 +3,7 @@ import traceback
 from smtplib import SMTPException
 from logging import CRITICAL, ERROR
 from django.conf import settings
+from django.contrib.auth import get_user
 from django.contrib.auth.tokens import \
   default_token_generator as token_generator
 from django.contrib.sites.shortcuts import get_current_site
@@ -15,7 +16,9 @@ from django.utils.encoding import force_bytes
 from django.utils.http import \
   urlsafe_base64_encode
 
+
 logger = logging.getLogger(__name__)
+
 
 class ActivationMailFormMixin:
   mail_validation_error = ''
@@ -156,3 +159,9 @@ class MailContextViewMixin:
       'subject_template_name':
         self.subject_template_name,
     }
+
+class ProfileGetObjectMixin:
+
+  def get_object(self, queryset=None):
+    current_user = get_user(self.request)
+    return current_user.profile

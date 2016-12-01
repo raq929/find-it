@@ -1,0 +1,19 @@
+{% extends parent_template|default:"user/base_user.html" %}
+
+{% block title %}
+  {{ block.super }} -
+  {{ profile.user.get_username }}'s Houses
+{% endblock %}
+
+{% block content %}
+  <h3>About {{ profile.user.get_username }}</h3>
+  {% if profile.house_set.all %}
+    <ul>
+      {% for house in profile.house_set.all %}
+        <a href={{ house.get_absolute_url }}><li>{{ house.name }}</li></a>
+      {% endfor %}
+    </ul>
+  {% else %}
+    You don't have any houses yet!
+  {% endif %}
+{% endblock %}
