@@ -1,8 +1,6 @@
 from django.conf.urls import url
 
 from ..views import (
-  ItemList, ItemDetail, ItemCreate, ItemCreateFromPlace, ItemUpdate, ItemDelete,
-  PlaceList, PlaceDetail, PlaceCreate, PlaceUpdate, PlaceDelete,
   RoomList, RoomDetail, RoomCreate, RoomUpdate, RoomDelete,
   search)
 

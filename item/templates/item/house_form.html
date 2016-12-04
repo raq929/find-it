@@ -1,0 +1,22 @@
+{% extends parent_template|default:"item/base_item.html" %}
+
+{% block title %}
+  {{ block.super }} - Create House
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <h3>New House</h3>
+      <form
+        action="{% url 'house_create' %}"
+        method="post"
+      >
+      {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit">
+          Create House</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

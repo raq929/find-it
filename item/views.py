@@ -10,7 +10,7 @@ from user.decorators import (
   require_authenticated_permission)
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
-from .forms import RoomForm, PlaceForm, ItemForm
+from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
 from .utils import PageLinksMixin, PlaceContextMixin
 
 @require_authenticated_permission('item.add_item')
@@ -104,6 +104,30 @@ class RoomUpdate(UpdateView):
   model = Room
   template_name = (
     'item/room_update_form.html')
+
+
+class HouseCreate(CreateView):
+  form_class = HouseForm
+  template_name = 'item/house_form.html'
+  success_url = reverse_lazy('dj-auth:profile')
+
+  def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = {
+            'initial': self.get_initial(),
+            'prefix': self.get_prefix(),
+        }
+
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+                'user': self.request.user
+            })
+        return kwargs
+
 
 # search
 

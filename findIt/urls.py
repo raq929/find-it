@@ -20,7 +20,8 @@ from django.views.generic import RedirectView, TemplateView
 from item.urls import (
   item as item_urls,
   place as place_urls,
-  room as room_urls)
+  room as room_urls,
+  house as house_urls)
 from user import urls as user_urls
 
 urlpatterns = [
@@ -34,6 +35,7 @@ urlpatterns = [
   url(r'^item/', include(item_urls)),
   url(r'^place/', include(place_urls)),
   url(r'^room/', include(room_urls)),
+  url(r'^house/', include(house_urls)),
   url(r'^user/', include(
     user_urls,
     app_name='user',
