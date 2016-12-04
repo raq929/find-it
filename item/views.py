@@ -11,7 +11,8 @@ from user.decorators import (
 from .search import get_query, normalize_query
 from .models import Item, Place, Room
 from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
-from .utils import PageLinksMixin, PlaceContextMixin
+from .utils import (HouseContextMixin,
+  PageLinksMixin, PlaceContextMixin, RoomGetObjectMixin)
 
 @require_authenticated_permission('item.add_item')
 class ItemCreate(CreateView):
@@ -83,23 +84,27 @@ class PlaceUpdate(UpdateView):
     'item/place_update_form.html')
 
 @require_authenticated_permission('item.add_room')
-class RoomCreate(CreateView):
+class RoomCreate(HouseContextMixin,
+  RoomGetObjectMixin, CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
 
-class RoomList(ListView):
+class RoomList(HouseContextMixin, RoomGetObjectMixin, ListView):
   model = Room
 
-class RoomDetail(DetailView):
+class RoomDetail(HouseContextMixin,
+  RoomGetObjectMixin, DetailView):
   model = Room
 
 @require_authenticated_permission('item.delete_room')
-class RoomDelete(DeleteView):
+class RoomDelete(HouseContextMixin,
+  RoomGetObjectMixin, DeleteView):
   model = Room
   success_url = reverse_lazy('room_list')
 
 @require_authenticated_permission('item.change_room')
-class RoomUpdate(UpdateView):
+class RoomUpdate(HouseContextMixin,
+  RoomGetObjectMixin, UpdateView):
   form_class= RoomForm
   model = Room
   template_name = (

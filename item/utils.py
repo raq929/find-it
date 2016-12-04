@@ -1,6 +1,36 @@
 from django.shortcuts import get_object_or_404
 
-from .models import Place
+from .models import Place, House
+
+class HouseContextMixin():
+  house_slug_url_kwarg = 'house_slug'
+  house_context_object_name = 'house'
+
+  def get_context_data(self, **kwargs):
+    house_slug = self.kwargs.get(
+      self.house_slug_url_kwarg)
+    house = get_object_or_404(
+      House,
+      slug__iexact=house_slug)
+    context = {
+      self.house_context_object_name:
+        house,
+    }
+    print(context)
+    context.update(kwargs)
+    print(context)
+    return super().get_context_data(**context)
+
+class RoomGetObjectMixin():
+
+  def get_object(self, queryset=None):
+    house_slug = self.kwargs.get(
+      self.house_slug_url_kwarg)
+    room_slug = self.kwargs.get(self.slug_url_kwarg)
+    return get_object_or_404(
+      Room,
+      slug__iexact=room_slug,
+      house_slug__iexact=house_slug)
 
 class PlaceContextMixin():
   place_slug_url_kwarg = 'place_slug'
@@ -77,3 +107,4 @@ class PageLinksMixin:
             self.next_page(page),
         })
     return context
+

@@ -20,12 +20,13 @@
     <div>
       <nav>
         <ul>
+          {% if house %}
           <a href="{% url 'item_search' %}">
             <li>
               Find It!
             </li>
           </a>
-          <a href="{% url 'room_list' %}">
+          <a href="{{ house.get_room_list_url }}">
             <li>
               Rooms
             </li>
@@ -40,6 +41,7 @@
               Things
             </li>
           </a>
+          {% endif %}
           <a href="{% url 'about_site' %}">
             <li>
               About

@@ -17,16 +17,21 @@ class House(models.Model):
     ordering = ['name']
 
   def get_absolute_url(self):
-    return reverse('room_detail',
+    return reverse('house_detail',
                     kwargs={ 'slug': self.slug })
 
   def get_update_url(self):
-    return reverse('room_update',
+    return reverse('house_update',
                     kwargs={ 'slug': self.slug })
 
   def get_delete_url(self):
-    return reverse('room_delete',
+    return reverse('house_delete',
                     kwargs={ 'slug': self.slug })
+
+  def get_room_list_url(self):
+    return reverse('room_list',
+      kwargs={'house_slug': self.slug})
+
 
 class Room(models.Model):
   name = models.CharField(max_length=63)
@@ -44,15 +49,23 @@ class Room(models.Model):
 
   def get_absolute_url(self):
     return reverse('room_detail',
-                    kwargs={ 'slug': self.slug })
+                    kwargs={ 'room_slug': self.slug,
+                             'house_slug': self.house.slug })
+
+  def get_create_url(self):
+    return reverse('room_create',
+                    kwargs={ 'room_slug': self.slug,
+                             'house_slug': self.house.slug })
 
   def get_update_url(self):
     return reverse('room_update',
-                    kwargs={ 'slug': self.slug })
+                    kwargs={ 'room_slug': self.slug,
+                            'house_slug': self.house.slug })
 
   def get_delete_url(self):
     return reverse('room_delete',
-                    kwargs={ 'slug': self.slug })
+                    kwargs={ 'room_slug': self.slug,
+                            'house_slug': self.house.slug })
 
 
 class Place(models.Model):
