@@ -7,9 +7,9 @@
 
 {% block content %}
   <h3>About {{ profile.user.get_username }}</h3>
-  {% if profile.house_set.all %}
+  {% if profile.houses.all %}
     <ul>
-      {% for house in profile.house_set.all %}
+      {% for house in profile.houses.all %}
         <a href={{ house.get_absolute_url }}><li>{{ house.name }}</li></a>
       {% endfor %}
     </ul>

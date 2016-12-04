@@ -50,6 +50,9 @@
 
       <header>
         <ul class='auth'>
+          <a href="{% url 'dj-auth:profile' %}">
+            <li>Choose a house</li>
+          </a>
           {% if user.is_authenticated %}
           <a href="{% url 'dj-auth:logout' %}">
             <li>Log Out</li>
