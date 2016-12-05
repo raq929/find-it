@@ -1,12 +1,19 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
-from .models import Place, House
+
+from .models import Place, House, Room
 
 class HouseContextMixin():
   house_slug_url_kwarg = 'house_slug'
   house_context_object_name = 'house'
 
   def get_context_data(self, **kwargs):
+    if hasattr(self, 'house'):
+      context = {
+        self.place_context_object_name:
+            self.house,
+      }
     house_slug = self.kwargs.get(
       self.house_slug_url_kwarg)
     house = get_object_or_404(
@@ -16,9 +23,7 @@ class HouseContextMixin():
       self.house_context_object_name:
         house,
     }
-    print(context)
     context.update(kwargs)
-    print(context)
     return super().get_context_data(**context)
 
 class RoomGetObjectMixin():
@@ -30,7 +35,7 @@ class RoomGetObjectMixin():
     return get_object_or_404(
       Room,
       slug__iexact=room_slug,
-      house_slug__iexact=house_slug)
+      house__slug__iexact=house_slug)
 
 class PlaceContextMixin():
   place_slug_url_kwarg = 'place_slug'
@@ -108,3 +113,11 @@ class PageLinksMixin:
         })
     return context
 
+class RoomFormMixin():
+  def form_valid(self, form):
+    house = get_object_or_404(
+      House,
+      slug__iexact=self.kwargs.get(self.house_slug_url_kwarg))
+    self.object = form.save(
+      house_obj=house)
+    return HttpResponseRedirect(self.get_success_url())
