@@ -41,7 +41,6 @@ class Room(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(
     max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   house = models.ForeignKey(House, on_delete=models.CASCADE)
 
@@ -50,6 +49,7 @@ class Room(models.Model):
 
   class Meta:
     ordering = ['name']
+    unique_together = ('slug', 'house')
 
   def get_absolute_url(self):
     return reverse('room_detail',
@@ -77,16 +77,17 @@ class Room(models.Model):
 class Place(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   description = models.TextField()
   room = models.ForeignKey(Room, on_delete=models.CASCADE)
+  house = models.ForeignKey(House, on_delete=models.CASCADE)
 
   def __str__(self):
     return "{} in {}".format(self.name, self.room)
 
   class Meta:
     ordering = ['name']
+    unique_together = ('slug', 'house')
 
   def get_absolute_url(self):
     return reverse('place_detail',
@@ -111,16 +112,17 @@ class Item(models.Model):
     unique=True)
   slug = models.SlugField(
     max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   date_updated = models.DateField('date last seen in this place')
   place = models.ForeignKey(Place, on_delete=models.CASCADE)
+  house = models.ForeignKey(House, on_delete=models.CASCADE)
 
   def __str__(self):
     return "{} in {}".format(self.name, self.place)
 
   class Meta:
     ordering = ['name']
+    unique_together = ('slug', 'house')
 
   def get_absolute_url(self):
     return reverse('item_detail',
