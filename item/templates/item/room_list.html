@@ -35,7 +35,7 @@
   </ul>
   <ul class='buttons'>
     {% if perms.item.add_room %}
-      <li><a class='new button' href="{{ room.get_create_url }}">New Room</a></li>
+      <li><a class='new button' href="{{ house.get_room_create_url }}">New Room</a></li>
      {% endif %}
     {% if perms.item.add_place %}
       <li><a class='new button' href="{% url 'place_create' %}">New Place</a></li>

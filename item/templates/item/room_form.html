@@ -9,7 +9,7 @@
     <div>
       <h3>New Room</h3>
       <form
-        action="{% url 'room_create' %}"
+        action="{{ house.get_room_create_url }}"
         method="post"
       >
       {% csrf_token %}
