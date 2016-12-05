@@ -34,9 +34,9 @@ urlpatterns = [
     name='about_site'),
   url(r'^item/', include(item_urls)),
   url(r'^place/', include(place_urls)),
-  url(r'^house/', include(house_urls)),
   url(r'^user/', include(
     user_urls,
     app_name='user',
     namespace='dj-auth')),
+  url(r'^', include(house_urls)),
 ]
