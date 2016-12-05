@@ -34,7 +34,6 @@ urlpatterns = [
     name='about_site'),
   url(r'^item/', include(item_urls)),
   url(r'^place/', include(place_urls)),
-  url(r'^room/', include(room_urls)),
   url(r'^house/', include(house_urls)),
   url(r'^user/', include(
     user_urls,

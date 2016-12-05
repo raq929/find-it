@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.views.generic import RedirectView
 
 from ..views import (
-  HouseCreate)
+  HouseCreate, RoomCreate)
 from . import (
   item as item_urls,
   place as place_urls,
@@ -15,4 +15,13 @@ urlpatterns = [
     name='house_create'),
   url(r'^(?P<house_slug>[\w\-]+)/'
       r'room/', include(room_urls)),
+  url(r'^(?P<house_slug>[\w\-]+)/'
+    r'add_room/$',
+    RoomCreate.as_view(),
+    name='room_create'),
+  url(r'^(?P<slug>[\w\-]+)/$',
+      RedirectView.as_view(
+        pattern_name='item_search',
+        permanent=False),
+        name='house_detail'),
 ]

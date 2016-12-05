@@ -9,10 +9,11 @@ from user.decorators import (
   class_login_required,
   require_authenticated_permission)
 from .search import get_query, normalize_query
-from .models import Item, Place, Room
+from .models import Item, Place, Room, House
 from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
 from .utils import (HouseContextMixin,
-  PageLinksMixin, PlaceContextMixin, RoomGetObjectMixin)
+  PageLinksMixin, PlaceContextMixin,
+  RoomFormMixin, RoomGetObjectMixin)
 
 @require_authenticated_permission('item.add_item')
 class ItemCreate(CreateView):
@@ -85,9 +86,20 @@ class PlaceUpdate(UpdateView):
 
 @require_authenticated_permission('item.add_room')
 class RoomCreate(HouseContextMixin,
-  RoomGetObjectMixin, CreateView):
+  RoomFormMixin, RoomGetObjectMixin, CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
+
+  def get_initial(self):
+    house_slug = self.kwargs.get(self.house_slug_url_kwarg)
+    self.house = get_object_or_404(House, slug__iexact=house_slug)
+    initial = {
+      self.house_context_object_name:
+        self.house
+    }
+    initial.update(self.initial)
+    return initial
+
 
 class RoomList(HouseContextMixin, RoomGetObjectMixin, ListView):
   model = Room
@@ -95,18 +107,23 @@ class RoomList(HouseContextMixin, RoomGetObjectMixin, ListView):
 class RoomDetail(HouseContextMixin,
   RoomGetObjectMixin, DetailView):
   model = Room
+  slug_url_kwarg = 'room_slug'
 
 @require_authenticated_permission('item.delete_room')
 class RoomDelete(HouseContextMixin,
   RoomGetObjectMixin, DeleteView):
   model = Room
-  success_url = reverse_lazy('room_list')
+  slug_url_kwarg = 'room_slug'
+
+  def get_success_url(self):
+        return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_room')
 class RoomUpdate(HouseContextMixin,
   RoomGetObjectMixin, UpdateView):
   form_class= RoomForm
   model = Room
+  slug_url_kwarg = 'room_slug'
   template_name = (
     'item/room_update_form.html')
 
