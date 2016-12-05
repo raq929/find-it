@@ -13,7 +13,7 @@ from .models import Item, Place, Room, House
 from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
 from .utils import (HouseContextMixin,
   PageLinksMixin, PlaceContextMixin,
-  RoomFormMixin, RoomGetObjectMixin)
+  AddHouseToFormMixin, GetObjectMixin)
 
 @require_authenticated_permission('item.add_item')
 class ItemCreate(CreateView):
@@ -86,7 +86,7 @@ class PlaceUpdate(UpdateView):
 
 @require_authenticated_permission('item.add_room')
 class RoomCreate(HouseContextMixin,
-  RoomFormMixin, RoomGetObjectMixin, CreateView):
+  AddHouseToFormMixin, GetObjectMixin, CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
 
@@ -101,17 +101,17 @@ class RoomCreate(HouseContextMixin,
     return initial
 
 
-class RoomList(HouseContextMixin, RoomGetObjectMixin, ListView):
+class RoomList(HouseContextMixin, GetObjectMixin, ListView):
   model = Room
 
 class RoomDetail(HouseContextMixin,
-  RoomGetObjectMixin, DetailView):
+  GetObjectMixin, DetailView):
   model = Room
   slug_url_kwarg = 'room_slug'
 
 @require_authenticated_permission('item.delete_room')
 class RoomDelete(HouseContextMixin,
-  RoomGetObjectMixin, DeleteView):
+  GetObjectMixin, DeleteView):
   model = Room
   slug_url_kwarg = 'room_slug'
 
@@ -120,7 +120,7 @@ class RoomDelete(HouseContextMixin,
 
 @require_authenticated_permission('item.change_room')
 class RoomUpdate(HouseContextMixin,
-  RoomGetObjectMixin, UpdateView):
+  GetObjectMixin, UpdateView):
   form_class= RoomForm
   model = Room
   slug_url_kwarg = 'room_slug'
