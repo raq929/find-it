@@ -93,6 +93,9 @@
         {% endif %}
       </aside>
       <main>
+        {% if house%}
+        <h1>{{ house.name }}</h1>
+        {% endif %}
         {% block content%}
           This is default content!
         {% endblock %}
