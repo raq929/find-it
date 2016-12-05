@@ -26,15 +26,16 @@ class HouseContextMixin():
     context.update(kwargs)
     return super().get_context_data(**context)
 
-class RoomGetObjectMixin():
+
+class GetObjectMixin():
 
   def get_object(self, queryset=None):
     house_slug = self.kwargs.get(
       self.house_slug_url_kwarg)
-    room_slug = self.kwargs.get(self.slug_url_kwarg)
+    slug = self.kwargs.get(self.slug_url_kwarg)
     return get_object_or_404(
       Room,
-      slug__iexact=room_slug,
+      slug__iexact=slug,
       house__slug__iexact=house_slug)
 
 class PlaceContextMixin():
@@ -113,7 +114,7 @@ class PageLinksMixin:
         })
     return context
 
-class RoomFormMixin():
+class AddHouseToFormMixin():
   def form_valid(self, form):
     house = get_object_or_404(
       House,
@@ -121,3 +122,4 @@ class RoomFormMixin():
     self.object = form.save(
       house_obj=house)
     return HttpResponseRedirect(self.get_success_url())
+
