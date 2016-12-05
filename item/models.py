@@ -32,6 +32,10 @@ class House(models.Model):
     return reverse('room_list',
       kwargs={'house_slug': self.slug})
 
+  def get_room_create_url(self):
+    return reverse('room_create',
+      kwargs={ 'house_slug': self.slug })
+
 
 class Room(models.Model):
   name = models.CharField(max_length=63)
@@ -51,11 +55,13 @@ class Room(models.Model):
     return reverse('room_detail',
                     kwargs={ 'room_slug': self.slug,
                              'house_slug': self.house.slug })
+  def get_list_url(self):
+    return reverse('room_list',
+                    kwargs={ 'house_slug': self.house.slug })
 
   def get_create_url(self):
     return reverse('room_create',
-                    kwargs={ 'room_slug': self.slug,
-                             'house_slug': self.house.slug })
+                    kwargs={ 'house_slug': self.house.slug })
 
   def get_update_url(self):
     return reverse('room_update',
