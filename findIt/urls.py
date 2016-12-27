@@ -18,9 +18,6 @@ from django.contrib import admin
 from django.views.generic import RedirectView, TemplateView
 
 from item.urls import (
-  item as item_urls,
-  place as place_urls,
-  room as room_urls,
   house as house_urls)
 from user import urls as user_urls
 
@@ -32,7 +29,6 @@ urlpatterns = [
   url(r'^about/$', TemplateView.as_view(
     template_name='site/about.html'),
     name='about_site'),
-  url(r'^item/', include(item_urls)),
   url(r'^house/', include(house_urls)),
   url(r'^user/', include(
     user_urls,

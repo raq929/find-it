@@ -21,6 +21,8 @@ urlpatterns = [
     name='room_create'),
   url(r'^(?P<house_slug>[\w\-]+)/'
       r'place/', include(place_urls)),
+  url(r'^(?P<house_slug>[\w\-]+)/'
+      r'item/', include(item_urls)),
   url(r'^(?P<slug>[\w\-]+)/$',
       RedirectView.as_view(
         pattern_name='item_search',

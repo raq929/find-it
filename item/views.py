@@ -21,7 +21,7 @@ class ItemCreate(CreateView):
   template_name = 'item/item_form.html'
 
 @require_authenticated_permission('item.add_item')
-class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
+class ItemCreateFromPlace(PlaceContextMixin, HouseContextMixin, ItemCreate):
   def get_initial(self):
     if self.request.method == 'GET':
       place_slug = self.kwargs.get(
@@ -38,25 +38,29 @@ class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
     return super().get_initial()
 
 @require_authenticated_permission('item.delete_item')
-class ItemDelete(DeleteView):
+class ItemDelete(HouseContextMixin, DeleteView):
   model = Item
-  success_url = reverse_lazy('item_list')
+  slug_url_kwarg = 'item_slug'
+  def get_success_url(self):
+        return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_item')
-class ItemUpdate(UpdateView):
+class ItemUpdate(HouseContextMixin, UpdateView):
   form_class = ItemForm
   model = Item
+  slug_url_kwarg = 'item_slug'
   template_name = (
     'item/item_update_form.html')
 
-class ItemList(PageLinksMixin, ListView):
+class ItemList(HouseContextMixin, PageLinksMixin, ListView):
   model = Item
   page_kwarg = 'page'
   paginate_by = 5 # 5 items per page
 
 
-class ItemDetail(DetailView):
+class ItemDetail(HouseContextMixin, DetailView):
   model = Item
+  slug_url_kwarg = 'item_slug'
 
 @require_authenticated_permission('item.add_place')
 class PlaceCreate(HouseContextMixin, CreateView):

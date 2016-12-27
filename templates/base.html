@@ -21,7 +21,7 @@
       <nav>
         <ul>
           {% if house %}
-          <a href="{% url 'item_search' %}">
+          <a href="{{ house.get_search_url }}">
             <li>
               Find It!
             </li>
@@ -36,7 +36,7 @@
               Places
             </li>
           </a>
-          <a href="{% url 'item_list' %}">
+          <a href="{{ house.get_item_list_url }}">
             <li>
               Things
             </li>

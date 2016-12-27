@@ -9,7 +9,7 @@
     <div>
       <h3>New Item</h3>
       <form
-        action="{% url 'item_create' %}"
+        action="{{ item.get_create_url }}"
         method="post"
       >
       {% csrf_token %}

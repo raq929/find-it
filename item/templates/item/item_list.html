@@ -35,7 +35,7 @@
   </ul>
   <p>
   {% if perms.item.add_item %}
-    <a class='new button' href="{% url 'item_create' %}">New Item</a>
+    <a class='new button' href="{{ house.get_item_create_url }}">New Item</a>
   {% endif %}
   </p>
 {% endblock %}

@@ -28,6 +28,10 @@ class House(models.Model):
     return reverse('house_delete',
                     kwargs={ 'slug': self.slug })
 
+  def get_search_url(self):
+    return reverse('item_search',
+                    kwargs={ 'house_slug': self.slug })
+
   def get_room_list_url(self):
     return reverse('room_list',
       kwargs={'house_slug': self.slug})
@@ -36,12 +40,20 @@ class House(models.Model):
     return reverse('place_list',
       kwargs={'house_slug': self.slug})
 
+  def get_item_list_url(self):
+    return reverse('item_list',
+      kwargs={'house_slug': self.slug})
+
   def get_room_create_url(self):
     return reverse('room_create',
       kwargs={ 'house_slug': self.slug })
 
   def get_place_create_url(self):
     return reverse('place_create',
+      kwargs={ 'house_slug': self.slug })
+
+  def get_item_create_url(self):
+    return reverse('item_create',
       kwargs={ 'house_slug': self.slug })
 
 
@@ -145,13 +157,24 @@ class Item(models.Model):
 
   def get_absolute_url(self):
     return reverse('item_detail',
-                    kwargs={ 'slug': self.slug })
+                    kwargs={ 'item_slug': self.slug,
+                             'house_slug': self.place.room.house.slug })
+
+  def get_list_url(self):
+    return reverse('item_list',
+                    kwargs={ 'house_slug': self.place.room.house.slug })
+
+  def get_create_url(self):
+    return reverse('item_create',
+                    kwargs={ 'house_slug': self.place.room.house.slug })
 
   def get_update_url(self):
     return reverse('item_update',
-                    kwargs={ 'slug': self.slug })
+                    kwargs={ 'item_slug': self.slug,
+                             'house_slug': self.place.room.house.slug })
 
   def get_delete_url(self):
     return reverse('item_delete',
-                    kwargs={ 'slug': self.slug })
+                    kwargs={ 'item_slug': self.slug,
+                             'house_slug': self.place.room.house.slug })
 
