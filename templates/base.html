@@ -31,7 +31,7 @@
               Rooms
             </li>
           </a>
-          <a href="{% url 'place_list' %}">
+          <a href="{{ house.get_place_list_url }}">
             <li>
               Places
             </li>
@@ -93,7 +93,7 @@
         {% endif %}
       </aside>
       <main>
-        {% if house%}
+        {% if house %}
         <h1>{{ house.name }}</h1>
         {% endif %}
         {% block content%}

@@ -59,28 +59,32 @@ class ItemDetail(DetailView):
   model = Item
 
 @require_authenticated_permission('item.add_place')
-class PlaceCreate(CreateView):
+class PlaceCreate(HouseContextMixin, CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
 
-class PlaceList(PageLinksMixin, ListView):
+class PlaceList(HouseContextMixin, PageLinksMixin, ListView):
   model = Place
   page_kwarg = 'page'
   paginate_by = 5
 
 
-class PlaceDetail(DetailView):
+class PlaceDetail(HouseContextMixin, DetailView):
   model = Place
+  slug_url_kwarg = 'place_slug'
 
 @require_authenticated_permission('item.delete_place')
-class PlaceDelete(DeleteView):
+class PlaceDelete(HouseContextMixin, DeleteView):
   model = Place
-  success_url = reverse_lazy('place_list')
+  slug_url_kwarg = 'place_slug'
+  def get_success_url(self):
+        return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_place')
-class PlaceUpdate(UpdateView):
+class PlaceUpdate(HouseContextMixin, UpdateView):
   form_class= PlaceForm
   model = Place
+  slug_url_kwarg = 'place_slug'
   template_name = (
     'item/place_update_form.html')
 

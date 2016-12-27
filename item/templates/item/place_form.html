@@ -9,7 +9,7 @@
     <div>
       <h3>New Place</h3>
       <form
-        action="{% url 'place_create' %}"
+        action="{{ house.get_place_create_url }}"
         method="post"
       >
       {% csrf_token %}
