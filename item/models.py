@@ -163,13 +163,27 @@ class Item(models.Model):
     unique=True)
   slug = models.SlugField(
     max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   date_updated = models.DateField('date last seen in this place')
   place = models.ForeignKey(Place, on_delete=models.CASCADE)
 
   def __str__(self):
     return "{} in {}".format(self.name, self.place)
+
+  def clean(self):
+    if self.slug and self.place:
+      # find the house
+      house = self.place.room.house
+      # find all place slugs in the house
+      rooms = house.room_set.all() # querySet
+      places = [room.place_set.all() for room in rooms] # list of querySets
+      items = [place.item_set.all() for place in itertools.chain(*places)] # list of item querySets
+      item_slugs = [item.slug for item in itertools.chain(*items)]
+      # check that slug is different from all other place slugs
+      if self.slug in item_slugs:
+        raise(ValidationError('Item slug must be unique within it\'s house'))
+
+    return super().clean()
 
   class Meta:
     ordering = ['name']
