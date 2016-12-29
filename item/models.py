@@ -1,7 +1,10 @@
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 
 from django.db import models
+
+import itertools
 
 class House(models.Model):
   name = models.CharField(max_length=63)
@@ -95,16 +98,31 @@ class Room(models.Model):
                             'house_slug': self.house.slug })
 
 
+
+
 class Place(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   description = models.TextField()
   room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
   def __str__(self):
     return "{} in {}".format(self.name, self.room)
+
+  def clean(self):
+    if self.slug and self.room:
+      # find the house
+      house = self.room.house
+      # find all place slugs in the house
+      rooms = house.room_set.all() # querySet
+      places = [room.place_set.all() for room in rooms] # list of querySets
+      place_slugs = [place.slug for place in itertools.chain(*places)] # list of slug strings
+      # check that slug is different from all other place slugs
+      if self.slug in place_slugs:
+        raise(ValidationError('Place slug must be unique within it\'s house'))
+
+    return super().clean()
 
   class Meta:
     ordering = ['name']
