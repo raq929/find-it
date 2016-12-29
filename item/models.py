@@ -70,6 +70,7 @@ class Room(models.Model):
 
   class Meta:
     ordering = ['name']
+    unique_together = ('slug', 'house')
 
   def get_absolute_url(self):
     return reverse('room_detail',
