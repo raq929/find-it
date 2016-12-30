@@ -1,4 +1,4 @@
-{% extends parent_template|default:"item/base_item.html" %}
+{% extends "item/base_item.html" %}
 
 {% block title %}
   {{ block.super}} - {{ place.name|title }}
@@ -36,7 +36,7 @@
   </dd>
   {% endfor %}
 </dl>
-{% if not room.place_set.all %}
+{% if not place.item_set.all %}
   <p>There are no things in this place</p>
 {% endif %}
 <p>
