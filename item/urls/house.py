@@ -23,9 +23,9 @@ urlpatterns = [
       r'place/', include(place_urls)),
   url(r'^(?P<house_slug>[\w\-]+)/'
       r'item/', include(item_urls)),
-  url(r'^(?P<slug>[\w\-]+)/$',
+  url(r'^(?P<house_slug>[\w\-]+)/$',
       RedirectView.as_view(
         pattern_name='item_search',
         permanent=False),
-        name='house_detail'),
+      )
 ]

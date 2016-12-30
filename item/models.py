@@ -59,6 +59,10 @@ class House(models.Model):
     return reverse('item_create',
       kwargs={ 'house_slug': self.slug })
 
+  def get_search_url(self):
+    return reverse('item_search',
+                   kwargs={ 'house_slug': self.slug })
+
 
 class Room(models.Model):
   name = models.CharField(max_length=63)

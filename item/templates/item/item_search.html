@@ -7,7 +7,7 @@
 
 {% block content %}
   <h3>Find the thing!</h3>
-  <form id="searchform" action="{% url 'item_search' %}" method="get" accept-charset="utf-8">
+  <form id="searchform" action="{{ house.get_search_url }}" method="get" accept-charset="utf-8">
     <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
     <button class="search button" type="submit">
     Find it!
