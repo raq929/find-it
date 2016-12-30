@@ -47,7 +47,8 @@ class ItemDelete(HouseContextMixin, GetObjectByHouseMixin, DeleteView):
         return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_item')
-class ItemUpdate(HouseContextMixin, GetObjectByHouseMixin, UpdateView):
+class ItemUpdate(HouseContextMixin, GetObjectByHouseMixin,
+                  HouseFormFieldsMixin, UpdateView):
   form_class = ItemForm
   house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
@@ -93,7 +94,8 @@ class PlaceDelete(HouseContextMixin, GetObjectByHouseMixin, DeleteView):
         return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_place')
-class PlaceUpdate(HouseContextMixin, GetObjectByHouseMixin, UpdateView):
+class PlaceUpdate(HouseContextMixin, GetObjectByHouseMixin,
+                  HouseFormFieldsMixin, UpdateView):
   form_class= PlaceForm
   house_slug_keyword = 'room__house__slug__iexact'
   model = Place
