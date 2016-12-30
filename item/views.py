@@ -58,9 +58,10 @@ class ItemList(HouseContextMixin, PageLinksMixin, ListView):
   paginate_by = 5 # 5 items per page
 
 
-class ItemDetail(HouseContextMixin, DetailView):
+class ItemDetail(HouseContextMixin, GetObjectMixin, DetailView):
   model = Item
   slug_url_kwarg = 'item_slug'
+  house_slug_keyword = 'place__room__house__slug__iexact'
 
 @require_authenticated_permission('item.add_place')
 class PlaceCreate(HouseContextMixin, CreateView):
@@ -73,9 +74,10 @@ class PlaceList(HouseContextMixin, PageLinksMixin, ListView):
   paginate_by = 5
 
 
-class PlaceDetail(HouseContextMixin, DetailView):
+class PlaceDetail(HouseContextMixin, GetObjectMixin, DetailView):
   model = Place
   slug_url_kwarg = 'place_slug'
+  house_slug_keyword = 'room__house__slug__iexact'
 
 @require_authenticated_permission('item.delete_place')
 class PlaceDelete(HouseContextMixin, DeleteView):
