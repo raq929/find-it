@@ -116,6 +116,7 @@ class RoomDetail(HouseContextMixin,
   GetObjectMixin, DetailView):
   model = Room
   slug_url_kwarg = 'room_slug'
+  house_slug_keyword = 'house__slug__iexact'
 
 @require_authenticated_permission('item.delete_room')
 class RoomDelete(HouseContextMixin,

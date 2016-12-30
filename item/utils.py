@@ -28,15 +28,18 @@ class HouseContextMixin():
 
 
 class GetObjectMixin():
-
   def get_object(self, queryset=None):
     house_slug = self.kwargs.get(
       self.house_slug_url_kwarg)
     slug = self.kwargs.get(self.slug_url_kwarg)
+    house_slug_keyword = self.house_slug_keyword
+    slug_args = {
+      'slug__iexact': slug,
+      house_slug_keyword: house_slug,
+    }
     return get_object_or_404(
-      Room,
-      slug__iexact=slug,
-      house__slug__iexact=house_slug)
+      self.model,
+      **slug_args)
 
 class PlaceContextMixin():
   place_slug_url_kwarg = 'place_slug'
