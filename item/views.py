@@ -14,7 +14,7 @@ from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
 from .utils import (HouseContextMixin,
   PageLinksMixin, PlaceContextMixin,
   AddHouseToFormMixin, GetObjectByHouseMixin,
-  GetListByHouseMixin)
+  GetListByHouseMixin, HouseFormFieldsMixin)
 
 @require_authenticated_permission('item.add_item')
 class ItemCreate(CreateView):
@@ -68,7 +68,7 @@ class ItemDetail(HouseContextMixin, GetObjectByHouseMixin, DetailView):
   house_slug_keyword = 'place__room__house__slug__iexact'
 
 @require_authenticated_permission('item.add_place')
-class PlaceCreate(HouseContextMixin, CreateView):
+class PlaceCreate(HouseContextMixin, HouseFormFieldsMixin, CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
 

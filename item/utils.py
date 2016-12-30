@@ -26,6 +26,19 @@ class HouseContextMixin():
     context.update(kwargs)
     return super().get_context_data(**context)
 
+class HouseFormFieldsMixin():
+  # ensures that form choices are limited to the house
+  def get_form_kwargs(self):
+    kwargs = super().get_form_kwargs()
+    house_slug = self.kwargs.get(
+      self.house_slug_url_kwarg)
+    house = {
+      'house_slug':
+        house_slug,
+    }
+    new_kwargs = kwargs.update(house)
+    return kwargs
+
 
 class GetObjectByHouseMixin():
   def get_object(self, queryset=None):

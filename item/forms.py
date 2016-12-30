@@ -35,6 +35,12 @@ class RoomForm(SlugCleanMixin, forms.ModelForm):
     widgets = {'house': HiddenInput()}
 
 class PlaceForm(SlugCleanMixin, forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    house_slug = kwargs.pop('house_slug', None)
+    super(PlaceForm, self).__init__(*args, **kwargs)
+    if self.instance:
+        self.fields['room'].queryset = Room.objects.filter(house__slug=house_slug)
+
   class Meta:
     model = Place
     fields = '__all__'
