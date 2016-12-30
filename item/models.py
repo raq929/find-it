@@ -117,7 +117,7 @@ class Place(models.Model):
       # find all place slugs in the house
       rooms = house.room_set.all() # querySet
       places = [room.place_set.all() for room in rooms] # list of querySets
-      place_slugs = [place.slug for place in itertools.chain(*places)] # list of slug strings
+      place_slugs = [place.slug for place in itertools.chain(*places) if place.id != self.id] # list of slug strings
       # check that slug is different from all other place slugs
       if self.slug in place_slugs:
         raise(ValidationError('Place slug must be unique within it\'s house'))
@@ -178,7 +178,7 @@ class Item(models.Model):
       rooms = house.room_set.all() # querySet
       places = [room.place_set.all() for room in rooms] # list of querySets
       items = [place.item_set.all() for place in itertools.chain(*places)] # list of item querySets
-      item_slugs = [item.slug for item in itertools.chain(*items)]
+      item_slugs = [item.slug for item in itertools.chain(*items) if item.id != self.id]
       # check that slug is different from all other place slugs
       if self.slug in item_slugs:
         raise(ValidationError('Item slug must be unique within it\'s house'))
