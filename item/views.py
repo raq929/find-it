@@ -179,6 +179,12 @@ class HouseCreate(CreateView):
 def search(request, house_slug=None):
     query_string = ''
     found_items = None
+
+    if(house_slug):
+      house = house = get_object_or_404(
+      House,
+      slug__iexact=house_slug)
+
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
 
@@ -188,5 +194,5 @@ def search(request, house_slug=None):
 
     return render(request,
                   'item/item_search.html',
-                  { 'query_string': query_string, 'found_items': found_items },
+                  { 'query_string': query_string, 'found_items': found_items, 'house': house },
                 )
