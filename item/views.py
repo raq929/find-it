@@ -39,21 +39,24 @@ class ItemCreateFromPlace(PlaceContextMixin, HouseContextMixin, ItemCreate):
     return super().get_initial()
 
 @require_authenticated_permission('item.delete_item')
-class ItemDelete(HouseContextMixin, DeleteView):
+class ItemDelete(HouseContextMixin, GetObjectByHouseMixin, DeleteView):
+  house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
   slug_url_kwarg = 'item_slug'
   def get_success_url(self):
         return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_item')
-class ItemUpdate(HouseContextMixin, UpdateView):
+class ItemUpdate(HouseContextMixin, GetObjectByHouseMixin, UpdateView):
   form_class = ItemForm
+  house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
   slug_url_kwarg = 'item_slug'
   template_name = (
     'item/item_update_form.html')
 
-class ItemList(HouseContextMixin, PageLinksMixin, ListView):
+class ItemList(HouseContextMixin, GetListByHouseMixin, PageLinksMixin, ListView):
+  house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
   page_kwarg = 'page'
   paginate_by = 5 # 5 items per page
@@ -69,7 +72,8 @@ class PlaceCreate(HouseContextMixin, CreateView):
   form_class = PlaceForm
   template_name = 'item/place_form.html'
 
-class PlaceList(HouseContextMixin, PageLinksMixin, ListView):
+class PlaceList(HouseContextMixin, GetListByHouseMixin, PageLinksMixin, ListView):
+  house_slug_keyword = 'room__house__slug__iexact'
   model = Place
   page_kwarg = 'page'
   paginate_by = 5
@@ -81,15 +85,17 @@ class PlaceDetail(HouseContextMixin, GetObjectByHouseMixin, DetailView):
   house_slug_keyword = 'room__house__slug__iexact'
 
 @require_authenticated_permission('item.delete_place')
-class PlaceDelete(HouseContextMixin, DeleteView):
+class PlaceDelete(HouseContextMixin, GetObjectByHouseMixin, DeleteView):
+  house_slug_keyword = 'room__house__slug__iexact'
   model = Place
   slug_url_kwarg = 'place_slug'
   def get_success_url(self):
         return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_place')
-class PlaceUpdate(HouseContextMixin, UpdateView):
+class PlaceUpdate(HouseContextMixin, GetObjectByHouseMixin, UpdateView):
   form_class= PlaceForm
+  house_slug_keyword = 'room__house__slug__iexact'
   model = Place
   slug_url_kwarg = 'place_slug'
   template_name = (
