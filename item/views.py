@@ -17,12 +17,12 @@ from .utils import (HouseContextMixin,
   GetListByHouseMixin, HouseFormFieldsMixin)
 
 @require_authenticated_permission('item.add_item')
-class ItemCreate(CreateView):
+class ItemCreate(HouseContextMixin, HouseFormFieldsMixin, CreateView):
   form_class = ItemForm
   template_name = 'item/item_form.html'
 
 @require_authenticated_permission('item.add_item')
-class ItemCreateFromPlace(PlaceContextMixin, HouseContextMixin, ItemCreate):
+class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
   def get_initial(self):
     if self.request.method == 'GET':
       place_slug = self.kwargs.get(

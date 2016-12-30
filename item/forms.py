@@ -46,6 +46,12 @@ class PlaceForm(SlugCleanMixin, forms.ModelForm):
     fields = '__all__'
 
 class ItemForm(SlugCleanMixin, forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    house_slug = kwargs.pop('house_slug', None)
+    super(ItemForm, self).__init__(*args, **kwargs)
+    if self.instance:
+        self.fields['place'].queryset = Place.objects.filter(room__house__slug=house_slug)
+
   class Meta:
     model = Item
     fields = '__all__'
