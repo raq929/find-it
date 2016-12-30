@@ -13,7 +13,8 @@ from .models import Item, Place, Room, House
 from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
 from .utils import (HouseContextMixin,
   PageLinksMixin, PlaceContextMixin,
-  AddHouseToFormMixin, GetObjectMixin)
+  AddHouseToFormMixin, GetObjectByHouseMixin,
+  GetListByHouseMixin)
 
 @require_authenticated_permission('item.add_item')
 class ItemCreate(CreateView):
@@ -58,7 +59,7 @@ class ItemList(HouseContextMixin, PageLinksMixin, ListView):
   paginate_by = 5 # 5 items per page
 
 
-class ItemDetail(HouseContextMixin, GetObjectMixin, DetailView):
+class ItemDetail(HouseContextMixin, GetObjectByHouseMixin, DetailView):
   model = Item
   slug_url_kwarg = 'item_slug'
   house_slug_keyword = 'place__room__house__slug__iexact'
@@ -74,7 +75,7 @@ class PlaceList(HouseContextMixin, PageLinksMixin, ListView):
   paginate_by = 5
 
 
-class PlaceDetail(HouseContextMixin, GetObjectMixin, DetailView):
+class PlaceDetail(HouseContextMixin, GetObjectByHouseMixin, DetailView):
   model = Place
   slug_url_kwarg = 'place_slug'
   house_slug_keyword = 'room__house__slug__iexact'
@@ -96,7 +97,7 @@ class PlaceUpdate(HouseContextMixin, UpdateView):
 
 @require_authenticated_permission('item.add_room')
 class RoomCreate(HouseContextMixin,
-  AddHouseToFormMixin, GetObjectMixin, CreateView):
+  AddHouseToFormMixin, GetObjectByHouseMixin, CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
 
@@ -111,30 +112,34 @@ class RoomCreate(HouseContextMixin,
     return initial
 
 
-class RoomList(HouseContextMixin, GetObjectMixin, ListView):
+class RoomList(HouseContextMixin, GetListByHouseMixin, ListView):
   model = Room
+  slug_url_kwarg = 'room_slug'
+  house_slug_keyword = 'house__slug__iexact'
 
 class RoomDetail(HouseContextMixin,
-  GetObjectMixin, DetailView):
+  GetObjectByHouseMixin, DetailView):
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
 
 @require_authenticated_permission('item.delete_room')
 class RoomDelete(HouseContextMixin,
-  GetObjectMixin, DeleteView):
+  GetObjectByHouseMixin, DeleteView):
   model = Room
   slug_url_kwarg = 'room_slug'
+  house_slug_keyword = 'house__slug__iexact'
 
   def get_success_url(self):
         return (self.object.get_list_url())
 
 @require_authenticated_permission('item.change_room')
 class RoomUpdate(HouseContextMixin,
-  GetObjectMixin, UpdateView):
+  GetObjectByHouseMixin, UpdateView):
   form_class= RoomForm
   model = Room
   slug_url_kwarg = 'room_slug'
+  house_slug_keyword = 'house__slug__iexact'
   template_name = (
     'item/room_update_form.html')
 

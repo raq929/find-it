@@ -27,7 +27,7 @@ class HouseContextMixin():
     return super().get_context_data(**context)
 
 
-class GetObjectMixin():
+class GetObjectByHouseMixin():
   def get_object(self, queryset=None):
     house_slug = self.kwargs.get(
       self.house_slug_url_kwarg)
@@ -40,6 +40,18 @@ class GetObjectMixin():
     return get_object_or_404(
       self.model,
       **slug_args)
+
+class GetListByHouseMixin():
+  def get_queryset(self):
+    house_slug = self.kwargs.get(
+        self.house_slug_url_kwarg)
+    house_slug_keyword = self.house_slug_keyword
+    model = self.model
+    house_filter = {
+      house_slug_keyword: house_slug
+    }
+    return model.objects.all().filter(**house_filter)
+
 
 class PlaceContextMixin():
   place_slug_url_kwarg = 'place_slug'
