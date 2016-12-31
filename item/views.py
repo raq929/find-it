@@ -43,6 +43,8 @@ class ItemDelete(HouseContextMixin, GetObjectByHouseMixin, DeleteView):
   house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
   slug_url_kwarg = 'item_slug'
+  queryset = Item.objects.select_related('place__room__house')
+
   def get_success_url(self):
         return (self.object.get_list_url())
 
@@ -55,18 +57,21 @@ class ItemUpdate(HouseContextMixin, GetObjectByHouseMixin,
   slug_url_kwarg = 'item_slug'
   template_name = (
     'item/item_update_form.html')
+  queryset = Item.objects.select_related('place__room__house')
 
 class ItemList(HouseContextMixin, GetListByHouseMixin, PageLinksMixin, ListView):
   house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
   page_kwarg = 'page'
   paginate_by = 5 # 5 items per page
+  queryset = Item.objects.select_related('place__room__house')
 
 
 class ItemDetail(HouseContextMixin, GetObjectByHouseMixin, DetailView):
   model = Item
   slug_url_kwarg = 'item_slug'
   house_slug_keyword = 'place__room__house__slug__iexact'
+  queryset = Item.objects.select_related('place__room__house')
 
 @require_authenticated_permission('item.add_place')
 class PlaceCreate(HouseContextMixin, HouseFormFieldsMixin, CreateView):
