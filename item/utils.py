@@ -62,6 +62,7 @@ class GetObjectByHouseMixin():
 class GetListByHouseMixin():
   """Gets a list of objects within a specified house"""
   def get_queryset(self):
+    queryset = super().get_queryset()
     house_slug = self.kwargs.get(
         self.house_slug_url_kwarg)
     house_slug_keyword = self.house_slug_keyword
@@ -69,7 +70,7 @@ class GetListByHouseMixin():
     house_filter = {
       house_slug_keyword: house_slug
     }
-    return model.objects.all().filter(**house_filter)
+    return queryset.filter(**house_filter)
 
 
 class PlaceContextMixin():
