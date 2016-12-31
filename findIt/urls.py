@@ -21,6 +21,9 @@ from item.urls import (
   house as house_urls)
 from user import urls as user_urls
 
+admin.site.site_header = 'Find It Admin'
+admin.site.site_title = 'Find It Site Admin'
+
 urlpatterns = [
   url(r'^$', RedirectView.as_view(
       pattern_name='dj-auth:login',
