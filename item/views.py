@@ -124,12 +124,14 @@ class RoomList(HouseContextMixin, GetListByHouseMixin, ListView):
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
+  queryset = Room.objects.select_related('house')
 
 class RoomDetail(HouseContextMixin,
   GetObjectByHouseMixin, DetailView):
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
+  queryset = Room.objects.select_related('house')
 
 @require_authenticated_permission('item.delete_room')
 class RoomDelete(HouseContextMixin,
@@ -137,6 +139,7 @@ class RoomDelete(HouseContextMixin,
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
+  queryset = Room.objects.select_related('house')
 
   def get_success_url(self):
         return (self.object.get_list_url())
@@ -150,6 +153,7 @@ class RoomUpdate(HouseContextMixin,
   house_slug_keyword = 'house__slug__iexact'
   template_name = (
     'item/room_update_form.html')
+  queryset = Room.objects.select_related('house')
 
 
 class HouseCreate(CreateView):
