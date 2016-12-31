@@ -18,6 +18,8 @@ for my general app set-up and development approach.
 Setup:
   1. I recommend developing in a virtualenv
   1. You must install django, postgresSQL and psychopg2
+  1. For debugging, set DEBUG to `true` in settings and install the [debug toolbar](http://django-debug-toolbar.readthedocs.io/en/latest/installation.html):
+     `pip install django-debug-toolbar`
   1. Create the database (in bash: `psql`, in postgreSQL: `CREATE DATABASE findit;`)
   1. Give a user permissions to the `findit` database: `GRANT ALL PRIVILEGES ON DATABASE findit TO <user>;`
   1. Add your postgress password (PASSWORD) and (SECRET_TOKEN) as environment variables.
