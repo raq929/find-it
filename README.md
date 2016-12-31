@@ -15,6 +15,8 @@ for my general app set-up and development approach.
 
 ## Development
 
+This app was developed using Django 10.3
+
 Setup:
   1. I recommend developing in a virtualenv
   1. You must install django, postgresSQL and psychopg2
