@@ -23,18 +23,20 @@
     {% endif %}
   </ul>
 <dl>
-  <dt>Place{{ room.place_set.count|pluralize }}</dt>
-  {% if room.place_set.all %}
-  {% for place in room.place_set.all %}
-  <dd>
-    <a href="{{ place.get_absolute_url }}">
-    {{ place.name }}
-    </a>
-  </dd>
-  {% endfor %}
-  {% endif %}
+  {% with place_list=room.place_set.all %}
+    <dt>Place{{ place_list|pluralize }}</dt>
+    {% if place_list %}
+      {% for place in place_list %}
+        <dd>
+          <a href="{{ place.get_absolute_url }}">
+          {{ place.name }}
+          </a>
+        </dd>
+      {% endfor %}
+    {% endif %}
 </dl>
-  {% if not room.place_set.all %}
-    <p>There are no places in this room</p>
-  {% endif %}
+    {% if not place_list %}
+      <p>There are no places in this room</p>
+    {% endif %}
+  {% endwith %}
 {% endblock %}

@@ -27,18 +27,20 @@
 <dl>
   <dt>Description</dt>
     <dd>{{ place.description|linebreaks }}
-  <dt><h4>Thing{{ place.item_set.count|pluralize }} in this place<h4></dt>
-  {% for item in place.item_set.all %}
-  <dd>
-    <a href="{{ item.get_absolute_url }}">
-    {{ item.name }}
-    </a>
-  </dd>
-  {% endfor %}
+  {% with item_list=place.item_set.all %}
+    <dt><h4>Thing{{ item_list|pluralize }} in this place<h4></dt>
+    {% for item in item_list %}
+    <dd>
+      <a href="{{ item.get_absolute_url }}">
+      {{ item.name }}
+      </a>
+    </dd>
+    {% endfor %}
 </dl>
-{% if not place.item_set.all %}
-  <p>There are no things in this place</p>
-{% endif %}
+    {% if not item_list %}
+      <p>There are no things in this place</p>
+    {% endif %}
+  {% endwith %}
 <p>
   {% if perms.item.add_item %}
   <a href="{{ place.get_item_create_url }}"
