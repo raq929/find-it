@@ -20,8 +20,8 @@ class House(models.Model):
     ordering = ['name']
 
   def get_absolute_url(self):
-    return reverse('house_detail',
-                    kwargs={ 'slug': self.slug })
+    return reverse('item_search',
+                    kwargs={ 'house_slug': self.slug })
 
   def get_update_url(self):
     return reverse('house_update',
