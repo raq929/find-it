@@ -174,6 +174,13 @@ class HouseCreate(CreateView):
             })
         return kwargs
 
+@require_authenticated_permission('item.delete_house')
+class HouseDelete(DeleteView):
+  model = House
+
+  def get_success_url(self):
+        return reverse_lazy('dj-auth:profile')
+
 @require_authenticated_permission('item.change_house')
 class HouseUpdate(UpdateView):
   form_class= HouseForm

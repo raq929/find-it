@@ -1,0 +1,27 @@
+{% extends "item/base_item.html" %}
+
+{% block title %}
+{{ block.super }} - Delete House
+{% endblock %}
+
+{% block item_content %}
+  <div>
+    <div>
+      <form
+        action="{{ house.get_delete_url }}"
+        method="post"
+      >
+      {% csrf_token %}
+      <p>
+        Are you sure you want to delete
+        {{ house.name|title }}?
+        This will delete all rooms, places, and items in the house.
+      </p>
+      <a class='button' href="{{ house.get_absolute_url }}">
+        Cancel</a>
+      <button class='button' type="submit">
+        Delete House</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
