@@ -78,18 +78,21 @@ class PlaceList(HouseContextMixin, GetListByHouseMixin, PageLinksMixin, ListView
   model = Place
   page_kwarg = 'page'
   paginate_by = 5
-
+  queryset = Place.objects.select_related('room__house')
 
 class PlaceDetail(HouseContextMixin, GetObjectByHouseMixin, DetailView):
   model = Place
   slug_url_kwarg = 'place_slug'
   house_slug_keyword = 'room__house__slug__iexact'
+  queryset = Place.objects.select_related('room__house')
 
 @require_authenticated_permission('item.delete_place')
 class PlaceDelete(HouseContextMixin, GetObjectByHouseMixin, DeleteView):
   house_slug_keyword = 'room__house__slug__iexact'
   model = Place
   slug_url_kwarg = 'place_slug'
+  queryset = Place.objects.select_related('room__house')
+
   def get_success_url(self):
         return (self.object.get_list_url())
 
@@ -102,6 +105,7 @@ class PlaceUpdate(HouseContextMixin, GetObjectByHouseMixin,
   slug_url_kwarg = 'place_slug'
   template_name = (
     'item/place_update_form.html')
+  queryset = Place.objects.select_related('room__house')
 
 @require_authenticated_permission('item.add_room')
 class RoomCreate(HouseContextMixin,
