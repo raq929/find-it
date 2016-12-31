@@ -1,4 +1,4 @@
-{% extends parent_template|default:"user/base_user.html" %}
+{% extends "user/base_user.html" %}
 
 {% block title %}
   {{ block.super }} -
@@ -10,10 +10,17 @@
   {% if profile.houses.all %}
     <ul>
       {% for house in profile.houses.all %}
-        <a href={{ house.get_absolute_url }}><li>{{ house.name }}</li></a>
+        <li>
+          <a href='{{ house.get_absolute_url }}'>{{ house.name }}</a>
+          <ul>
+            <li><a href='{{ house.get_update_url }}'>Update House</a></li>
+            <li><a href='{{ house.get_delete_url }}'>Delete House</a></li>
+          </ul>
+        </li>
       {% endfor %}
     </ul>
   {% else %}
     You don't have any houses yet!
   {% endif %}
+  <a href="{% url 'house_create'%}" class='button'>Create A House</a>
 {% endblock %}
