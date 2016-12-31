@@ -177,7 +177,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Login redirects
 
-LOGIN_REDIRECT_URL = reverse_lazy('item_search')
+LOGIN_REDIRECT_URL = reverse_lazy('dj-auth:profile')
 LOGIN_URL = reverse_lazy('dj-auth:login')
 LOGOUT_URL = reverse_lazy('dj-auth:logout')
 REDIRECT_FIELD_NAME = 'next'
