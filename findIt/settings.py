@@ -83,10 +83,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'loaders': [
-                ('django.template.loaders.cached.Loader', [
+               # ('django.template.loaders.cached.Loader', [
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
-                ]),
+               # ]),
             ],
         },
     },
@@ -95,9 +95,7 @@ TEMPLATES = [
 # Caches
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 600, # seconds == 10 minutes
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 
