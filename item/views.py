@@ -174,6 +174,12 @@ class HouseCreate(CreateView):
             })
         return kwargs
 
+@require_authenticated_permission('item.change_house')
+class HouseUpdate(UpdateView):
+  form_class= HouseForm
+  model = House
+  template_name = (
+    'item/house_update_form.html')
 
 # search
 def search(request, house_slug=None):

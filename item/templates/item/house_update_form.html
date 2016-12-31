@@ -1,0 +1,22 @@
+{% extends "item/base_item.html" %}
+
+{% block title %}
+  {{ block.super }} - Update House
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <h3>Update House</h3>
+      <form
+        action="{{ house.get_update_url }}"
+        method="post"
+      >
+      {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit">
+          Update House</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

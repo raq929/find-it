@@ -64,8 +64,9 @@ class HouseForm(SlugCleanMixin, forms.ModelForm):
 
   def save(self, **kwargs):
     house = super().save()
-    profile = self.user.profile
-    profile.houses.add(house)
+    if hasattr(self, 'user'):
+      profile = self.user.profile
+      profile.houses.add(house)
     return house
 
   class Meta:
