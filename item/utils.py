@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from .models import Place, House, Room
 
 class HouseContextMixin():
+  """Adds the current house to the context for rendering"""
   house_slug_url_kwarg = 'house_slug'
   house_context_object_name = 'house'
 
@@ -27,7 +28,7 @@ class HouseContextMixin():
     return super().get_context_data(**context)
 
 class HouseFormFieldsMixin():
-  # ensures that form choices are limited to the house
+  """ensures that form choices are limited to the house"""
   def get_form_kwargs(self):
     kwargs = super().get_form_kwargs()
     house_slug = self.kwargs.get(
@@ -41,6 +42,7 @@ class HouseFormFieldsMixin():
 
 
 class GetObjectByHouseMixin():
+  """Gets an object within a specified house"""
   def get_object(self, queryset=None):
     house_slug = self.kwargs.get(
       self.house_slug_url_kwarg)
@@ -55,6 +57,7 @@ class GetObjectByHouseMixin():
       **slug_args)
 
 class GetListByHouseMixin():
+  """Gets a list of objects within a specified house"""
   def get_queryset(self):
     house_slug = self.kwargs.get(
         self.house_slug_url_kwarg)
@@ -67,6 +70,7 @@ class GetListByHouseMixin():
 
 
 class PlaceContextMixin():
+  """Adds the current place to the context"""
   place_slug_url_kwarg = 'place_slug'
   place_context_object_name = 'place'
 
@@ -143,6 +147,7 @@ class PageLinksMixin:
     return context
 
 class AddHouseToFormMixin():
+  """Adds the current house to the form and saves it"""
   def form_valid(self, form):
     house = get_object_or_404(
       House,
