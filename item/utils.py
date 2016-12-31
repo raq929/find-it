@@ -44,6 +44,9 @@ class HouseFormFieldsMixin():
 class GetObjectByHouseMixin():
   """Gets an object within a specified house"""
   def get_object(self, queryset=None):
+    if queryset is None:
+      queryset = self.get_queryset()
+
     house_slug = self.kwargs.get(
       self.house_slug_url_kwarg)
     slug = self.kwargs.get(self.slug_url_kwarg)
@@ -52,9 +55,9 @@ class GetObjectByHouseMixin():
       'slug__iexact': slug,
       house_slug_keyword: house_slug,
     }
-    return get_object_or_404(
-      self.model,
-      **slug_args)
+    queryset = queryset.filter(**slug_args)
+
+    return super().get_object(queryset)
 
 class GetListByHouseMixin():
   """Gets a list of objects within a specified house"""
