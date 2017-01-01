@@ -1,27 +1,10 @@
 {% extends "item/base_item.html" %}
+{% load confirm_delete %}
 
 {% block title %}
 {{ block.super }} - Delete Item
 {% endblock %}
 
 {% block item_content %}
-  <div>
-    <div>
-      <form
-        action="{{ item.get_delete_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      <p>
-        Are you sure you want to delete
-        {{ item.name|title }} from
-        {{ item.place.name }}?
-      </p>
-      <a class='button' href="{{ item.get_absolute_url }}">
-        Cancel</a>
-      <button class='button' type="submit">
-        Delete Item</button>
-      </form>
-    </div>
-  </div>
+  {% delete item button='Delete Item' parent=item.place %}
 {% endblock %}

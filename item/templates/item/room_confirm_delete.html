@@ -1,37 +1,10 @@
 {% extends "item/base_item.html" %}
+{% load confirm_delete %}
 
 {% block title %}
 {{ block.super }} - Delete Room
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div>
-      <form
-        action="{{ room.get_delete_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      <p>
-        Are you sure you want to delete
-        {{ room.name|title }}?
-
-        This will also delete all the places and things in this room.
-        <ul>
-          {% for place in room.place_set.all %}
-          <li>
-            <a href="{{ place.get_absolute_url }}">
-            {{ place.name }}
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </p>
-      <a class='button' href="{{ room.get_absolute_url }}">
-        Cancel</a>
-      <button type="submit">
-        Delete Room</button>
-      </form>
-    </div>
-  </div>
+  {% delete room room.place_set.all 'places' 'Delete Room' room.house %}
 {% endblock %}
