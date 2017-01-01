@@ -1,4 +1,4 @@
-from base import *
+from .base import *
 
 DEBUG = True
 
@@ -9,10 +9,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS += {
   'debug_toolbar',
-  'django_extentions',
 }
 
-MIDDLEWARE_CLASSES.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 # debug toolbar
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
