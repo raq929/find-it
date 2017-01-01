@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = True
 
-SECRET_KEY = '$SECRET_KEY'
+SECRET_KEY = '!t(c@x5&d(u_3m$rd6rn-w$28llx&@v!=e&##-=utou52(bc09'
 
 ALLOWED_HOSTS = []
 

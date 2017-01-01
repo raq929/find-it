@@ -9,7 +9,7 @@ TEMPLATE_INDEX = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['*']
 
 SECURE_PROXY_SSL_SERVER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -28,3 +28,4 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
     ]),
 ]
 
+DATABASES['default'] =  dj_database_url.config()
