@@ -19,7 +19,9 @@ This app was developed using Django 10.3
 
 Setup:
   1. I recommend developing in a virtualenv
-  1. You must install django, postgresSQL and psychopg2
+  1. Install requirements and dev requirements:
+     `pip install -r requirements.txt`
+     `pip install -r dev_requirements.txt`
   1. For debugging, set DEBUG to `true` in settings and install the [debug toolbar](http://django-debug-toolbar.readthedocs.io/en/latest/installation.html):
      `pip install django-debug-toolbar`
   1. Create the database (in bash: `psql`, in postgreSQL: `CREATE DATABASE findit;`)
