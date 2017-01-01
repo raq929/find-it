@@ -1,22 +1,11 @@
 {% extends "item/base_item.html" %}
+{% load display_form %}
 
 {% block title %}
   {{ block.super }} - Create Place
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div>
-      <h3>New Place</h3>
-      <form
-        action="{{ house.get_place_create_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      {{ form.as_p }}
-        <button type="submit">
-          Create Place</button>
-      </form>
-    </div>
-  </div>
+  {% url 'place_create' as form_url %}
+  {% form form_url 'Create Place' %}
 {% endblock %}

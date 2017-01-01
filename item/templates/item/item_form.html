@@ -1,22 +1,11 @@
 {% extends "item/base_item.html" %}
+{% load display_form %}
 
 {% block title %}
   {{ block.super }} - Create Item
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div>
-      <h3>New Item</h3>
-      <form
-        action="{{ item.get_create_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      {{ form.as_p }}
-        <button type="submit">
-          Create Item</button>
-      </form>
-    </div>
-  </div>
+  {% url 'item_create' as form_url %}
+  {% form form_url 'Create Item' %}
 {% endblock %}

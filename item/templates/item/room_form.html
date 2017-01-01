@@ -1,22 +1,11 @@
 {% extends parent_template|default:"item/base_item.html" %}
+{% load display_form %}
 
 {% block title %}
   {{ block.super }} - Create Room
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div>
-      <h3>New Room</h3>
-      <form
-        action="{{ house.get_room_create_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      {{ form.as_p }}
-        <button type="submit">
-          Create Room</button>
-      </form>
-    </div>
-  </div>
+  {% url 'room_create' as form_url %}
+  {% form form_url 'Create Room' %}
 {% endblock %}
