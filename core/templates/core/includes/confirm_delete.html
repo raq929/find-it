@@ -1,0 +1,36 @@
+<h3> Delete {{ obj.name }}</h3>
+<form
+  action="{{ obj.get_delete_url }}"
+  method="post"
+>
+  {% csrf_token %}
+  <p>
+    Are you sure you want to delete
+    {{ obj.name|title }} from
+    {{ parent.name }}?
+
+    {% if children %}
+    This will also delete all things in {{ obj.name }}.
+    <ul>
+      {% for item in children %}
+      <li>
+        <a href="{{ item.get_absolute_url }}">
+        {{ item.name }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </p>
+    {% else %}
+  </p>
+      {% if children_name %}
+       <p>There are no {{ children_name }} in {{ obj.name }}.</p>
+      {% endif%}
+    {% endif %}
+  <a class='button' href="{{ obj.get_absolute_url }}">
+    Cancel
+  </a>
+  <button type="submit">
+      {{ button|default:'Delete'}}
+  </button>
+</form>
