@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block content %}
-  <h3>About {{ profile.user.get_username }}</h3>
+  <h3>{{ profile.user.get_username|title }}'s Houses</h3>
+
+  <p>Choose a house to search for things in it!</p>
   {% if profile.houses.all %}
     <ul>
       {% for house in profile.houses.all %}
