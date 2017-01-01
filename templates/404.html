@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Page Not Found
+{% endblock %}
+
+{% block content %}
+  <h1>Page Not Found</h1>
+  <p>The path {{ request.path }} is not a
+    webpage on this site.</p>
+{% endblock %}
