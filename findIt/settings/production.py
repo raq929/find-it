@@ -28,6 +28,7 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
     ]),
 ]
 
+DATABASES = {}
 DATABASES['default'] =  dj_database_url.config()
 
 SECURE_CONTENT_TYPE_NOSNIFF = True

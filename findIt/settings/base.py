@@ -7,6 +7,7 @@ from ..log_filters import ManagementFilter
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+PROJECT_ROOT = '/app/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -73,22 +74,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'findIt.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'findit',
-        'USER': 'racheltstevens',
-        'PASSWORD': '$PASSWORD',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -166,7 +151,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-
 
 # Login redirects
 
