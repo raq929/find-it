@@ -1,22 +1,10 @@
 {% extends parent_template|default:"item/base_item.html" %}
+{% load display_form %}
 
 {% block title %}
   {{ block.super }} - Update Room
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div>
-      <h3>Update Room</h3>
-      <form
-        action="{{ room.get_update_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      {{ form.as_p }}
-        <button type="submit">
-          Update Room</button>
-      </form>
-    </div>
-  </div>
+  {% form room.get_update_url 'Update Room' %}
 {% endblock %}

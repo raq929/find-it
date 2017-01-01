@@ -1,22 +1,10 @@
 {% extends "item/base_item.html" %}
+{% load display_form %}
 
 {% block title %}
   {{ block.super }} - Update Item
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div>
-      <h3>Update Item</h3>
-      <form
-        action="{{ item.get_update_url }}"
-        method="post"
-      >
-      {% csrf_token %}
-      {{ form.as_p }}
-        <button type="submit">
-          Update Item</button>
-      </form>
-    </div>
-  </div>
+  {% form item.get_update_url 'Update Item' %}
 {% endblock %}
