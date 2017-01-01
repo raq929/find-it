@@ -10,6 +10,9 @@ from . import (
   house as house_urls)
 
 urlpatterns = [
+  url(r'^$', RedirectView.as_view(
+    pattern_name='dj-auth:profile',
+    permanent=False)),
   url(r'^create/$',
     HouseCreate.as_view(),
     name='house_create'),
