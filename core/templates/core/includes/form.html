@@ -1,0 +1,10 @@
+<form
+  action="{{ action }}"
+  method="{{ method|default:'post'}}">
+  {% csrf_token %}
+  <h3>{{ button|default:'Update' }}</h3>
+  {{ form.as_p }}
+    <button type="submit">
+      {{ button|default:'Submit'}}
+    </button>
+</form>
