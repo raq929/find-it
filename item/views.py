@@ -15,7 +15,7 @@ from .search import get_query, normalize_query
 from .models import Item, Place, Room, House
 from .forms import RoomForm, PlaceForm, ItemForm, HouseForm
 from .utils import (HouseContextMixin,
-  PageLinksMixin, PlaceContextMixin,
+  PageLinksMixin, HousePlaceContextMixin,
   AddHouseToFormMixin, GetObjectByHouseMixin,
   GetListByHouseMixin, HouseFormFieldsMixin)
 
@@ -25,14 +25,26 @@ class ItemCreate(HouseContextMixin, HouseFormFieldsMixin,
   permission_required = ['change_house']
   template_name = 'item/item_form.html'
 
-class ItemCreateFromPlace(PlaceContextMixin, ItemCreate):
+class ItemCreateFromPlace(HousePlaceContextMixin, ItemCreate):
   def get_initial(self):
     if self.request.method == 'GET':
-      place_slug = self.kwargs.get(
-        self.place_slug_url_kwarg)
+
+      if not hasattr(self, 'place'):
+        place_slug = self.kwargs.get(
+          self.place_slug_url_kwarg)
+      else:
+        place_slug = self.place.slug
+
+      if not hasattr(self, 'house'):
+        house_slug = self.kwargs.get(
+          self.house_slug_url_kwarg)
+      else:
+        house_slug = self.house.slug
+
       self.place = get_object_or_404(
-        Place,
-        slug__iexact=place_slug)
+          Place,
+          slug__iexact=place_slug,
+          room__house__slug__iexact=house_slug)
       initial = {
         self.place_context_object_name:
           self.place,

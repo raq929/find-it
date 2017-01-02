@@ -12,7 +12,7 @@ class HouseContextMixin():
   def get_context_data(self, **kwargs):
     if hasattr(self, 'house'):
       context = {
-        self.place_context_object_name:
+        self.house_context_object_name:
             self.house,
       }
     else:
@@ -36,9 +36,11 @@ class HouseContextMixin():
     else:
         house_slug = self.kwargs.get(
         self.house_slug_url_kwarg)
-        return get_object_or_404(
+        self.house = get_object_or_404(
         House,
         slug__iexact=house_slug)
+        return self.house
+
 
 class HouseFormFieldsMixin():
   """ensures that form choices are limited to the house"""
@@ -59,7 +61,6 @@ class HouseFormFieldsMixin():
     new_kwargs = kwargs.update(house)
     return kwargs
 
-
 class GetObjectByHouseMixin():
   """Gets an object within a specified house"""
   def get_object(self, queryset=None):
@@ -67,7 +68,7 @@ class GetObjectByHouseMixin():
       queryset = self.get_queryset()
 
     if hasattr(self, 'house'):
-      house_slug = self.house.house_slug
+      house_slug = self.house.slug
     else:
       house_slug = self.kwargs.get(
         self.house_slug_url_kwarg)
@@ -82,6 +83,7 @@ class GetObjectByHouseMixin():
 
     return super().get_object(queryset)
 
+
 class GetListByHouseMixin():
   """Gets a list of objects within a specified house"""
   def get_queryset(self):
@@ -95,28 +97,43 @@ class GetListByHouseMixin():
     }
     return queryset.filter(**house_filter)
 
-class PlaceContextMixin():
+class HousePlaceContextMixin(HouseContextMixin):
   """Adds the current place to the context"""
   place_slug_url_kwarg = 'place_slug'
   place_context_object_name = 'place'
+  house_slug_url_kwarg = 'house_slug'
+  house_context_object_name = 'house'
 
   def get_context_data(self, **kwargs):
+    if hasattr(self, 'house'):
+      house_slug = self.house.slug
+      house = self.house
+    else:
+      house_slug = self.kwargs.get(
+        self.house_slug_url_kwarg)
+      house = get_object_or_404(
+        House,
+        slug__iexact=house_slug)
     if hasattr(self, 'place'):
       context = {
         self.place_context_object_name:
             self.place,
+        self.house_context_object_name:
+          place.room.house
       }
     else:
       place_slug = self.kwargs.get(
         self.place_slug_url_kwarg)
       place = get_object_or_404(
         Place,
-        slug__iexact=place_slug)
-      context = {
-        self.place_context_object_name:
-          place,
-      }
-    context.update(kwargs)
+        slug__iexact=place_slug,
+        room__house__slug=house_slug)
+
+    context = {
+      self.place_context_object_name:
+        place,
+      self.house_context_object_name: house,
+    }
     return super().get_context_data(**context)
 
 class PageLinksMixin:
