@@ -38,3 +38,50 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
+
+
+def get_cache():
+  try:
+    os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
+    os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
+    os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
+
+    return {
+      'default': {
+          # Use pylibmc
+          'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+
+          # Use binary memcache protocol (needed for authentication)
+          'BINARY': True,
+
+          'TIMEOUT': 500, # 5 minutes
+
+          'OPTIONS': {
+              # Enable faster IO
+              'tcp_nodelay': True,
+
+              # Keep connection alive
+              'tcp_keepalive': True,
+
+              # Timeout settings
+              'connect_timeout': 2000, # ms
+              'send_timeout': 750 * 1000, # us
+              'receive_timeout': 750 * 1000, # us
+              '_poll_timeout': 2000, # ms
+
+              # Better failover
+              'ketama': True,
+              'remove_failed': 1,
+              'retry_timeout': 2,
+              'dead_timeout': 30,
+          }
+      }
+  }
+  except:
+    return {
+      'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+      }
+    }
+
+CACHES = get_cache()
