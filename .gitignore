@@ -3,5 +3,3 @@
 *.pyc
 .sass-cache/
 *.map
-static/site/
-collected_static/
