@@ -27,6 +27,18 @@ class HouseContextMixin():
     context.update(kwargs)
     return super().get_context_data(**context)
 
+  def get_permission_object(self):
+    if hasattr(self, 'permission_object'):
+        return self.permission_object
+    if hasattr(self, 'house'):
+        return self.house
+    else:
+        house_slug = self.kwargs.get(
+        self.house_slug_url_kwarg)
+        return get_object_or_404(
+        House,
+        slug__iexact=house_slug)
+
 class HouseFormFieldsMixin():
   """ensures that form choices are limited to the house"""
   def get_form_kwargs(self):
