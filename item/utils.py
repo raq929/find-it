@@ -15,15 +15,16 @@ class HouseContextMixin():
         self.place_context_object_name:
             self.house,
       }
-    house_slug = self.kwargs.get(
-      self.house_slug_url_kwarg)
-    house = get_object_or_404(
-      House,
-      slug__iexact=house_slug)
-    context = {
-      self.house_context_object_name:
-        house,
-    }
+    else:
+      house_slug = self.kwargs.get(
+        self.house_slug_url_kwarg)
+      house = get_object_or_404(
+        House,
+        slug__iexact=house_slug)
+      context = {
+        self.house_context_object_name:
+          house,
+      }
     context.update(kwargs)
     return super().get_context_data(**context)
 
@@ -43,12 +44,18 @@ class HouseFormFieldsMixin():
   """ensures that form choices are limited to the house"""
   def get_form_kwargs(self):
     kwargs = super().get_form_kwargs()
-    house_slug = self.kwargs.get(
-      self.house_slug_url_kwarg)
-    house = {
-      'house_slug':
-        house_slug,
-    }
+    if hasattr(self, 'house'):
+      house = {
+        'house_slug':
+          self.house.slug,
+      }
+    else:
+      house_slug = self.kwargs.get(
+        self.house_slug_url_kwarg)
+      house = {
+        'house_slug':
+          house_slug,
+      }
     new_kwargs = kwargs.update(house)
     return kwargs
 
@@ -59,8 +66,12 @@ class GetObjectByHouseMixin():
     if queryset is None:
       queryset = self.get_queryset()
 
-    house_slug = self.kwargs.get(
-      self.house_slug_url_kwarg)
+    if hasattr(self, 'house'):
+      house_slug = self.house.house_slug
+    else:
+      house_slug = self.kwargs.get(
+        self.house_slug_url_kwarg)
+
     slug = self.kwargs.get(self.slug_url_kwarg)
     house_slug_keyword = self.house_slug_keyword
     slug_args = {
@@ -83,7 +94,6 @@ class GetListByHouseMixin():
       house_slug_keyword: house_slug
     }
     return queryset.filter(**house_filter)
-
 
 class PlaceContextMixin():
   """Adds the current place to the context"""
