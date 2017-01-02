@@ -78,7 +78,6 @@ class Room(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(
     max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   house = models.ForeignKey(House, on_delete=models.CASCADE)
 
