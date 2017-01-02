@@ -1,27 +1,31 @@
 {% extends "item/base_item.html" %}
 
+{% load guardian_tags %}
+
 {% block title %}
   {{ block.super}} - {{ room.name|title }}
 {% endblock %}
 
 {% block content %}
+
+{% get_obj_perms request.user for house as 'object_perms' %}
+
 <h3>{{ room.name|title }} </h3>
-<ul class='buttons'>
-    {% if perms.item.change_room %}
+
+{% if "change_house" in object_perms %}
+  <ul class='buttons'>
     <li>
       <a class="button" href="{{ room.get_update_url }}">
         Edit Room
       </a>
     </li>
-    {% endif %}
-    {% if perms.item.delete_room %}
     <li>
       <a class="button" href="{{ room.get_delete_url }}">
         Delete Room
       </a>
     </li>
-    {% endif %}
   </ul>
+{% endif %}
 <dl>
   {% with place_list=room.place_set.all %}
     <dt>Place{{ place_list|pluralize }}</dt>

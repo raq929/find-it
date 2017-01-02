@@ -5,7 +5,7 @@ from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
 from django.core.urlresolvers import reverse_lazy
 
-from guardian.mixins import PermissionRequiredMixin, PermissionListMixin
+from guardian.mixins import PermissionRequiredMixin
 from guardian.shortcuts import assign_perm
 
 from user.decorators import (
@@ -115,11 +115,13 @@ class PlaceUpdate(HouseContextMixin, GetObjectByHouseMixin,
     'item/place_update_form.html')
   queryset = Place.objects.select_related('room__house')
 
-@require_authenticated_permission('item.add_room')
+
 class RoomCreate(HouseContextMixin,
-  AddHouseToFormMixin, GetObjectByHouseMixin, CreateView):
+  AddHouseToFormMixin, PermissionRequiredMixin, CreateView):
   form_class = RoomForm
   template_name = 'item/room_form.html'
+  permission_required = ['change_house']
+  house_slug_keyword = 'house__slug__iexact'
 
   def get_initial(self):
     house_slug = self.kwargs.get(self.house_slug_url_kwarg)
@@ -131,36 +133,38 @@ class RoomCreate(HouseContextMixin,
     initial.update(self.initial)
     return initial
 
-
-class RoomList(HouseContextMixin, GetListByHouseMixin, ListView):
+class RoomList(HouseContextMixin, GetListByHouseMixin,
+  PermissionRequiredMixin, ListView):
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
+  permission_required = ['view_house',]
   queryset = Room.objects.select_related('house')
 
 class RoomDetail(HouseContextMixin,
-  GetObjectByHouseMixin, DetailView):
+  GetObjectByHouseMixin, PermissionRequiredMixin, DetailView):
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
+  permission_required = ['view_house',]
   queryset = Room.objects.select_related('house')
 
-@require_authenticated_permission('item.delete_room')
 class RoomDelete(HouseContextMixin,
-  GetObjectByHouseMixin, DeleteView):
+  GetObjectByHouseMixin, PermissionRequiredMixin, DeleteView):
   model = Room
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
+  permission_required = ['delete_house',]
   queryset = Room.objects.select_related('house')
 
   def get_success_url(self):
         return (self.object.get_list_url())
 
-@require_authenticated_permission('item.change_room')
 class RoomUpdate(HouseContextMixin,
-  GetObjectByHouseMixin, UpdateView):
+  GetObjectByHouseMixin, PermissionRequiredMixin, UpdateView):
   form_class= RoomForm
   model = Room
+  permission_required = ['change_house',]
   slug_url_kwarg = 'room_slug'
   house_slug_keyword = 'house__slug__iexact'
   template_name = (
