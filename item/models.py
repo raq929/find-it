@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 
+from guardian.models import UserObjectPermissionBase
+
 from django.db import models
 
 import itertools
@@ -18,6 +20,10 @@ class House(models.Model):
 
   class Meta:
     ordering = ['name']
+
+    permissions = (
+      ('view_house', 'Can view house'),
+    )
 
   def get_absolute_url(self):
     return reverse('item_search',
@@ -62,6 +68,10 @@ class House(models.Model):
   def get_search_url(self):
     return reverse('item_search',
                    kwargs={ 'house_slug': self.slug })
+
+
+class HouseUserObjectPermission(UserObjectPermissionBase):
+    content_object = models.ForeignKey(House)
 
 
 class Room(models.Model):
