@@ -29,6 +29,7 @@ class ResendActivationEmailForm(
         'Resend Activation: No user with '
         'email: {}'.format(
           self.cleaned_data['email']))
+      return None
     self.send_mail(user=user, **kwargs)
     return user
 
