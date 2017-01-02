@@ -20,27 +20,27 @@
     <div>
       <nav>
         <ul>
-          {% if house %}
-          <a href="{{ house.get_search_url }}">
-            <li>
-              Find It!
-            </li>
-          </a>
-          <a href="{{ house.get_room_list_url }}">
-            <li>
-              Rooms
-            </li>
-          </a>
-          <a href="{{ house.get_place_list_url }}">
-            <li>
-              Places
-            </li>
-          </a>
-          <a href="{{ house.get_item_list_url }}">
-            <li>
-              Things
-            </li>
-          </a>
+          {% if user.is_authenticated and house %}
+            <a href="{{ house.get_search_url }}">
+              <li>
+                Find It!
+              </li>
+            </a>
+            <a href="{{ house.get_room_list_url }}">
+              <li>
+                Rooms
+              </li>
+            </a>
+            <a href="{{ house.get_place_list_url }}">
+              <li>
+                Places
+              </li>
+            </a>
+            <a href="{{ house.get_item_list_url }}">
+              <li>
+                Things
+              </li>
+            </a>
           {% endif %}
           <a href="{% url 'about_site' %}">
             <li>
@@ -52,29 +52,29 @@
 
       <header>
         <ul class='auth'>
-          <a href="{% url 'dj-auth:profile' %}">
-            <li>Choose a house</li>
-          </a>
           {% if user.is_authenticated %}
-          <a href="{% url 'dj-auth:logout' %}">
-            <li>Log Out</li>
-          </a>
-          <a href="{% url 'dj-auth:pw_change' %}">
-            <li>Change Password</li>
-          </a>
-          <a href="{% url 'dj-auth:disable' %}">
-            <li>Disable Account</li>
-          </a>
-          {% else %}
-          <a href="{% url 'dj-auth:create' %}">
-            <li>Create Account</li>
-          </a>
-          <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">
-            <li>Login</li>
-          </a>
-          <a href="{% url 'dj-auth:resend_activation' %}">
-            <li>Lost Activation Email</li>
-          </a>
+            <a href="{% url 'dj-auth:profile' %}">
+              <li>Choose a house</li>
+            </a>
+            <a href="{% url 'dj-auth:logout' %}">
+              <li>Log Out</li>
+            </a>
+            <a href="{% url 'dj-auth:pw_change' %}">
+              <li>Change Password</li>
+            </a>
+            <a href="{% url 'dj-auth:disable' %}">
+              <li>Disable Account</li>
+            </a>
+            {% else %}
+            <a href="{% url 'dj-auth:create' %}">
+              <li>Create Account</li>
+            </a>
+            <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">
+              <li>Login</li>
+            </a>
+            <a href="{% url 'dj-auth:resend_activation' %}">
+              <li>Lost Activation Email</li>
+            </a>
           {% endif %}
         </ul>
         <h1>
@@ -93,7 +93,7 @@
         {% endif %}
       </aside>
       <main>
-        {% if house %}
+        {% if user.is_authenticated and house %}
         <h1>{{ house.name }}</h1>
         {% endif %}
         {% block content%}
