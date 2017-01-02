@@ -19,13 +19,17 @@ from .utils import (HouseContextMixin,
   AddHouseToFormMixin, GetObjectByHouseMixin,
   GetListByHouseMixin, HouseFormFieldsMixin)
 
-class ItemCreate(HouseContextMixin, HouseFormFieldsMixin,
+
+class BaseItemCreate(HouseFormFieldsMixin,
                  PermissionRequiredMixin, CreateView):
   form_class = ItemForm
   permission_required = ['change_house']
   template_name = 'item/item_form.html'
 
-class ItemCreateFromPlace(HousePlaceContextMixin, ItemCreate):
+class ItemCreate(HouseContextMixin, BaseItemCreate):
+  pass
+
+class ItemCreateFromPlace(HousePlaceContextMixin, BaseItemCreate):
   def get_initial(self):
     if self.request.method == 'GET':
 
