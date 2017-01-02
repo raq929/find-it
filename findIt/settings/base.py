@@ -160,7 +160,7 @@ REDIRECT_FIELD_NAME = 'next'
 
 # Email
 
-DEFAULT_FROM_EMAIL = 'no-reply@findit.com'
+DEFAULT_FORM_EMAIL = 'no-reply@findit.com'
 EMAIL_SUBJECT_PREFIX = '[FindIt] '
 # Emails for broken links
 MANAGERS = [('Rachel', 'rts-findit@munkynet.org')]
