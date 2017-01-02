@@ -110,6 +110,7 @@ LOGGING = {
         'console': {
             'filters': ['remove_migration_sql'],
             'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
         },
     },
     'formatters': {
