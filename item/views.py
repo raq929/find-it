@@ -5,6 +5,9 @@ from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
 from django.core.urlresolvers import reverse_lazy
 
+from guardian.mixins import PermissionRequiredMixin, PermissionListMixin
+from guardian.shortcuts import assign_perm
+
 from user.decorators import (
   class_login_required,
   require_authenticated_permission)
@@ -187,17 +190,25 @@ class HouseCreate(CreateView):
             })
         return kwargs
 
-@require_authenticated_permission('item.delete_house')
-class HouseDelete(DeleteView):
+  def form_valid(self, *args, **kwargs):
+        resp = super(HouseCreate, self).form_valid(*args, **kwargs)
+        assign_perm('view_house', self.request.user, self.object)
+        assign_perm('change_house', self.request.user, self.object)
+        assign_perm('delete_house', self.request.user, self.object)
+        return resp
+
+
+class HouseDelete(DeleteView, PermissionRequiredMixin):
   model = House
+  permission_required = ['delete_house']
 
   def get_success_url(self):
         return reverse_lazy('dj-auth:profile')
 
-@require_authenticated_permission('item.change_house')
-class HouseUpdate(UpdateView):
+class HouseUpdate(UpdateView, PermissionRequiredMixin):
   form_class= HouseForm
   model = House
+  permission_required = ['change_house']
   template_name = (
     'item/house_update_form.html')
 
