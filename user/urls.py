@@ -8,10 +8,8 @@ from django.views.generic import (
   RedirectView, TemplateView)
 
 from .views import (
-  ActivateAccount, CreateAccount, DisableAccount,
+  ActivateAccount, AddResident, AddResidentDone, CreateAccount, DisableAccount,
   ResendActivationEmail, ProfileDetail)
-
-
 
 
 password_urls = [
@@ -62,6 +60,16 @@ password_urls = [
       name='pw_reset_complete'),
 ]
 
+house_urls = [
+  url(r'^(?P<house_slug>[\w\-]+)/'
+      r'add-resident/$', AddResident.as_view(),
+      name='add_resident'),
+  url(r'^(?P<house_slug>[\w\-]+)/'
+      r'add-resident/done/$',
+      AddResidentDone.as_view(),
+      name='add_resident_done'),
+]
+
 urlpatterns = [
   url(r'^activate/'
         r'(?P<uidb64>[0-9A-Za-z_\-]+)/'
@@ -97,5 +105,6 @@ urlpatterns = [
   url(r'^profile/$',
     ProfileDetail.as_view(),
     name='profile'),
-  url(r'^password/', include(password_urls))
+  url(r'^password/', include(password_urls)),
+  url(r'^house/', include(house_urls)),
 ]

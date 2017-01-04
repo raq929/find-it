@@ -33,11 +33,11 @@ urlpatterns = [
   url(r'^about/$', TemplateView.as_view(
     template_name='site/about.html'),
     name='about_site'),
-  url(r'^house/', include(house_urls)),
   url(r'^user/', include(
     user_urls,
     app_name='user',
     namespace='dj-auth')),
+  url(r'^house/', include(house_urls)),
 ]
 
 if settings.DEBUG:

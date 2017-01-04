@@ -1,0 +1,7 @@
+Hello from {{ site_name }}!
+
+We've received a request to add you as a resident of {{ house.name }}.
+
+To activate become a resident of this house, please navigate to:
+
+{{ protocol }}://{{ domain }}{% url 'dj-auth:activate' uid token %}

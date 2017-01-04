@@ -1,0 +1,9 @@
+{% extends "user/base_user.html" %}
+
+{% block title %}
+  {{ block.super }} - Add Resident
+{% endblock %}
+
+{% block content %}
+  <p class='message'>You have sent an email to add a {{ type_of_user }} to {{ house.name }}.</p>
+{% endblock %}

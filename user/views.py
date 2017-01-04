@@ -9,7 +9,7 @@ from django.contrib.auth.tokens import \
 from django.contrib.messages import error, success
 
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.template.response import \
   TemplateResponse
 
@@ -30,12 +30,12 @@ from django.views.generic import DetailView, View
 
 
 from .decorators import class_login_required
-from .forms import (ResendActivationEmailForm,
+from .forms import (AddHouseResidentForm, ResendActivationEmailForm,
   UserCreationForm)
 from .models import Profile
 from .utils import (MailContextViewMixin,
-  ProfileGetObjectMixin)
-
+  ProfileGetObjectMixin, SendMailMixin)
+from item.models import House
 
 class DisableAccount(View):
   success_url = settings.LOGIN_REDIRECT_URL
@@ -59,6 +59,63 @@ class DisableAccount(View):
     logout(request)
 
     return redirect(self.success_url)
+
+@class_login_required
+class AddResident(SendMailMixin, View):
+  form_class = AddHouseResidentForm
+  template_name = 'user/add_resident_form.html'
+
+  def get(self, request, **kwargs):
+    print('GETTING')
+    house_slug = kwargs.get('house_slug')
+    house = get_object_or_404(House,
+      slug__iexact=house_slug)
+
+    return TemplateResponse(
+      request,
+      self.template_name,
+      { 'form': self.form_class(),
+        'house': house,
+       })
+
+  def post(self, request, **kwargs):
+    bound_form = self.form_class(request.POST)
+    house_slug = kwargs.get('house_slug')
+    success_url = reverse_lazy('dj-auth:add_resident_done',
+      kwargs={ 'house_slug': house_slug })
+
+    if bound_form.is_valid():
+        bound_form.save(
+          **self.get_save_kwargs(request))
+        if bound_form.mail_sent:
+          return redirect(success_url)
+        else:
+          errs = (
+              bound_form.non_field_errors())
+          for err in errs:
+              error(request, err)
+          redirect('dj-auth:profile')
+
+    return TemplateResponse(
+      request,
+      self.template_name,
+      { 'form': bound_form })
+
+class AddResidentDone(View):
+  template_name = 'user/add_user_done.html'
+
+  def get(self, request, **kwargs):
+    house_slug = kwargs.get('house_slug')
+    house = get_object_or_404(House,
+        slug__iexact=house_slug)
+
+    return TemplateResponse(
+      request,
+      self.template_name,
+      {
+        'house': house,
+        'type_of_user': 'resident',
+       })
 
 class CreateAccount(MailContextViewMixin, View):
   form_class = UserCreationForm
