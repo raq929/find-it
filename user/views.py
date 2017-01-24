@@ -66,7 +66,6 @@ class AddResident(SendMailMixin, View):
   template_name = 'user/add_resident_form.html'
 
   def get(self, request, **kwargs):
-    print('GETTING')
     house_slug = kwargs.get('house_slug')
     house = get_object_or_404(House,
       slug__iexact=house_slug)
@@ -81,12 +80,16 @@ class AddResident(SendMailMixin, View):
   def post(self, request, **kwargs):
     bound_form = self.form_class(request.POST)
     house_slug = kwargs.get('house_slug')
+    house = get_object_or_404(House,
+      slug__iexact=house_slug)
+
     success_url = reverse_lazy('dj-auth:add_resident_done',
       kwargs={ 'house_slug': house_slug })
 
     if bound_form.is_valid():
         bound_form.save(
-          **self.get_save_kwargs(request))
+          **self.get_save_kwargs(request),
+          house=house)
         if bound_form.mail_sent:
           return redirect(success_url)
         else:
@@ -99,7 +102,8 @@ class AddResident(SendMailMixin, View):
     return TemplateResponse(
       request,
       self.template_name,
-      { 'form': bound_form })
+      { 'form': bound_form,
+        'house': house })
 
 class AddResidentDone(View):
   template_name = 'user/add_user_done.html'

@@ -76,7 +76,7 @@ class ActivationMailFormMixin:
     return subject
 
   def get_context_data(
-      self, request, user, context=None):
+      self, request, user, house, context=None):
     if context is None:
       context = dict()
     current_site = get_current_site(request)
@@ -93,12 +93,13 @@ class ActivationMailFormMixin:
         'token': token,
         'uid': uid,
         'user': user,
+        'house': house
       })
     return context
 
-  def _send_mail(self, request, user, **kwargs):
+  def _send_mail(self, request, user, house, **kwargs):
     kwargs['context'] = self.get_context_data(
-      request, user)
+      request, user, house)
     mail_kwargs = {
       "subject": self.get_subject(**kwargs),
       "message": self.get_message(**kwargs),
@@ -126,6 +127,7 @@ class ActivationMailFormMixin:
 
   def send_mail(self, user, **kwargs):
     request = kwargs.pop('request', None)
+    house = kwargs.pop('house', None)
     if request is None:
       tb = traceback.format.stack()
       tb = [' ' + line for line in tb]
@@ -137,7 +139,7 @@ class ActivationMailFormMixin:
       return self.mail_sent
     self._mail_sent, error = (
       self._send_mail(
-        request, user, **kwargs))
+        request, user, house, **kwargs))
     if not self.mail_sent:
       self.add_error(
         None, # no field - form error
