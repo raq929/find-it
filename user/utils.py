@@ -180,3 +180,15 @@ class ProfileGetObjectMixin:
   def get_object(self, queryset=None):
     current_user = get_user(self.request)
     return current_user.profile
+
+class ProfileHouseContextMixin:
+  def get_context_data(self, **kwargs):
+    context = {}
+    if hasattr(self, 'resident_of'):
+      context = {
+        'resident_of':
+            self.resident_of,
+      }
+
+    context.update(kwargs)
+    return super().get_context_data(**context)

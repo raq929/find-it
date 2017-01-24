@@ -28,14 +28,15 @@ from django.views.decorators.debug import \
   sensitive_post_parameters
 from django.views.generic import DetailView, View
 
-from guardian.shortcuts import assign_perm
+from guardian.shortcuts import assign_perm, get_objects_for_user
+
 from .decorators import class_login_required
 from .forms import (AddHouseResidentForm, ResendActivationEmailForm,
   UserCreationForm)
 from item.models import House
 from .models import Profile
 from .utils import (MailContextViewMixin,
-  ProfileGetObjectMixin, SendMailMixin)
+  ProfileGetObjectMixin, ProfileHouseContextMixin, SendMailMixin)
 from item.models import House
 
 class DisableAccount(View):
@@ -230,8 +231,13 @@ class ActivateAddResident(View):
 
 @class_login_required
 class ProfileDetail(
-  ProfileGetObjectMixin, DetailView):
+  ProfileGetObjectMixin, ProfileHouseContextMixin, DetailView):
   model = Profile
+
+  def get(self, request):
+    self.resident_of = get_objects_for_user(
+      request.user, 'item.change_house')
+    return super().get(request)
 
 
 class ResendActivationEmail(
