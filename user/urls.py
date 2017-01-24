@@ -8,7 +8,7 @@ from django.views.generic import (
   RedirectView, TemplateView)
 
 from .views import (
-  ActivateAccount, AddResident, AddResidentDone, CreateAccount, DisableAccount,
+  ActivateAccount, ActivateAddResident, AddResident, AddResidentDone, CreateAccount, DisableAccount,
   ResendActivationEmail, ProfileDetail)
 
 
@@ -77,6 +77,13 @@ urlpatterns = [
         r'-[0-9A-Za-z]{1,20})/$',
         ActivateAccount.as_view(),
         name='activate'),
+  url(r'^add-resident/'
+        r'(?P<uidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<hidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<token>[0-9A-Za-z]{1,13}'
+        r'-[0-9A-Za-z]{1,20})/$',
+        ActivateAddResident.as_view(),
+        name='activate_add_resident'),
   url(r'^activate/resend$',
     ResendActivationEmail.as_view(),
     name='resend_activation'),

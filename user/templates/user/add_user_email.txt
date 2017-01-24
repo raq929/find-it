@@ -4,4 +4,4 @@ We've received a request to add you as a resident of {{ house.name }}.
 
 To become a resident of this house, please navigate to:
 
-{{ protocol }}://{{ domain }}{% url 'dj-auth:activate' uid token %}
+{{ protocol }}://{{ domain }}{% url 'dj-auth:activate_add_resident' uid hid token %}

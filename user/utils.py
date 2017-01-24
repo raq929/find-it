@@ -86,6 +86,7 @@ class ActivationMailFormMixin:
       protocol = 'http'
     token = token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
+    hid = urlsafe_base64_encode(force_bytes(house.pk))
     context.update({
         'domain': current_site.domain,
         'protocol': protocol,
@@ -93,7 +94,8 @@ class ActivationMailFormMixin:
         'token': token,
         'uid': uid,
         'user': user,
-        'house': house
+        'house': house,
+        'hid': hid
       })
     return context
 
