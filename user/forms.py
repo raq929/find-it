@@ -57,6 +57,10 @@ class AddHouseResidentForm(BaseAddHouseUserForm):
     user_type = 'Resident'
 
 
+class AddHouseVisitorForm(BaseAddHouseUserForm):
+    user_type = 'Visitor'
+
+
 class UserCreationForm(
         ActivationMailFormMixin,
         BaseUserCreationForm):

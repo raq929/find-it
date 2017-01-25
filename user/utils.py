@@ -168,16 +168,15 @@ class MailContextViewMixin:
         self.subject_template_name,
     }
 
-class SendMailMixin:
-  email_template_name = 'user/add_user_email.txt'
-  subject_template_name = 'user/add_resident.txt'
 
-  def get_save_kwargs(self, request):
-    return {
-      'email_template_name': self.email_template_name,
-      'request': request,
-      'subject_template_name': self.subject_template_name
-    }
+class SendMailMixin:
+
+    def get_save_kwargs(self, request):
+        return {
+          'email_template_name': self.email_template_name,
+          'request': request,
+          'subject_template_name': self.subject_template_name
+        }
 
 
 class ProfileGetObjectMixin:

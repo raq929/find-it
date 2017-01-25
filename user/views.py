@@ -31,8 +31,8 @@ from django.views.generic import DetailView, View
 from guardian.shortcuts import assign_perm, get_objects_for_user
 
 from .decorators import class_login_required
-from .forms import (AddHouseResidentForm, ResendActivationEmailForm,
-  UserCreationForm)
+from .forms import (AddHouseResidentForm, AddHouseVisitorForm,
+                    ResendActivationEmailForm, UserCreationForm)
 from item.models import House
 from .models import Profile
 from .utils import (AddUserDoneMixin, AddUserMixin, MailContextViewMixin,
@@ -65,9 +65,21 @@ class DisableAccount(View):
 
 @class_login_required
 class AddResident(AddUserMixin, SendMailMixin, View):
+    email_template_name = 'user/add_resident_email.txt'
+    subject_template_name = 'user/add_resident.txt'
     form_class = AddHouseResidentForm
     template_name = 'user/add_resident_form.html'
     success_url = 'dj-auth:add_resident_done'
+
+
+
+@class_login_required
+class AddVisitor(AddUserMixin, SendMailMixin, View):
+    email_template_name = 'user/add_visitor_email.txt'
+    subject_template_name = 'user/add_visitor.txt'
+    form_class = AddHouseVisitorForm
+    template_name = 'user/add_visitor_form.html'
+    success_url = 'dj-auth:add_visitor_done'
 
 
 @class_login_required
