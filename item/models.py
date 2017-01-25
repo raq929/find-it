@@ -23,6 +23,8 @@ class House(models.Model):
 
     permissions = (
       ('view_house', 'Can view house'),
+      ('is_resident', 'Can edit and delete rooms,'
+        'places and items in the house')
     )
 
   def get_absolute_url(self):
