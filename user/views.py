@@ -35,7 +35,7 @@ from .forms import (AddHouseResidentForm, ResendActivationEmailForm,
   UserCreationForm)
 from item.models import House
 from .models import Profile
-from .utils import (MailContextViewMixin,
+from .utils import (AddUserDoneMixin, MailContextViewMixin,
   ProfileGetObjectMixin, ProfileHouseContextMixin, SendMailMixin)
 from item.models import House
 
@@ -107,21 +107,11 @@ class AddResident(SendMailMixin, View):
       { 'form': bound_form,
         'house': house })
 
-class AddResidentDone(View):
+class AddResidentDone(AddUserDoneMixin, View):
   template_name = 'user/add_user_done.html'
+  type_of_user = 'resident'
 
-  def get(self, request, **kwargs):
-    house_slug = kwargs.get('house_slug')
-    house = get_object_or_404(House,
-        slug__iexact=house_slug)
 
-    return TemplateResponse(
-      request,
-      self.template_name,
-      {
-        'house': house,
-        'type_of_user': 'resident',
-       })
 
 class CreateAccount(MailContextViewMixin, View):
   form_class = UserCreationForm

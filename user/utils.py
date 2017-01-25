@@ -10,11 +10,15 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import (
     BadHeaderError, send_mail)
+from django.shortcuts import get_object_or_404
 from django.template.loader import \
   render_to_string
+from django.template.response import \
+  TemplateResponse
 from django.utils.encoding import force_bytes
 from django.utils.http import \
   urlsafe_base64_encode
+from item.models import House
 
 logger = logging.getLogger(__name__)
 
@@ -192,3 +196,18 @@ class ProfileHouseContextMixin:
 
     context.update(kwargs)
     return super().get_context_data(**context)
+
+class AddUserDoneMixin:
+
+    def get(self, request, **kwargs):
+        house_slug = kwargs.get('house_slug')
+        house = get_object_or_404(House,
+                                  slug__iexact=house_slug)
+
+        return TemplateResponse(
+          request,
+          self.template_name,
+          {
+            'house': house,
+            'type_of_user': self.type_of_user,
+           })
