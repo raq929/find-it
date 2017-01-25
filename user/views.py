@@ -108,6 +108,7 @@ class AddResident(SendMailMixin, View):
         'house': house })
 
 
+@class_login_required
 class AddResidentDone(AddUserDoneMixin, View):
   template_name = 'user/add_user_done.html'
   type_of_user = 'resident'
