@@ -187,10 +187,8 @@ class ActivateAddResident(View):
           and token_generator
           .check_token(user, token)):
 
+      assign_perm('is_resident', user, house)
 
-      assign_perm('view_house', user, house)
-      assign_perm('change_house', user, house)
-      assign_perm('delete_house', user, house)
       success(
         request,
         'You have been added as a resident of {} house.'.format(house.name))
