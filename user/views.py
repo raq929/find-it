@@ -249,7 +249,7 @@ class ProfileDetail(
 
   def get(self, request):
     self.resident_of = get_objects_for_user(
-      request.user, 'item.change_house')
+      request.user, 'item.resident_of')
     return super().get(request)
 
 
