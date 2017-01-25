@@ -107,10 +107,16 @@ class AddResident(SendMailMixin, View):
       { 'form': bound_form,
         'house': house })
 
+
 class AddResidentDone(AddUserDoneMixin, View):
   template_name = 'user/add_user_done.html'
   type_of_user = 'resident'
 
+
+@class_login_required
+class AddVisitorDone(AddUserDoneMixin, View):
+  template_name = 'user/add_user_done.html'
+  type_of_user = 'visitor'
 
 
 class CreateAccount(MailContextViewMixin, View):
