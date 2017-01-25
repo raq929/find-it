@@ -178,6 +178,7 @@ class ActivateAccount(View):
         request,
         self.template_name)
 
+@class_login_required
 class ActivateAddResident(View):
   success_url = reverse_lazy('dj-auth:profile')
   template_name = 'user/user_activate_add_resident.html'
