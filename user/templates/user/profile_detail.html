@@ -1,42 +1,25 @@
 {% extends "user/base_user.html" %}
+{% load house_list %}
 
 {% block title %}
   {{ block.super }} -
-  {{ profile.user.get_username }}'s Houses
+  My Houses
 {% endblock %}
 
 {% block content %}
   <h3>{{ profile.user.get_username|title }}'s Houses</h3>
 
   <p>Choose a house to search for things in it!</p>
-  {% if profile.houses.all %}
+  {% with houses=profile.houses.all %}
+  {% if houses %}
     <h4>My Houses</h4>
-    <ul>
-      {% for house in profile.houses.all %}
-        <li>
-          <a href='{{ house.get_absolute_url }}'>{{ house.name }}</a>
-          <ul>
-            <li><a href='{{ house.get_update_url }}'>Update House</a></li>
-            <li><a href='{{ house.get_delete_url }}'>Delete House</a></li>
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
+    {% house_list houses %}
   {% elif resident_of %}
     <h4>Resident of:</h4>
-    <ul>
-      {% for house in resident_of %}
-        <li>
-          <a href='{{ house.get_absolute_url }}'>{{ house.name }}</a>
-          <ul>
-            <li><a href='{{ house.get_update_url }}'>Update House</a></li>
-            <li><a href='{{ house.get_delete_url }}'>Delete House</a></li>
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
+    {% house_list resident_of %}
   {% else %}
     <p>You don't have any houses yet!</p>
   {% endif %}
+  {% endwith %}
   <a href="{% url 'house_create'%}" class='button'>Create A House</a>
 {% endblock %}
