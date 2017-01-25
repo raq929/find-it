@@ -35,8 +35,9 @@ from .forms import (AddHouseResidentForm, ResendActivationEmailForm,
   UserCreationForm)
 from item.models import House
 from .models import Profile
-from .utils import (AddUserDoneMixin, MailContextViewMixin,
-  ProfileGetObjectMixin, ProfileHouseContextMixin, SendMailMixin)
+from .utils import (AddUserDoneMixin, AddUserMixin, MailContextViewMixin,
+                    ProfileGetObjectMixin, ProfileHouseContextMixin,
+                    SendMailMixin)
 from item.models import House
 
 class DisableAccount(View):
@@ -63,49 +64,10 @@ class DisableAccount(View):
     return redirect(self.success_url)
 
 @class_login_required
-class AddResident(SendMailMixin, View):
-  form_class = AddHouseResidentForm
-  template_name = 'user/add_resident_form.html'
-
-  def get(self, request, **kwargs):
-    house_slug = kwargs.get('house_slug')
-    house = get_object_or_404(House,
-      slug__iexact=house_slug)
-
-    return TemplateResponse(
-      request,
-      self.template_name,
-      { 'form': self.form_class(),
-        'house': house,
-       })
-
-  def post(self, request, **kwargs):
-    bound_form = self.form_class(request.POST)
-    house_slug = kwargs.get('house_slug')
-    house = get_object_or_404(House,
-      slug__iexact=house_slug)
-
-    success_url = reverse_lazy('dj-auth:add_resident_done',
-      kwargs={ 'house_slug': house_slug })
-
-    if bound_form.is_valid():
-        bound_form.save(
-          **self.get_save_kwargs(request),
-          house=house)
-        if bound_form.mail_sent:
-          return redirect(success_url)
-        else:
-          errs = (
-              bound_form.non_field_errors())
-          for err in errs:
-              error(request, err)
-          redirect('dj-auth:profile')
-
-    return TemplateResponse(
-      request,
-      self.template_name,
-      { 'form': bound_form,
-        'house': house })
+class AddResident(AddUserMixin, SendMailMixin, View):
+    form_class = AddHouseResidentForm
+    template_name = 'user/add_resident_form.html'
+    success_url = 'dj-auth:add_resident_done'
 
 
 @class_login_required
@@ -226,6 +188,7 @@ class ActivateAddResident(View):
         request,
         self.template_name,
         { 'house': house })
+
 
 @class_login_required
 class ProfileDetail(
