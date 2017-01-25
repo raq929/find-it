@@ -11,12 +11,15 @@
 
   <p>Choose a house to search for things in it!</p>
   {% with houses=profile.houses.all %}
-  {% if houses %}
-    <h4>My Houses</h4>
-    {% house_list houses %}
-  {% elif resident_of %}
-    <h4>Resident of:</h4>
-    {% house_list resident_of %}
+  {% if houses or resident_of %}
+      {% if houses %}
+          <h4>My Houses</h4>
+          {% house_list houses %}
+      {% endif %}
+      {% if resident_of %}
+          <h4>Resident of:</h4>
+          {% house_list resident_of %}
+      {% endif %}
   {% else %}
     <p>You don't have any houses yet!</p>
   {% endif %}
