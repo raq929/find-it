@@ -33,23 +33,29 @@ class ResendActivationEmailForm(
     self.send_mail(user=user, **kwargs)
     return user
 
-class AddHouseResidentForm(ActivationMailFormMixin, forms.Form):
-  email = forms.EmailField()
-  mail_validation_error = ('User added to house. '
-    'Could not send email.'
-    'Please try again later (Sorry!)')
 
-  def save(self, **kwargs):
-    User = get_user_model()
-    try:
-      user = User.objects.get(
-        email=self.cleaned_data['email'])
-    except:
-      logger.warning('Add Resident: No user with '
-        'email: {}'.format(self.cleaned_data['email']))
-      return None
-    self.send_mail(user=user, **kwargs)
-    return user
+class BaseAddHouseUserForm(ActivationMailFormMixin, forms.Form):
+    email = forms.EmailField()
+    mail_validation_error = ('Could not send email.'
+                             'Please try again later (Sorry!)')
+
+    def save(self, **kwargs):
+        User = get_user_model()
+        try:
+            user = User.objects.get(
+              email=self.cleaned_data['email'])
+        except:
+            logger.warning('Add {}}: No user with '
+                           'email: {}'.format(self.user_type,
+                                              self.cleaned_data['email']))
+            return None
+        self.send_mail(user=user, **kwargs)
+        return user
+
+
+class AddHouseResidentForm(BaseAddHouseUserForm):
+    user_type = 'Resident'
+
 
 class UserCreationForm(
         ActivationMailFormMixin,
