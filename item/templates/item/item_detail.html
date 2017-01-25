@@ -17,7 +17,7 @@
 </p>
 <p>The location of this item was last updated on {{ item.date_updated|date:"l, F j, Y" }}</p>
 
-{% if "change_house" in object_perms %}
+{% if "is_resident" in object_perms %}
   <ul class='buttons'>
     <li>
       <a class='button' href="{{ item.get_update_url }}">

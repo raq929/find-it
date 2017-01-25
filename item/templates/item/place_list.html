@@ -21,7 +21,7 @@
         </a>
       </li>
       <ul class='buttons'>
-        {% if "change_house" in object_perms %}
+        {% if "is_resident" in object_perms %}
           <li>
             <a class='button' href="{{ place.get_update_url }}">
               Edit Place
@@ -38,7 +38,7 @@
      <li><em>There are currently no Places available.</em></li>
     {% endfor %}
   </ul>
-  {% if "change_house" in object_perms %}
+  {% if "is_resident" in object_perms %}
   <p>
     <a class='new button' href="{{ house.get_place_create_url }}">New Place</a>
   </p>

@@ -13,7 +13,7 @@
 
 <p>{{ place.name|title }} is in the <a href="{{ place.room.get_absolute_url }}"> {{ place.room }}</a></p>
 <ul class='buttons'>
-  {% if "change_house" in object_perms %}
+  {% if "is_resident" in object_perms %}
   <li>
     <a class='button' href="{{ place.get_update_url }}">
       Edit Place
@@ -44,7 +44,7 @@
     {% endif %}
   {% endwith %}
 <p>
-  {% if "change_house" in object_perms %}
+  {% if "is_resident" in object_perms %}
   <a href="{{ place.get_item_create_url }}"
     class="button">
   Add A Thing</a></p>

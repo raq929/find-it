@@ -12,7 +12,7 @@
 
 <h3>{{ room.name|title }} </h3>
 
-{% if "change_house" in object_perms %}
+{% if "is_resident" in object_perms %}
   <ul class='buttons'>
     <li>
       <a class="button" href="{{ room.get_update_url }}">
