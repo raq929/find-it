@@ -23,7 +23,7 @@ from .utils import (HouseContextMixin,
 class BaseItemCreate(HouseFormFieldsMixin,
                  PermissionRequiredMixin, CreateView):
   form_class = ItemForm
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   template_name = 'item/item_form.html'
 
 class ItemCreate(HouseContextMixin, BaseItemCreate):
@@ -62,7 +62,7 @@ class ItemDelete(HouseContextMixin, GetObjectByHouseMixin,
   house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
   slug_url_kwarg = 'item_slug'
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   queryset = Item.objects.select_related('place__room__house')
 
   def get_success_url(self):
@@ -73,20 +73,21 @@ class ItemUpdate(HouseContextMixin, GetObjectByHouseMixin,
   form_class = ItemForm
   house_slug_keyword = 'place__room__house__slug__iexact'
   model = Item
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   slug_url_kwarg = 'item_slug'
   template_name = (
     'item/item_update_form.html')
   queryset = Item.objects.select_related('place__room__house')
 
+@class_login_required
 class ItemList(HouseContextMixin, GetListByHouseMixin, PageLinksMixin,
                PermissionRequiredMixin, ListView):
-  house_slug_keyword = 'place__room__house__slug__iexact'
-  model = Item
-  page_kwarg = 'page'
-  paginate_by = 5 # 5 items per page
-  permission_required = ['view_house']
-  queryset = Item.objects.select_related('place__room__house')
+    house_slug_keyword = 'place__room__house__slug__iexact'
+    model = Item
+    page_kwarg = 'page'
+    paginate_by = 5 # 5 items per page
+    permission_required = ['view_house']
+    queryset = Item.objects.select_related('place__room__house')
 
 
 class ItemDetail(HouseContextMixin, GetObjectByHouseMixin, PermissionRequiredMixin,
@@ -101,7 +102,7 @@ class ItemDetail(HouseContextMixin, GetObjectByHouseMixin, PermissionRequiredMix
 class PlaceCreate(HouseContextMixin, HouseFormFieldsMixin, PermissionRequiredMixin,
                   CreateView):
   form_class = PlaceForm
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   template_name = 'item/place_form.html'
 
 
@@ -128,7 +129,7 @@ class PlaceDelete(HouseContextMixin, GetObjectByHouseMixin, PermissionRequiredMi
                   DeleteView):
   house_slug_keyword = 'room__house__slug__iexact'
   model = Place
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   queryset = Place.objects.select_related('room__house')
   slug_url_kwarg = 'place_slug'
 
@@ -141,7 +142,7 @@ class PlaceUpdate(HouseContextMixin, GetObjectByHouseMixin,
   form_class= PlaceForm
   house_slug_keyword = 'room__house__slug__iexact'
   model = Place
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   slug_url_kwarg = 'place_slug'
   template_name = (
     'item/place_update_form.html')
@@ -152,7 +153,7 @@ class RoomCreate(HouseContextMixin,
   AddHouseToFormMixin, PermissionRequiredMixin, CreateView):
   form_class = RoomForm
   house_slug_keyword = 'house__slug__iexact'
-  permission_required = ['change_house']
+  permission_required = ['is_resident']
   template_name = 'item/room_form.html'
 
   def get_initial(self):
@@ -185,7 +186,7 @@ class RoomDelete(HouseContextMixin,
   GetObjectByHouseMixin, PermissionRequiredMixin, DeleteView):
   house_slug_keyword = 'house__slug__iexact'
   model = Room
-  permission_required = ['delete_house',]
+  permission_required = ['is_resident',]
   queryset = Room.objects.select_related('house')
   slug_url_kwarg = 'room_slug'
 
@@ -197,7 +198,7 @@ class RoomUpdate(HouseContextMixin,
   form_class= RoomForm
   house_slug_keyword = 'house__slug__iexact'
   model = Room
-  permission_required = ['change_house',]
+  permission_required = ['is_resident',]
   slug_url_kwarg = 'room_slug'
   template_name = (
     'item/room_update_form.html')
@@ -231,6 +232,7 @@ class HouseCreate(CreateView):
         assign_perm('view_house', self.request.user, self.object)
         assign_perm('change_house', self.request.user, self.object)
         assign_perm('delete_house', self.request.user, self.object)
+        assign_perm('is_resident', self.request.user, self.object)
         return resp
 
 
