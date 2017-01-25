@@ -1,0 +1,11 @@
+<ul>
+  {% for house in houses %}
+    <li>
+      <a href='{{ house.get_absolute_url }}'>{{ house.name }}</a>
+      <ul>
+        <li><a href='{{ house.get_update_url }}'>Update House</a></li>
+        <li><a href='{{ house.get_delete_url }}'>Delete House</a></li>
+      </ul>
+    </li>
+  {% endfor %}
+</ul>
