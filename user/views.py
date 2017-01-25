@@ -203,6 +203,48 @@ class ActivateAddResident(View):
 
 
 @class_login_required
+class ActivateAddVisitor(View):
+    success_url = reverse_lazy('dj-auth:profile')
+    template_name = 'user/user_activate_add_visitor.html'
+
+    @method_decorator(never_cache)
+    def get(self, request, uidb64, hidb64, token):
+        User = get_user_model()
+        try:
+            uid = force_text(
+              urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError,
+                OverflowError, User.DoesNotExist):
+            user = None
+
+        try:
+            hid = force_text(
+              urlsafe_base64_decode(hidb64))
+            house = House.objects.get(pk=hid)
+        except (TypeError, ValueError,
+                OverflowError, House.DoesNotExist):
+            house = None
+
+        if (user is not None
+            and house is not None
+            and token_generator
+                .check_token(user, token)):
+
+            assign_perm('view_house', user, house)
+
+            success(
+              request,
+              'You have been added as a visitor of {} house.'
+              .format(house.name))
+            return redirect(self.success_url)
+        else:
+            return TemplateResponse(
+              request,
+              self.template_name,
+              { 'house': house })
+
+@class_login_required
 class ProfileDetail(
   ProfileGetObjectMixin, ProfileHouseContextMixin, DetailView):
   model = Profile
