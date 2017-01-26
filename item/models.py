@@ -71,6 +71,14 @@ class House(models.Model):
     return reverse('item_search',
                    kwargs={ 'house_slug': self.slug })
 
+  def get_add_resident_url(self):
+    return reverse('dj-auth:add_resident',
+                   kwargs={ 'house_slug': self.slug })
+
+  def get_add_visitor_url(self):
+    return reverse('dj-auth:add_visitor',
+                   kwargs={ 'house_slug': self.slug })
+
 
 class HouseUserObjectPermission(UserObjectPermissionBase):
     content_object = models.ForeignKey(House)
