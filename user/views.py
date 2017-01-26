@@ -29,6 +29,7 @@ from django.views.decorators.debug import \
 from django.views.generic import DetailView, View
 
 from guardian.shortcuts import assign_perm, get_objects_for_user
+from guardian.mixins import PermissionRequiredMixin
 
 from .decorators import class_login_required
 from .forms import (AddHouseResidentForm, AddHouseVisitorForm,
@@ -64,22 +65,31 @@ class DisableAccount(View):
     return redirect(self.success_url)
 
 @class_login_required
-class AddResident(AddUserMixin, SendMailMixin, View):
+class AddResident(PermissionRequiredMixin, AddUserMixin, SendMailMixin,
+                  DetailView):
     email_template_name = 'user/add_resident_email.txt'
-    subject_template_name = 'user/add_resident.txt'
     form_class = AddHouseResidentForm
-    template_name = 'user/add_resident_form.html'
+    model = House
+    permission_required = ['change_house']
+    raise_exception = True
+    slug_url_kwarg = 'house_slug'
+    subject_template_name = 'user/add_resident.txt'
     success_url = 'dj-auth:add_resident_done'
-
+    template_name = 'user/add_resident_form.html'
 
 
 @class_login_required
-class AddVisitor(AddUserMixin, SendMailMixin, View):
+class AddVisitor(PermissionRequiredMixin, AddUserMixin, SendMailMixin,
+                 DetailView):
     email_template_name = 'user/add_visitor_email.txt'
-    subject_template_name = 'user/add_visitor.txt'
     form_class = AddHouseVisitorForm
-    template_name = 'user/add_visitor_form.html'
+    model = House
+    permission_required = ['change_house']
+    raise_exception = True
+    slug_url_kwarg = 'house_slug'
+    subject_template_name = 'user/add_visitor.txt'
     success_url = 'dj-auth:add_visitor_done'
+    template_name = 'user/add_visitor_form.html'
 
 
 @class_login_required
@@ -188,6 +198,7 @@ class ActivateAddResident(View):
           .check_token(user, token)):
 
       assign_perm('is_resident', user, house)
+      assign_perm('view_house', user, house)
 
       success(
         request,
