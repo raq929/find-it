@@ -11,14 +11,18 @@
 
   <p>Choose a house to search for things in it!</p>
   {% with houses=profile.houses.all %}
-  {% if houses or resident_of %}
+  {% if houses or resident_of or visitor_of %}
       {% if houses %}
           <h4>My Houses</h4>
-          {% house_list houses %}
+          {% house_list houses True %}
       {% endif %}
       {% if resident_of %}
           <h4>Resident of:</h4>
           {% house_list resident_of %}
+      {% endif %}
+      {% if visitor_of %}
+          <h4>Visitor of:</h4>
+          {% house_list visitor_of %}
       {% endif %}
   {% else %}
     <p>You don't have any houses yet!</p>

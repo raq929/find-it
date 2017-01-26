@@ -245,12 +245,21 @@ class ActivateAddVisitor(View):
 @class_login_required
 class ProfileDetail(
   ProfileGetObjectMixin, ProfileHouseContextMixin, DetailView):
-  model = Profile
+    model = Profile
 
-  def get(self, request):
-    self.resident_of = get_objects_for_user(
-      request.user, 'item.resident_of')
-    return super().get(request)
+    def get(self, request):
+        can_view = get_objects_for_user(request.user, 'item.view_house')
+        resident_of = get_objects_for_user(
+          request.user, 'item.is_resident')
+
+        self.houses = request.user.profile.houses.all()
+        # find all the houses that user has view permission but
+        # is not a resident of
+        self.can_view = set(can_view).difference(set(resident_of))
+        # find all houses that user is a resident but not an owner of
+        self.resident_of = set(resident_of).difference(set(self.houses))
+
+        return super().get(request)
 
 
 class ResendActivationEmail(
