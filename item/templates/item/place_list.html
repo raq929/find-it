@@ -1,10 +1,13 @@
 {% extends "item/base_item.html" %}
 
+{% load guardian_tags %}
+
 {% block title %}
   {{ block.super}} - Place list
 {% endblock %}
 
 {% block item_content %}
+  {% get_obj_perms request.user for house as 'object_perms' %}
   <h3>Place List</h3>
   <ul>
    {% for place in place_list %}
@@ -18,14 +21,12 @@
         </a>
       </li>
       <ul class='buttons'>
-        {% if perms.item.change_place %}
+        {% if "is_resident" in object_perms %}
           <li>
             <a class='button' href="{{ place.get_update_url }}">
               Edit Place
             </a>
           </li>
-        {% endif %}
-        {% if perms.item.delete_place %}
           <li>
             <a class='button' href="{{ place.get_delete_url }}">
               Delete Place
@@ -37,7 +38,7 @@
      <li><em>There are currently no Places available.</em></li>
     {% endfor %}
   </ul>
-  {% if perms.item.add_place %}
+  {% if "is_resident" in object_perms %}
   <p>
     <a class='new button' href="{{ house.get_place_create_url }}">New Place</a>
   </p>

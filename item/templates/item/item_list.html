@@ -1,10 +1,13 @@
 {% extends "item/base_item.html" %}
 
+{% load guardian_tags %}
+
 {% block title %}
   {{ block.super}} - Item list
 {% endblock %}
 
 {% block item_content%}
+  {% get_obj_perms request.user for house as 'house_perms' %}
   <h3>Item List</h3>
   <ul>
    {% for item in item_list %}
@@ -13,14 +16,12 @@
           {{ item.name|title }}
         </a>
       <ul class='buttons'>
-          {% if perms.item.change_item %}
+          {% if "is_resident" in house_perms %}
           <li>
             <a class='button' href="{{ item.get_update_url }}">
               Edit Item
             </a>
           </li>
-          {% endif %}
-          {% if perms.item.delete_item %}
           <li>
             <a class='button' href="{{ item.get_delete_url }}">
               Delete Item
@@ -34,7 +35,7 @@
     {% endfor %}
   </ul>
   <p>
-  {% if perms.item.add_item %}
+  {% if "is_resident" in house_perms %}
     <a class='new button' href="{{ house.get_item_create_url }}">New Item</a>
   {% endif %}
   </p>

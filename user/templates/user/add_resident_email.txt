@@ -1,0 +1,9 @@
+Hello from {{ site_name }}!
+
+We've received a request to add you as a resident of {{ house.name }}.
+As a resident, you'll be able to find all the things in the house, and edit
+or delete things as necessary.
+
+To become a resident of this house, please navigate to:
+
+{{ protocol }}://{{ domain }}{% url 'dj-auth:activate_add_resident' uid hid token %}

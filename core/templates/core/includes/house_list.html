@@ -1,0 +1,17 @@
+{% load guardian_tags %}
+
+<ul>
+  {% for house in houses %}
+    <li>
+      <a href='{{ house.get_absolute_url }}'>{{ house.name }}</a>
+      {% if can_edit %}
+      <ul>
+        <li><a href='{{ house.get_update_url }}'>Update House</a></li>
+        <li><a href='{{ house.get_delete_url }}'>Delete House</a></li>
+        <li><a href='{{ house.get_add_resident_url }}'>Add a Resident</a></li>
+        <li><a href='{{ house.get_add_visitor_url}}'>Add a Visitor</a></li>
+      </ul>
+    </li>
+    {% endif %}
+  {% endfor %}
+</ul>

@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 
+from guardian.models import UserObjectPermissionBase
+
 from django.db import models
 
 import itertools
@@ -18,6 +20,12 @@ class House(models.Model):
 
   class Meta:
     ordering = ['name']
+
+    permissions = (
+      ('view_house', 'Can view house'),
+      ('is_resident', 'Can edit and delete rooms,'
+        'places and items in the house')
+    )
 
   def get_absolute_url(self):
     return reverse('item_search',
@@ -63,12 +71,23 @@ class House(models.Model):
     return reverse('item_search',
                    kwargs={ 'house_slug': self.slug })
 
+  def get_add_resident_url(self):
+    return reverse('dj-auth:add_resident',
+                   kwargs={ 'house_slug': self.slug })
+
+  def get_add_visitor_url(self):
+    return reverse('dj-auth:add_visitor',
+                   kwargs={ 'house_slug': self.slug })
+
+
+class HouseUserObjectPermission(UserObjectPermissionBase):
+    content_object = models.ForeignKey(House)
+
 
 class Room(models.Model):
   name = models.CharField(max_length=63)
   slug = models.SlugField(
     max_length=31,
-    unique=True,
     help_text='A label for URL config.')
   house = models.ForeignKey(House, on_delete=models.CASCADE)
 

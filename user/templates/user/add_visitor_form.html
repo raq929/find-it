@@ -1,0 +1,11 @@
+{% extends "user/base_user.html" %}
+{% load display_form %}
+
+{% block title %}
+  {{ block.super }} - Reset Password
+{% endblock %}
+
+{% block content %}
+  {% url 'dj-auth:add_vistor_form' as form_url %}
+  {% form form_url 'Add a Visitor' %}
+{% endblock %}

@@ -8,10 +8,11 @@ from django.views.generic import (
   RedirectView, TemplateView)
 
 from .views import (
-  ActivateAccount, CreateAccount, DisableAccount,
+  ActivateAccount, ActivateAddResident,
+  ActivateAddVisitor, AddResident,
+  AddResidentDone, AddVisitor, AddVisitorDone,
+  CreateAccount, DisableAccount,
   ResendActivationEmail, ProfileDetail)
-
-
 
 
 password_urls = [
@@ -62,6 +63,23 @@ password_urls = [
       name='pw_reset_complete'),
 ]
 
+house_urls = [
+  url(r'^(?P<house_slug>[\w\-]+)/'
+      r'add-resident/$', AddResident.as_view(),
+      name='add_resident'),
+  url(r'^(?P<house_slug>[\w\-]+)/'
+      r'add-visitor/$', AddVisitor.as_view(),
+      name='add_visitor'),
+  url(r'^(?P<house_slug>[\w\-]+)/'
+      r'add-resident/done/$',
+      AddResidentDone.as_view(),
+      name='add_resident_done'),
+   url(r'^(?P<house_slug>[\w\-]+)/'
+      r'add-visitor/done/$',
+      AddVisitorDone.as_view(),
+      name='add_visitor_done'),
+]
+
 urlpatterns = [
   url(r'^activate/'
         r'(?P<uidb64>[0-9A-Za-z_\-]+)/'
@@ -69,6 +87,20 @@ urlpatterns = [
         r'-[0-9A-Za-z]{1,20})/$',
         ActivateAccount.as_view(),
         name='activate'),
+  url(r'^add-resident/'
+        r'(?P<uidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<hidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<token>[0-9A-Za-z]{1,13}'
+        r'-[0-9A-Za-z]{1,20})/$',
+        ActivateAddResident.as_view(),
+        name='activate_add_resident'),
+  url(r'^add-visitor/'
+        r'(?P<uidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<hidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<token>[0-9A-Za-z]{1,13}'
+        r'-[0-9A-Za-z]{1,20})/$',
+        ActivateAddVisitor.as_view(),
+        name='activate_add_visitor'),
   url(r'^activate/resend$',
     ResendActivationEmail.as_view(),
     name='resend_activation'),
@@ -97,5 +129,6 @@ urlpatterns = [
   url(r'^profile/$',
     ProfileDetail.as_view(),
     name='profile'),
-  url(r'^password/', include(password_urls))
+  url(r'^password/', include(password_urls)),
+  url(r'^house/', include(house_urls)),
 ]
