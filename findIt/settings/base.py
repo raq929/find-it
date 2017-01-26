@@ -131,6 +131,11 @@ LOGGING = {
             'level': 'DEBUG',
             'formatter': 'verbose'
         },
+        'django.template': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        }
     },
 }
 
