@@ -2,6 +2,9 @@
 
 An app for finding things in your house.
 
+## Deployed site
+Find-it is deployed on Heroku at https://rts-find-it.herokuapp.com/.
+
 ## Technologies used
 
 This website is powered by Django.
